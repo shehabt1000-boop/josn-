@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محلل رسائل JSON الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; overflow: hidden; }
+        
+        /* تحسين منطقة النص */
+        .code-editor {
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            tab-size: 4;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        /* أنماط الشات */
+        .chat-view {
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+            background-repeat: repeat;
+            background-attachment: local;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+            position: relative;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .bubble-in { background: white; align-self: flex-start; border-top-right-radius: 2px; }
+        .bubble-out { background: #dcf8c6; align-self: flex-end; border-top-left-radius: 2px; }
+
+        .sender-name { font-size: 11px; font-weight: bold; color: #128c7e; margin-bottom: 2px; }
+        .timestamp { font-size: 10px; color: #888; text-align: left; margin-top: 4px; }
+
+        /* الشجرة */
+        .json-tree { font-family: 'Consolas', monospace; font-size: 13px; direction: ltr; text-align: left; }
+        .nested { display: none; padding-left: 20px; border-left: 1px solid #ddd; }
+        .active { display: block; }
+        .caret { cursor: pointer; user-select: none; }
+        .caret::before { content: "▶"; display: inline-block; margin-right: 6px; transition: transform 0.2s; color: #999; }
+        .caret-down::before { transform: rotate(90deg); }
+
+        .split-pane { display: flex; height: calc(100vh - 64px); }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <header class="h-16 bg-white border-b flex justify-between items-center px-6 shadow-sm z-30 relative">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i class="fas fa-comments text-xl"></i>
+            </div>
+            <h1 class="font-bold text-gray-800 text-lg">محلل ملفات فيسبوك و JSON</h1>
+        </div>
+
+        <div class="flex gap-3">
+            <input type="file" id="fileInput" class="hidden" accept=".json">
+            <button onclick="document.getElementById('fileInput').click()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2">
+                <i class="fas fa-file-import"></i> فتح ملف
+            </button>
+            <button id="renderBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-md transition">
+                تشغيل وعرض
+            </button>
+        </div>
+    </header>
+
+    <main class="split-pane">
+        <!-- قسم الكود -->
+        <div class="w-1/3 border-l flex flex-col bg-[#1e1e1e]">
+            <div class="bg-[#252526] px-4 py-2 text-[10px] text-gray-400 uppercase font-bold tracking-widest flex justify-between">
+                <span>محرر JSON</span>
+                <span id="fileInfo">لا يوجد ملف</span>
+            </div>
+            <textarea id="jsonInput" class="flex-1 w-full p-4 code-editor outline-none" placeholder="الصق كود JSON هنا..."></textarea>
+        </div>
+
+        <!-- قسم العرض -->
+        <div class="flex-1 flex flex-col bg-gray-50">
+            <!-- التبويبات -->
+            <div class="bg-white border-b flex px-4">
+                <button onclick="showTab('chat')" id="tab-chat" class="px-6 py-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600">المحادثة</button>
+                <button onclick="showTab('tree')" id="tab-tree" class="px-6 py-4 text-sm font-bold text-gray-500 hover:text-gray-700">شجرة البيانات</button>
+            </div>
+
+            <!-- المحتوى -->
+            <div id="displayArea" class="flex-1 overflow-auto relative">
+                <!-- واجهة الشات -->
+                <div id="chatView" class="chat-view min-h-full p-6 flex flex-col gap-2">
+                    <div class="text-center text-gray-400 mt-20">
+                        <i class="fas fa-terminal text-6xl mb-4 opacity-20"></i>
+                        <p>قم برفع ملف أو لصق الكود للبدء</p>
+                    </div>
+                </div>
+
+                <!-- واجهة الشجرة -->
+                <div id="treeView" class="hidden p-6 bg-white min-h-full json-tree"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const jsonInput = document.getElementById('jsonInput');
+        const chatView = document.getElementById('chatView');
+        const treeView = document.getElementById('treeView');
+        const renderBtn = document.getElementById('renderBtn');
+        const fileInput = document.getElementById('fileInput');
+
+        // دالة إصلاح ترميز اللغة العربية (Facebook Fix)
+        function fixEncoding(text) {
+            if (typeof text !== 'string') return text;
+            try {
+                // تحويل النص من Latin-1 إلى مصفوفة بايتات ثم إعادة قراءتها كـ UTF-8
+                return decodeURIComponent(escape(text));
+            } catch (e) {
+                return text; // إذا فشل الإصلاح، نرجع النص كما هو
+            }
+        }
+
+        // دالة معالجة النصوص داخل الكائن بالكامل
+        function fixAllStrings(obj) {
+            if (typeof obj === 'string') return fixEncoding(obj);
+            if (Array.isArray(obj)) return obj.map(fixAllStrings);
+            if (typeof obj === 'object' && obj !== null) {
+                const newObj = {};
+                for (let key in obj) {
+                    newObj[key] = fixAllStrings(obj[key]);
+                }
+                return newObj;
+            }
+            return obj;
+        }
+
+        function showTab(type) {
+            ['chat', 'tree'].forEach(t => {
+                document.getElementById(`${t}View`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "px-6 py-4 text-sm font-bold text-gray-500 hover:text-gray-700";
+            });
+            document.getElementById(`${type}View`).classList.remove('hidden');
+            document.getElementById(`tab-${type}`).className = "px-6 py-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600";
+        }
+
+        function process() {
+            const raw = jsonInput.value.trim();
+            if (!raw) return;
+
+            try {
+                let data = JSON.parse(raw);
+                // إصلاح مشكلة اللغة العربية في كل البيانات
+                data = fixAllStrings(data);
+                
+                renderChat(data);
+                renderTree(data, treeView);
+                showTab('chat');
+            } catch (e) {
+                chatView.innerHTML = `<div class="bg-red-100 text-red-700 p-4 rounded-lg m-6">خطأ في ملف JSON: ${e.message}</div>`;
+            }
+        }
+
+        function renderChat(data) {
+            chatView.innerHTML = '';
+            let messages = [];
+
+            // التحقق من هيكل فيسبوك (messages داخل كائن)
+            if (data.messages && Array.isArray(data.messages)) {
+                messages = data.messages;
+            } else if (Array.isArray(data)) {
+                messages = data;
+            } else {
+                chatView.innerHTML = '<div class="text-center p-10 text-gray-500">لا توجد رسائل بصيغة مفهومة.</div>';
+                return;
+            }
+
+            // ترتيب الرسائل من الأقدم للأحدث (فيسبوك يخزنها بالعكس)
+            const sortedMessages = [...messages].sort((a, b) => a.timestamp_ms - b.timestamp_ms);
+
+            let lastSender = "";
+            sortedMessages.forEach(msg => {
+                const isMe = msg.sender_name === data.participants?.[1]?.name || false;
+                const time = new Date(msg.timestamp_ms).toLocaleString('ar-EG');
+                
+                const bubble = document.createElement('div');
+                bubble.className = `bubble ${isMe ? 'bubble-out' : 'bubble-in'}`;
+                
+                let html = '';
+                if (msg.sender_name !== lastSender) {
+                    html += `<div class="sender-name">${msg.sender_name}</div>`;
+                }
+                
+                if (msg.content) {
+                    html += `<div>${msg.content}</div>`;
+                } else if (msg.photos) {
+                    html += `<div class="text-gray-400 italic text-xs">[صورة]</div>`;
+                }
+
+                html += `<div class="timestamp">${time}</div>`;
+                
+                bubble.innerHTML = html;
+                chatView.appendChild(bubble);
+                lastSender = msg.sender_name;
+            });
+
+            // النزول لآخر رسالة
+            setTimeout(() => chatView.scrollTop = chatView.scrollHeight, 100);
+        }
+
+        function renderTree(data, container) {
+            container.innerHTML = '';
+            container.appendChild(buildTreeBranch(data));
+        }
+
+        function buildTreeBranch(data) {
+            if (typeof data === 'object' && data !== null) {
+                const isArr = Array.isArray(data);
+                const root = document.createElement('div');
+                const label = document.createElement('span');
+                label.className = "caret";
+                label.innerHTML = `<strong>${isArr ? 'Array' : 'Object'}</strong> {${Object.keys(data).length}}`;
+                
+                const list = document.createElement('div');
+                list.className = "nested";
+                
+                label.onclick = function() {
+                    this.classList.toggle('caret-down');
+                    list.classList.toggle('active');
+                };
+
+                for (let key in data) {
+                    const item = document.createElement('div');
+                    item.className = "ml-4 my-1 border-l pl-2";
+                    item.innerHTML = `<span class="text-purple-700 font-bold">${key}:</span> `;
+                    item.appendChild(buildTreeBranch(data[key]));
+                    list.appendChild(item);
+                }
+
+                root.appendChild(label);
+                root.appendChild(list);
+                return root;
+            } else {
+                const leaf = document.createElement('span');
+                if (typeof data === 'string') leaf.className = "text-green-600";
+                else if (typeof data === 'number') leaf.className = "text-blue-600";
+                leaf.textContent = typeof data === 'string' ? `"${data}"` : data;
+                return leaf;
+            }
+        }
+
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('fileInfo').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                jsonInput.value = e.target.result;
+                process();
+            };
+            reader.readAsText(file);
+        };
+
+        renderBtn.onclick = process;
+    </script>
+</body>
+</html>
+
+
