@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V4 - الماسية</title>
+    <title>دليل الشرقية V5 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -233,7 +233,7 @@
         <!-- CATEGORY -->
         <section id="page-category-details" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
-                <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث عن شخص بالاسم..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث عن شخص أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="cat-list-container" class="space-y-2 pb-20"></div>
             </div>
         </section>
@@ -241,7 +241,7 @@
         <!-- DIRECTORY -->
         <section id="page-directory" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
-                <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص أو وظيفة..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص، وظيفة أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="dir-list" class="space-y-2 pb-20"></div>
             </div>
         </section>
@@ -316,13 +316,13 @@
                     </div>
                 </div>
                
-                <!-- أزرار النشاط والخروج منفصلة -->
+                <!-- أزرار النشاط والخروج (صفحات منفصلة تماماً) -->
                 <div class="flex flex-col gap-3 mt-4 w-full pb-20">
-                    <button onclick="window.navToActivity('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
+                    <button onclick="window.navTo('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
                         <span>📊 نشاطي</span>
                     </button>
                     
-                    <button id="btn-profile-matching" onclick="window.navToActivity('matching')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform hidden">
+                    <button id="btn-profile-matching" onclick="window.navTo('matching-reqs')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform hidden">
                         <span>🎯 طلبات تناسبك</span>
                         <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold animate-pulse">!</span>
                     </button>
@@ -332,22 +332,14 @@
             </div>
         </section>
 
-        <!-- ACTIVITY PAGE (نشاطي وطلباتي) -->
-        <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
-            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
-                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
-                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">نشاطي</button>
-                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all hidden">طلبات تناسبك</button>
-                </div>
-            </div>
-            
-            <div id="view-my-activity" class="pb-20 max-w-md mx-auto">
-                <div id="my-activity" class="space-y-3"></div>
-            </div>
-            
-            <div id="view-matching-reqs" class="hidden pb-20 max-w-md mx-auto">
-                <div id="matching-reqs-list" class="space-y-3"></div>
-            </div>
+        <!-- MY ACTIVITY PAGE (صفحة مستقلة لنشاطي) -->
+        <section id="page-my-activity" class="page-section hidden px-3 animate-fade pt-4">
+            <div id="my-activity" class="space-y-3 pb-20 max-w-md mx-auto"></div>
+        </section>
+
+        <!-- MATCHING REQS PAGE (صفحة مستقلة لطلبات تناسبك) -->
+        <section id="page-matching-reqs" class="page-section hidden px-3 animate-fade pt-4">
+            <div id="matching-reqs-list" class="space-y-3 pb-20 max-w-md mx-auto"></div>
         </section>
 
         <!-- EDIT PROFILE -->
@@ -433,7 +425,6 @@
                         <span id="modal-stars-display" class="text-yellow-500 font-bold"></span>
                     </h4>
                     <div class="border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 p-1">
-                        <!-- تم تثبيت ارتفاع صندوق التقييمات لمنع الاهتزاز (h-[150px] بدلاً من max-h) -->
                         <div id="modal-reviews-list" class="space-y-2 h-[150px] overflow-y-auto custom-scrollbar pr-1"></div>
                     </div>
                 </div>
@@ -482,7 +473,7 @@
 
     <!-- NAV -->
     <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
-        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
         <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
         <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
         <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500">
@@ -611,33 +602,10 @@
             }
         };
 
-        window.navToActivity = (tab) => {
-            window.navTo('activity');
-            window.switchActivityTab(tab);
-        };
-
-        window.switchActivityTab = (tab) => {
-            if (tab === 'my-activity') {
-                document.getElementById('view-my-activity').classList.remove('hidden');
-                document.getElementById('view-matching-reqs').classList.add('hidden');
-                document.getElementById('tab-act-mine').classList.add('bg-black', 'text-white');
-                document.getElementById('tab-act-mine').classList.remove('text-gray-500');
-                document.getElementById('tab-act-matching').classList.remove('bg-black', 'text-white');
-                document.getElementById('tab-act-matching').classList.add('text-gray-500');
-            } else {
-                document.getElementById('view-my-activity').classList.add('hidden');
-                document.getElementById('view-matching-reqs').classList.remove('hidden');
-                document.getElementById('tab-act-matching').classList.add('bg-black', 'text-white');
-                document.getElementById('tab-act-matching').classList.remove('text-gray-500');
-                document.getElementById('tab-act-mine').classList.remove('bg-black', 'text-white');
-                document.getElementById('tab-act-mine').classList.add('text-gray-500');
-                
-                const badge1 = document.getElementById('act-notif-badge');
-                if(badge1) badge1.classList.add('hidden');
-            }
-        };
-
         window.navTo = (pageId) => {
+            // إعادة التمرير للأعلى عند كل انتقال لمنع بقاء الصفحة في نفس نقطة النزول
+            window.scrollTo(0, 0);
+
             if(pageId === 'chat') {
                 localStorage.setItem(`chatTabLastOpened_${currentUser.uid}`, Date.now().toString());
                 document.getElementById('chat-nav-dot').classList.add('hidden');
@@ -649,6 +617,7 @@
             }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
+            
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
@@ -660,13 +629,22 @@
             }
             else { 
                 backBtn.classList.remove('hidden'); 
-                if (pageId === 'activity') document.getElementById('page-title').innerText = 'النشاط والطلبات';
-                else if(pageId === 'category-details') {} // Text set in openCategory
-                else document.getElementById('page-title').innerText = 'رجوع'; 
+                if (pageId === 'my-activity') {
+                    document.getElementById('page-title').innerText = 'نشاطي';
+                } else if (pageId === 'matching-reqs') {
+                    document.getElementById('page-title').innerText = 'طلبات تناسبك';
+                    const badge = document.getElementById('act-notif-badge');
+                    if(badge) badge.classList.add('hidden'); // إخفاء النقطة الحمراء عند الدخول
+                } else if (pageId === 'category-details') {
+                    // Title set externally
+                } else {
+                    document.getElementById('page-title').innerText = 'رجوع'; 
+                }
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4, 'activity':4}; 
+            // تحديد أيقونة الناف بار النشطة
+            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4, 'my-activity':4, 'matching-reqs':4}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
@@ -676,17 +654,24 @@
             if (navStack.length > 1) {
                 navStack.pop();
                 const prevPage = navStack[navStack.length-1];
+                
+                // إعادة التمرير للأعلى عند العودة أيضاً
+                window.scrollTo(0, 0);
+
                 document.getElementById('page-chat-room').classList.add('hidden');
                 if (prevPage !== 'chat-room') {
                     document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
                     document.getElementById(`page-${prevPage}`).classList.remove('hidden');
                 }
+                
                 if (prevPage === 'home') {
                     document.getElementById('btn-back').classList.add('hidden');
                     document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
-                } else if (prevPage === 'activity') {
-                    document.getElementById('page-title').innerText = 'النشاط والطلبات';
-                } else if(prevPage === 'category-details') {
+                } else if (prevPage === 'my-activity') {
+                    document.getElementById('page-title').innerText = 'نشاطي';
+                } else if (prevPage === 'matching-reqs') {
+                    document.getElementById('page-title').innerText = 'طلبات تناسبك';
+                } else if (prevPage === 'category-details') {
                     document.getElementById('page-title').innerText = currentCategory || 'رجوع';
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع';
@@ -700,10 +685,8 @@
             
             // إظهار أو إخفاء التبويبات الخاصة بمقدم الخدمة
             if(userProfile.role === 'provider') {
-                document.getElementById('tab-act-matching').classList.remove('hidden');
                 document.getElementById('btn-profile-matching').classList.remove('hidden');
             } else {
-                document.getElementById('tab-act-matching').classList.add('hidden');
                 document.getElementById('btn-profile-matching').classList.add('hidden');
             }
         }
@@ -753,7 +736,6 @@
             const term = document.getElementById('prof-search').value.trim();
             searchTimeout = setTimeout(() => {
                 if(!term) { renderProfessionsGrid(professions); return; }
-                // Use normalizer here too if you wish, but exact match for categories is usually fine
                 const normTerm = window.normalizeArabic(term).toLowerCase();
                 renderProfessionsGrid(professions.filter(p => window.normalizeArabic(p).toLowerCase().includes(normTerm)));
             }, 200);
@@ -1040,7 +1022,10 @@
 
                     if (hasNewMatching) {
                         const badge = document.getElementById('act-notif-badge');
-                        if(badge && document.getElementById('view-matching-reqs').classList.contains('hidden')) badge.classList.remove('hidden');
+                        // إظهار الشارة فقط إذا كانت صفحة "طلبات تناسبك" غير مفتوحة حالياً
+                        if(badge && document.getElementById('page-matching-reqs').classList.contains('hidden')) {
+                            badge.classList.remove('hidden');
+                        }
                     }
 
                     renderNotificationsList();
@@ -1257,6 +1242,7 @@
             });
         };
 
+        // بحث الدليل (يشمل الاسم، الوظيفة، العنوان)
         window.renderDirectory = () => {
             const cont = document.getElementById('dir-list');
             const list = allUsersCache.slice(0,50);
@@ -1266,10 +1252,11 @@
         window.filterDirectory = () => {
             const term = window.normalizeArabic(document.getElementById('dir-search').value.trim().toLowerCase());
             const cont = document.getElementById('dir-list');
-            const filtered = term ? allUsersCache.filter(u => 
-                window.normalizeArabic(u.name).toLowerCase().includes(term) || 
-                (u.profession && window.normalizeArabic(u.profession).toLowerCase().includes(term))
-            ) : allUsersCache.slice(0,50);
+            const filtered = term ? allUsersCache.filter(u => {
+                const loc = [u.city, u.area].filter(Boolean).join(' ');
+                const fullText = `${u.name} ${u.profession || ''} ${loc}`;
+                return window.normalizeArabic(fullText).toLowerCase().includes(term);
+            }) : allUsersCache.slice(0,50);
             cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
         };
 
@@ -1282,18 +1269,20 @@
             window.filterCategory();
         };
 
-        // بحث داخل القسم مع تجاهل الهمزات والتاء المربوطة
+        // بحث الأقسام (يشمل الاسم، والعنوان)
         window.filterCategory = () => {
             const term = window.normalizeArabic(document.getElementById('cat-search').value.trim().toLowerCase());
             const cont = document.getElementById('cat-list-container');
             const catUsers = allUsersCache.filter(u => u.profession === currentCategory);
             
-            const filtered = term ? catUsers.filter(u => 
-                window.normalizeArabic(u.name).toLowerCase().includes(term)
-            ) : catUsers;
+            const filtered = term ? catUsers.filter(u => {
+                const loc =[u.city, u.area].filter(Boolean).join(' ');
+                const fullText = `${u.name} ${loc}`;
+                return window.normalizeArabic(fullText).toLowerCase().includes(term);
+            }) : catUsers;
 
             if(filtered.length === 0) { 
-                cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; 
+                cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج مطابقة</p></div>`; 
                 return; 
             }
             cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
@@ -1393,6 +1382,7 @@
         };
        
         window.switchHomeTab = (tab) => { 
+            window.scrollTo(0, 0);
             if (tab === 'services') { 
                 document.getElementById('view-services').classList.remove('hidden'); 
                 document.getElementById('view-jobs').classList.add('hidden'); 
@@ -1413,7 +1403,6 @@
         };
 
         window.logout = () => { 
-            // تسجيل الخروج وإيقاف المستمعين
             signOut(auth); 
             navStack =['home']; 
             if(unsubChats) unsubChats();
@@ -1423,13 +1412,11 @@
             if(unsubJobs) unsubJobs();
             if(unsubActivity) unsubActivity();
 
-            // تفريغ الكاش
             reqNotifs = [];
             reviewNotifs = [];
             myChatsCache =[];
             allUsersCache =[];
             
-            // تفريغ الواجهة لمنع تسريب بيانات الحساب الأول للحساب الثاني
             document.getElementById('notif-list').innerHTML = '<p class="text-center text-[10px] font-bold text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
             document.getElementById('notif-dot').classList.add('hidden');
             document.getElementById('my-activity').innerHTML = '';
