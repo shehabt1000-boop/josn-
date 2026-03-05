@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -106,19 +107,8 @@
     <div id="toast-box"></div>
 
     <!-- Loader -->
-    <div id="loader" class="fixed inset-0 z-[200] flex flex-col items-center justify-center transition-opacity duration-300 bg-black">
-        <!-- صورة خلفية واضحة بملء الشاشة بدون أي بلور أو تظليل يفسد الدقة -->
-        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800" class="absolute inset-0 w-full h-full object-cover opacity-60">
-        
-        <div class="relative z-10 flex flex-col items-center mt-20">
-            <h2 class="text-3xl font-extrabold text-white tracking-wider mb-6 drop-shadow-md">خدمات الشرقية</h2>
-            <!-- نقاط التحميل السفلية -->
-            <div class="flex gap-2">
-                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_0ms] shadow-md"></div>
-                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_200ms] shadow-md"></div>
-                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_400ms] shadow-md"></div>
-            </div>
-        </div>
+    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 z-[200] flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-black dark:border-white border-t-transparent"></div>
     </div>
 
     <!-- Header -->
@@ -220,7 +210,7 @@
     <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative">
        
         <!-- HOME -->
-        <section id="page-home" class="page-section px-3">
+        <section id="page-home" class="page-section px-3 animate-fade">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">خدمات</button>
@@ -242,7 +232,7 @@
         </section>
 
         <!-- CATEGORY -->
-        <section id="page-category-details" class="page-section hidden px-3">
+        <section id="page-category-details" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
                 <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث عن شخص أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="cat-list-container" class="space-y-2 pb-20"></div>
@@ -250,7 +240,7 @@
         </section>
 
         <!-- DIRECTORY -->
-        <section id="page-directory" class="page-section hidden px-3">
+        <section id="page-directory" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
                 <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص، وظيفة أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="dir-list" class="space-y-2 pb-20"></div>
@@ -258,7 +248,7 @@
         </section>
 
         <!-- ADD -->
-        <section id="page-add" class="page-section hidden px-4">
+        <section id="page-add" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
                 <div class="flex gap-2 mb-4">
@@ -310,7 +300,7 @@
         </section>
 
         <!-- PROFILE -->
-        <section id="page-profile" class="page-section hidden px-3">
+        <section id="page-profile" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
                 <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 relative overflow-hidden mt-4">
                     <div class="flex flex-col items-center">
@@ -327,7 +317,7 @@
                     </div>
                 </div>
                
-                <!-- أزرار النشاط والخروج -->
+                <!-- أزرار النشاط والخروج (صفحات منفصلة تماماً) -->
                 <div class="flex flex-col gap-3 mt-4 w-full pb-20">
                     <button onclick="window.navTo('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
                         <span>📊 نشاطي</span>
@@ -343,18 +333,18 @@
             </div>
         </section>
 
-        <!-- MY ACTIVITY PAGE -->
-        <section id="page-my-activity" class="page-section hidden px-3 pt-4">
+        <!-- MY ACTIVITY PAGE (صفحة مستقلة لنشاطي) -->
+        <section id="page-my-activity" class="page-section hidden px-3 animate-fade pt-4">
             <div id="my-activity" class="space-y-3 pb-20 max-w-md mx-auto"></div>
         </section>
 
-        <!-- MATCHING REQS PAGE -->
-        <section id="page-matching-reqs" class="page-section hidden px-3 pt-4">
+        <!-- MATCHING REQS PAGE (صفحة مستقلة لطلبات تناسبك) -->
+        <section id="page-matching-reqs" class="page-section hidden px-3 animate-fade pt-4">
             <div id="matching-reqs-list" class="space-y-3 pb-20 max-w-md mx-auto"></div>
         </section>
 
         <!-- EDIT PROFILE -->
-        <section id="page-edit-profile" class="page-section hidden px-4">
+        <section id="page-edit-profile" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
                 <div class="flex flex-col items-center mb-4">
                     <img id="edit-img-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-black">
@@ -382,7 +372,7 @@
         </section>
 
         <!-- SETTINGS -->
-        <section id="page-settings" class="page-section hidden px-4">
+        <section id="page-settings" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
                 <h3 class="font-bold text-base mb-3 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
                 <div class="space-y-2">
@@ -404,7 +394,7 @@
         </section>
 
         <!-- CHAT LIST -->
-        <section id="page-chat" class="page-section hidden px-3">
+        <section id="page-chat" class="page-section hidden px-3 animate-fade">
             <div id="chat-history-list" class="space-y-2 pb-20 max-w-md mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
         </section>
     </div>
@@ -484,7 +474,7 @@
 
     <!-- NAV -->
     <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
-        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
         <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
         <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
         <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500">
@@ -555,15 +545,12 @@
 
         let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let tempSelectedFile = null;
-        let isSigningUp = false; 
 
+        // متغيرات لإيقاف جلب البيانات عند تسجيل الخروج
         let unsubChats, unsubProfiles, unsubMatching, unsubReviews, unsubJobs, unsubActivity;
 
         let reqNotifs =[];
         let reviewNotifs =[];
-
-        // مصفوفة لحفظ مكان السكرول لكل صفحة للحصول على أداء التطبيق الأصلي
-        const scrollPositions = {};
 
         const CLOUD_NAME = "db9h7zm1h"; 
         const UPLOAD_PRESET = "souq_upload";
@@ -590,9 +577,13 @@
             return `${parts[0]}/upload/q_auto,f_auto/${parts[1]}`;
         };
 
+        // دالة لمعالجة النصوص العربية وتجاهل اختلافات الهمزات وغيرها
         window.normalizeArabic = (text) => {
             if(!text) return '';
-            return text.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/ً|ٌ|ٍ|َ|ُ|ِ|ّ|ْ/g, "");
+            return text.replace(/[أإآ]/g, 'ا')
+                       .replace(/ة/g, 'ه')
+                       .replace(/ى/g, 'ي')
+                       .replace(/ً|ٌ|ٍ|َ|ُ|ِ|ّ|ْ/g, "");
         };
 
         window.showToast = (msg, type='success') => {
@@ -612,25 +603,9 @@
             }
         };
 
-        window.showLoader = () => {
-            const l = document.getElementById('loader');
-            l.classList.remove('hidden');
-            requestAnimationFrame(() => l.classList.remove('opacity-0'));
-        };
-
-        window.hideLoader = () => {
-            const l = document.getElementById('loader');
-            l.classList.add('opacity-0');
-            setTimeout(() => l.classList.add('hidden'), 300);
-        };
-
         window.navTo = (pageId) => {
-            const currentPage = navStack[navStack.length - 1];
-            
-            if (currentPage === pageId && pageId !== 'chat-room') return; // منع الضغط المزدوج
-
-            // حفظ مكان السكرول للصفحة الحالية
-            scrollPositions[currentPage] = window.scrollY || document.documentElement.scrollTop;
+            // إعادة التمرير للأعلى عند كل انتقال لمنع بقاء الصفحة في نفس نقطة النزول
+            window.scrollTo(0, 0);
 
             if(pageId === 'chat') {
                 localStorage.setItem(`chatTabLastOpened_${currentUser.uid}`, Date.now().toString());
@@ -639,14 +614,13 @@
 
             if (pageId === 'chat-room') {
                 document.getElementById('page-chat-room').classList.remove('hidden');
-                navStack.push('chat-room'); 
-                return;
+                navStack.push('chat-room'); return;
             }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            if (pageId === 'home') navStack =['home']; else navStack.push(pageId);
+            if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
            
             const backBtn = document.getElementById('btn-back');
@@ -661,33 +635,32 @@
                 } else if (pageId === 'matching-reqs') {
                     document.getElementById('page-title').innerText = 'طلبات تناسبك';
                     const badge = document.getElementById('act-notif-badge');
-                    if(badge) badge.classList.add('hidden'); 
+                    if(badge) badge.classList.add('hidden'); // إخفاء النقطة الحمراء عند الدخول
                 } else if (pageId === 'category-details') {
-                    // Title updated independently
+                    // Title set externally
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع'; 
                 }
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'my-activity':3, 'matching-reqs':3}; 
+            // تحديد أيقونة الناف بار النشطة
+            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4, 'my-activity':4, 'matching-reqs':4}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
-
-            // استعادة موضع السكرول المحفوظ (تأخير بسيط لضمان عرض العناصر)
-            setTimeout(() => {
-                window.scrollTo(0, scrollPositions[pageId] || 0);
-            }, 10);
         };
 
         window.goBack = () => {
             if (navStack.length > 1) {
-                const currentPage = navStack.pop();
+                navStack.pop();
                 const prevPage = navStack[navStack.length-1];
                 
+                // إعادة التمرير للأعلى عند العودة أيضاً
+                window.scrollTo(0, 0);
+
                 document.getElementById('page-chat-room').classList.add('hidden');
-                if (currentPage !== 'chat-room') {
+                if (prevPage !== 'chat-room') {
                     document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
                     document.getElementById(`page-${prevPage}`).classList.remove('hidden');
                 }
@@ -704,58 +677,14 @@
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع';
                 }
-
-                // استعادة موضع السكرول
-                setTimeout(() => {
-                    window.scrollTo(0, scrollPositions[prevPage] || 0);
-                }, 10);
             }
-        };
-
-        window.loadUserProfile = async (user) => {
-            currentUser = user;
-            try {
-                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
-                if (snap.exists()) {
-                    userProfile = snap.data();
-                    if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
-                   
-                    document.getElementById('auth-view').classList.add('hidden');
-                    document.getElementById('app-view').classList.remove('hidden');
-                    document.getElementById('app-header').classList.remove('hidden');
-                    document.getElementById('nav-bar').classList.remove('hidden');
-                    document.getElementById('header-avatar').src = window.getCloudinaryUrl(userProfile.photoURL, 'thumb');
-
-                    document.getElementById('prof-name-view').innerText = userProfile.name;
-                    document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
-                    document.getElementById('prof-address-view').innerText = `${userProfile.area || ''} - ${userProfile.city || ''}`;
-                    document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
-
-                    document.getElementById('edit-name').value = userProfile.name;
-                    document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
-                    document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
-                   
-                    populateCenters('edit'); document.getElementById('edit-center').value = userProfile.city || '';
-                    window.updateVillages('edit'); setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
-
-                    initApp(); startListeners(); window.navTo('home');
-                } else {
-                    signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
-                }
-            } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); }
-            
-            isSigningUp = false;
-            window.hideLoader();
         };
 
         function initApp() {
-            // ريندر لمرة واحدة عند البداية فقط لمنع اللاج
-            if(document.getElementById('professions-grid').innerHTML === '') {
-                renderProfessionsGrid(professions);
-            }
-            
+            renderProfessionsGrid(professions);
             document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile.name}</span>`;
             
+            // إظهار أو إخفاء التبويبات الخاصة بمقدم الخدمة
             if(userProfile.role === 'provider') {
                 document.getElementById('btn-profile-matching').classList.remove('hidden');
             } else {
@@ -763,7 +692,6 @@
             }
         }
 
-        // إزالة will-change و lazy لضمان أسرع أداء (استقرار كالتطبيق الأصلي)
         function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
@@ -840,10 +768,9 @@
             e.preventDefault(); 
             const phoneVal = document.getElementById('login-phone').value;
             if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
-            
-            window.showLoader();
+            document.getElementById('loader').classList.remove('hidden');
             try { await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); }
-            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); window.hideLoader(); }
+            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); document.getElementById('loader').classList.add('hidden'); }
         };
 
         document.getElementById('form-signup').onsubmit = async (e) => {
@@ -851,8 +778,7 @@
             const phoneVal = document.getElementById('signup-phone').value;
             if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
 
-            window.showLoader();
-            isSigningUp = true;
+            document.getElementById('loader').classList.remove('hidden');
             try {
                 const role = document.querySelector('input[name="role"]:checked').value;
                 const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
@@ -878,33 +804,58 @@
                     photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
                     createdAt: new Date().toISOString()
                 });
-                
                 window.showToast('تم التسجيل بنجاح');
-                await window.loadUserProfile(cred.user);
             } catch (err) { 
-                isSigningUp = false;
                 let errorMsg = err.message;
                 if (err.code === 'auth/email-already-in-use') errorMsg = 'رقم الهاتف مستخدم مسبقاً لحساب آخر';
                 if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
                 window.showToast(errorMsg, 'error'); 
-                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) {
-                    await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
-                }
-                window.hideLoader();
+                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
+                document.getElementById('loader').classList.add('hidden'); 
             }
         };
 
         onAuthStateChanged(auth, async (user) => {
-            if (isSigningUp) return; 
-
             if (user) {
-                await window.loadUserProfile(user);
+                currentUser = user;
+                if(userProfile && userProfile.uid === user.uid) { document.getElementById('loader').classList.add('hidden'); return; }
+               
+                try {
+                    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
+                    if (snap.exists()) {
+                        userProfile = snap.data();
+                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
+                       
+                        document.getElementById('auth-view').classList.add('hidden');
+                        document.getElementById('app-view').classList.remove('hidden');
+                        document.getElementById('app-header').classList.remove('hidden');
+                        document.getElementById('nav-bar').classList.remove('hidden');
+                        document.getElementById('header-avatar').src = window.getCloudinaryUrl(userProfile.photoURL, 'thumb');
+
+                        document.getElementById('prof-name-view').innerText = userProfile.name;
+                        document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
+                        document.getElementById('prof-address-view').innerText = `${userProfile.area || ''} - ${userProfile.city || ''}`;
+                        document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
+
+                        document.getElementById('edit-name').value = userProfile.name;
+                        document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
+                        document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
+                       
+                        populateCenters('edit'); document.getElementById('edit-center').value = userProfile.city || '';
+                        window.updateVillages('edit'); setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+
+                        initApp(); startListeners(); window.navTo('home');
+                    } else {
+                        signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
+                    }
+                } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); }
+                document.getElementById('loader').classList.add('hidden');
             } else {
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
                 document.getElementById('nav-bar').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('hidden');
-                window.hideLoader();
+                document.getElementById('loader').classList.add('hidden');
             }
         });
 
@@ -971,7 +922,7 @@
                 }
 
                 return `
-                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative hover:bg-gray-50 dark:hover:bg-gray-700">
+                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
                        <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
@@ -1003,18 +954,15 @@
                 window.renderChatsUI(); 
             });
 
-            let isInitialProfiles = true;
             unsubProfiles = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
                 allUsersCache =[];
                 snap.forEach(d => {
                     const u = d.data();
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
-                // تحديث الواجهة فقط إذا كنا في الصفحة أو كانت أول مرة لمنع التقطيع
-                if(isInitialProfiles || !document.getElementById('page-directory').classList.contains('hidden')) window.renderDirectory(); 
-                if(currentCategory && !document.getElementById('page-category-details').classList.contains('hidden')) window.filterCategory();
+                window.renderDirectory(); 
+                if(currentCategory) window.filterCategory();
                 window.renderChatsUI(); 
-                isInitialProfiles = false;
             });
 
             if(userProfile.role === 'provider') {
@@ -1040,7 +988,7 @@
                         const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative">
+                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative animate-fade hover:-translate-y-0.5 transition-transform">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
                                 
                                 <div class="flex items-start gap-2 mb-2">
@@ -1075,6 +1023,7 @@
 
                     if (hasNewMatching) {
                         const badge = document.getElementById('act-notif-badge');
+                        // إظهار الشارة فقط إذا كانت صفحة "طلبات تناسبك" غير مفتوحة حالياً
                         if(badge && document.getElementById('page-matching-reqs').classList.contains('hidden')) {
                             badge.classList.remove('hidden');
                         }
@@ -1084,6 +1033,7 @@
                 });
             }
 
+            // إشعارات التقييمات
             const qRev = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', currentUser.uid));
             unsubReviews = onSnapshot(qRev, (snap) => {
                 reviewNotifs =[];
@@ -1098,59 +1048,54 @@
                 renderNotificationsList();
             });
 
-            let isInitialJobs = true;
             unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد وظائف حالياً</p>'; return; }
-                
-                // تحديث الواجهة إذا كنا في الرئيسية لمنع اللاج
-                if(isInitialJobs || !document.getElementById('page-home').classList.contains('hidden')) {
-                    const html =[];
-                    snap.forEach(d => {
-                        const j = d.data();
-                        const hasPhone = j.contactPhone && j.contactPhone.length > 5;
-                        const isMyPost = j.uid === currentUser.uid;
-                        html.push(`
-                            <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative">
-                                <div class="p-2.5">
-                                    <div class="flex items-start gap-2 mb-2">
-                                        <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start mb-1">
-                                                <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
-                                                <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
-                                            </div>
-                                            <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
+                const html =[];
+                snap.forEach(d => {
+                    const j = d.data();
+                    const hasPhone = j.contactPhone && j.contactPhone.length > 5;
+                    const isMyPost = j.uid === currentUser.uid;
+                    html.push(`
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade hover:-translate-y-0.5 transition-transform">
+                            <div class="p-2.5">
+                                <div class="flex items-start gap-2 mb-2">
+                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
+                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="flex gap-1.5 mb-2 flex-wrap">
-                                        <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
-                                        ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
-                                        ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
-                                        ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
-                                    </div>
-                                    
-                                    <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
-                                        <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
-                                    </div>
-                                    
-                                    <div class="flex gap-2">
-                                        ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
-                                        ${hasPhone && !isMyPost ? `
-                                        <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95 transition-transform">
-                                            WhatsApp
-                                        </a>` : ''}
+                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
                                     </div>
                                 </div>
-                            </div>`);
-                    });
-                    list.innerHTML = html.join('');
-                }
-                isInitialJobs = false;
+                                
+                                <div class="flex gap-1.5 mb-2 flex-wrap">
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
+                                    ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
+                                    ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
+                                    ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
+                                </div>
+                                
+                                <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                    <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                    ${hasPhone && !isMyPost ? `
+                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+                                        WhatsApp
+                                    </a>` : ''}
+                                </div>
+                            </div>
+                        </div>`);
+                });
+                list.innerHTML = html.join('');
             });
 
-            unsubActivity = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid)), (snap) => {
+            const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
+            unsubActivity = onSnapshot(qActivity, (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
@@ -1182,8 +1127,6 @@
         window.deleteRequest = async (id) => { if(confirm('حذف هذا النشاط؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
 
         window.openProfileModal = async (userStr) => {
-            // تصفير سكرول المودال
-            document.getElementById('profile-modal').scrollTop = 0;
             const user = JSON.parse(decodeURIComponent(userStr));
             currentModalUserId = user.uid;
             document.getElementById('modal-img').src = window.getCloudinaryUrl(user.photoURL, 'medium');
@@ -1300,6 +1243,7 @@
             });
         };
 
+        // بحث الدليل (يشمل الاسم، الوظيفة، العنوان)
         window.renderDirectory = () => {
             const cont = document.getElementById('dir-list');
             const list = allUsersCache.slice(0,50);
@@ -1310,7 +1254,7 @@
             const term = window.normalizeArabic(document.getElementById('dir-search').value.trim().toLowerCase());
             const cont = document.getElementById('dir-list');
             const filtered = term ? allUsersCache.filter(u => {
-                const loc =[u.city, u.area].filter(Boolean).join(' ');
+                const loc = [u.city, u.area].filter(Boolean).join(' ');
                 const fullText = `${u.name} ${u.profession || ''} ${loc}`;
                 return window.normalizeArabic(fullText).toLowerCase().includes(term);
             }) : allUsersCache.slice(0,50);
@@ -1321,12 +1265,12 @@
         window.openCategory = (profName) => {
             currentCategory = profName;
             document.getElementById('cat-search').value = ''; 
-            scrollPositions['category-details'] = 0; // التمرير للأعلى دائما عند فتح قسم جديد
             window.navTo('category-details');
             document.getElementById('page-title').innerText = profName;
             window.filterCategory();
         };
 
+        // بحث الأقسام (يشمل الاسم، والعنوان)
         window.filterCategory = () => {
             const term = window.normalizeArabic(document.getElementById('cat-search').value.trim().toLowerCase());
             const cont = document.getElementById('cat-list-container');
@@ -1352,7 +1296,7 @@
             const isClient = u.role === 'client';
             
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 mb-2 flex items-start gap-2.5">
+            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer hover:-translate-y-0.5 transition-transform mb-2 flex items-start gap-2.5">
                 <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start mb-1">
@@ -1367,7 +1311,7 @@
        
         window.saveProfileChanges = async () => {
             try {
-                window.showLoader();
+                document.getElementById('loader').classList.remove('hidden');
                 let finalPhotoURL = userProfile.photoURL;
                 if (tempSelectedFile) {
                     finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
@@ -1378,7 +1322,7 @@
                     city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, photoURL: finalPhotoURL
                 });
                 window.location.reload();
-            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); window.hideLoader(); }
+            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); document.getElementById('loader').classList.add('hidden'); }
         };
        
         window.saveSettings = async () => {
@@ -1439,7 +1383,7 @@
         };
        
         window.switchHomeTab = (tab) => { 
-            // لا نغير مكان السكرول هنا حتى يبدو كتبويب ثابت
+            window.scrollTo(0, 0);
             if (tab === 'services') { 
                 document.getElementById('view-services').classList.remove('hidden'); 
                 document.getElementById('view-jobs').classList.add('hidden'); 
@@ -1473,7 +1417,6 @@
             reviewNotifs = [];
             myChatsCache =[];
             allUsersCache =[];
-            for(let key in scrollPositions) delete scrollPositions[key];
             
             document.getElementById('notif-list').innerHTML = '<p class="text-center text-[10px] font-bold text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
             document.getElementById('notif-dot').classList.add('hidden');
