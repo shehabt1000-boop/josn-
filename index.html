@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V3 - الماسية</title>
+    <title>دليل الشرقية V4 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -107,25 +105,18 @@
 
     <div id="toast-box"></div>
 
-    <!-- Modern Loader -->
-    <div id="loader" class="fixed inset-0 z-[200] flex flex-col items-center justify-center transition-opacity duration-300">
-        <!-- صورة خلفية من Pexels مصغرة لعدم استهلاك باقة الإنترنت مع بلور -->
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=300&blur=10');"></div>
-        <!-- طبقة زجاجية بيضاء/سوداء لضمان وضوح النصوص والأيقونة -->
-        <div class="absolute inset-0 bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm"></div>
-
-        <!-- محتوى شاشة التحميل -->
-        <div class="relative z-10 flex flex-col items-center">
-            <!-- اللوجو (ثابت بدون حركة لمنع استهلاك المعالج وتجنب اللاج) -->
-            <svg class="w-16 h-16 text-black dark:text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <h2 class="text-xl font-extrabold text-black dark:text-white tracking-wider mb-4 drop-shadow-sm">خدمات الشرقية</h2>
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 z-[200] flex flex-col items-center justify-center transition-opacity duration-300 bg-black">
+        <!-- صورة خلفية واضحة بملء الشاشة بدون أي بلور أو تظليل يفسد الدقة -->
+        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800" class="absolute inset-0 w-full h-full object-cover opacity-60">
+        
+        <div class="relative z-10 flex flex-col items-center mt-20">
+            <h2 class="text-3xl font-extrabold text-white tracking-wider mb-6 drop-shadow-md">خدمات الشرقية</h2>
             <!-- نقاط التحميل السفلية -->
-            <div class="flex gap-1.5">
-                <div class="w-2.5 h-2.5 bg-black dark:bg-white rounded-full animate-[bounce_1s_infinite_0ms]"></div>
-                <div class="w-2.5 h-2.5 bg-black dark:bg-white rounded-full animate-[bounce_1s_infinite_200ms]"></div>
-                <div class="w-2.5 h-2.5 bg-black dark:bg-white rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+            <div class="flex gap-2">
+                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_0ms] shadow-md"></div>
+                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_200ms] shadow-md"></div>
+                <div class="w-3 h-3 bg-white rounded-full animate-[bounce_1s_infinite_400ms] shadow-md"></div>
             </div>
         </div>
     </div>
@@ -229,7 +220,7 @@
     <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative">
        
         <!-- HOME -->
-        <section id="page-home" class="page-section px-3 animate-fade">
+        <section id="page-home" class="page-section px-3">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">خدمات</button>
@@ -251,7 +242,7 @@
         </section>
 
         <!-- CATEGORY -->
-        <section id="page-category-details" class="page-section hidden px-3 animate-fade">
+        <section id="page-category-details" class="page-section hidden px-3">
             <div class="max-w-md mx-auto">
                 <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث عن شخص أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="cat-list-container" class="space-y-2 pb-20"></div>
@@ -259,7 +250,7 @@
         </section>
 
         <!-- DIRECTORY -->
-        <section id="page-directory" class="page-section hidden px-3 animate-fade">
+        <section id="page-directory" class="page-section hidden px-3">
             <div class="max-w-md mx-auto">
                 <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص، وظيفة أو عنوان..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
                 <div id="dir-list" class="space-y-2 pb-20"></div>
@@ -267,7 +258,7 @@
         </section>
 
         <!-- ADD -->
-        <section id="page-add" class="page-section hidden px-4 animate-fade">
+        <section id="page-add" class="page-section hidden px-4">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
                 <div class="flex gap-2 mb-4">
@@ -319,7 +310,7 @@
         </section>
 
         <!-- PROFILE -->
-        <section id="page-profile" class="page-section hidden px-3 animate-fade">
+        <section id="page-profile" class="page-section hidden px-3">
             <div class="max-w-md mx-auto">
                 <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 relative overflow-hidden mt-4">
                     <div class="flex flex-col items-center">
@@ -353,17 +344,17 @@
         </section>
 
         <!-- MY ACTIVITY PAGE -->
-        <section id="page-my-activity" class="page-section hidden px-3 animate-fade pt-4">
+        <section id="page-my-activity" class="page-section hidden px-3 pt-4">
             <div id="my-activity" class="space-y-3 pb-20 max-w-md mx-auto"></div>
         </section>
 
         <!-- MATCHING REQS PAGE -->
-        <section id="page-matching-reqs" class="page-section hidden px-3 animate-fade pt-4">
+        <section id="page-matching-reqs" class="page-section hidden px-3 pt-4">
             <div id="matching-reqs-list" class="space-y-3 pb-20 max-w-md mx-auto"></div>
         </section>
 
         <!-- EDIT PROFILE -->
-        <section id="page-edit-profile" class="page-section hidden px-4 animate-fade">
+        <section id="page-edit-profile" class="page-section hidden px-4">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
                 <div class="flex flex-col items-center mb-4">
                     <img id="edit-img-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-black">
@@ -391,7 +382,7 @@
         </section>
 
         <!-- SETTINGS -->
-        <section id="page-settings" class="page-section hidden px-4 animate-fade">
+        <section id="page-settings" class="page-section hidden px-4">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
                 <h3 class="font-bold text-base mb-3 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
                 <div class="space-y-2">
@@ -413,7 +404,7 @@
         </section>
 
         <!-- CHAT LIST -->
-        <section id="page-chat" class="page-section hidden px-3 animate-fade">
+        <section id="page-chat" class="page-section hidden px-3">
             <div id="chat-history-list" class="space-y-2 pb-20 max-w-md mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
         </section>
     </div>
@@ -564,12 +555,15 @@
 
         let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let tempSelectedFile = null;
-        let isSigningUp = false; // لمنع تعارض شاشة التحميل أثناء إنشاء الحساب
+        let isSigningUp = false; 
 
         let unsubChats, unsubProfiles, unsubMatching, unsubReviews, unsubJobs, unsubActivity;
 
         let reqNotifs =[];
         let reviewNotifs =[];
+
+        // مصفوفة لحفظ مكان السكرول لكل صفحة للحصول على أداء التطبيق الأصلي
+        const scrollPositions = {};
 
         const CLOUD_NAME = "db9h7zm1h"; 
         const UPLOAD_PRESET = "souq_upload";
@@ -631,7 +625,12 @@
         };
 
         window.navTo = (pageId) => {
-            window.scrollTo(0, 0);
+            const currentPage = navStack[navStack.length - 1];
+            
+            if (currentPage === pageId && pageId !== 'chat-room') return; // منع الضغط المزدوج
+
+            // حفظ مكان السكرول للصفحة الحالية
+            scrollPositions[currentPage] = window.scrollY || document.documentElement.scrollTop;
 
             if(pageId === 'chat') {
                 localStorage.setItem(`chatTabLastOpened_${currentUser.uid}`, Date.now().toString());
@@ -640,13 +639,14 @@
 
             if (pageId === 'chat-room') {
                 document.getElementById('page-chat-room').classList.remove('hidden');
-                navStack.push('chat-room'); return;
+                navStack.push('chat-room'); 
+                return;
             }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            if (pageId === 'home') navStack =['home']; else navStack.push(pageId);
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
            
             const backBtn = document.getElementById('btn-back');
@@ -674,17 +674,20 @@
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
+
+            // استعادة موضع السكرول المحفوظ (تأخير بسيط لضمان عرض العناصر)
+            setTimeout(() => {
+                window.scrollTo(0, scrollPositions[pageId] || 0);
+            }, 10);
         };
 
         window.goBack = () => {
             if (navStack.length > 1) {
-                navStack.pop();
+                const currentPage = navStack.pop();
                 const prevPage = navStack[navStack.length-1];
                 
-                window.scrollTo(0, 0);
-
                 document.getElementById('page-chat-room').classList.add('hidden');
-                if (prevPage !== 'chat-room') {
+                if (currentPage !== 'chat-room') {
                     document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
                     document.getElementById(`page-${prevPage}`).classList.remove('hidden');
                 }
@@ -701,6 +704,11 @@
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع';
                 }
+
+                // استعادة موضع السكرول
+                setTimeout(() => {
+                    window.scrollTo(0, scrollPositions[prevPage] || 0);
+                }, 10);
             }
         };
 
@@ -741,7 +749,11 @@
         };
 
         function initApp() {
-            renderProfessionsGrid(professions);
+            // ريندر لمرة واحدة عند البداية فقط لمنع اللاج
+            if(document.getElementById('professions-grid').innerHTML === '') {
+                renderProfessionsGrid(professions);
+            }
+            
             document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile.name}</span>`;
             
             if(userProfile.role === 'provider') {
@@ -751,11 +763,12 @@
             }
         }
 
+        // إزالة will-change و lazy لضمان أسرع أداء (استقرار كالتطبيق الأصلي)
         function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
-                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform transform-gpu will-change-transform">
-                    <img src="${getProfImage(p)}" class="w-full h-full object-cover" loading="lazy" decoding="async">
+                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
+                    <img src="${getProfImage(p)}" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
                     </div>
@@ -867,7 +880,6 @@
                 });
                 
                 window.showToast('تم التسجيل بنجاح');
-                // نطلب تحميل الملف الشخصي بشكل صريح هنا
                 await window.loadUserProfile(cred.user);
             } catch (err) { 
                 isSigningUp = false;
@@ -883,7 +895,6 @@
         };
 
         onAuthStateChanged(auth, async (user) => {
-            // نمنع تشغيل onAuthStateChanged أثناء عملية التسجيل لعدم حدوث تعارض
             if (isSigningUp) return; 
 
             if (user) {
@@ -960,7 +971,7 @@
                 }
 
                 return `
-                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative hover:bg-gray-50 dark:hover:bg-gray-700">
                        <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
@@ -992,15 +1003,18 @@
                 window.renderChatsUI(); 
             });
 
+            let isInitialProfiles = true;
             unsubProfiles = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
                 allUsersCache =[];
                 snap.forEach(d => {
                     const u = d.data();
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
-                window.renderDirectory(); 
-                if(currentCategory) window.filterCategory();
+                // تحديث الواجهة فقط إذا كنا في الصفحة أو كانت أول مرة لمنع التقطيع
+                if(isInitialProfiles || !document.getElementById('page-directory').classList.contains('hidden')) window.renderDirectory(); 
+                if(currentCategory && !document.getElementById('page-category-details').classList.contains('hidden')) window.filterCategory();
                 window.renderChatsUI(); 
+                isInitialProfiles = false;
             });
 
             if(userProfile.role === 'provider') {
@@ -1026,7 +1040,7 @@
                         const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative animate-fade hover:-translate-y-0.5 transition-transform">
+                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
                                 
                                 <div class="flex items-start gap-2 mb-2">
@@ -1084,54 +1098,59 @@
                 renderNotificationsList();
             });
 
+            let isInitialJobs = true;
             unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد وظائف حالياً</p>'; return; }
-                const html =[];
-                snap.forEach(d => {
-                    const j = d.data();
-                    const hasPhone = j.contactPhone && j.contactPhone.length > 5;
-                    const isMyPost = j.uid === currentUser.uid;
-                    html.push(`
-                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade hover:-translate-y-0.5 transition-transform">
-                            <div class="p-2.5">
-                                <div class="flex items-start gap-2 mb-2">
-                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between items-start mb-1">
-                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
-                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
+                
+                // تحديث الواجهة إذا كنا في الرئيسية لمنع اللاج
+                if(isInitialJobs || !document.getElementById('page-home').classList.contains('hidden')) {
+                    const html =[];
+                    snap.forEach(d => {
+                        const j = d.data();
+                        const hasPhone = j.contactPhone && j.contactPhone.length > 5;
+                        const isMyPost = j.uid === currentUser.uid;
+                        html.push(`
+                            <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative">
+                                <div class="p-2.5">
+                                    <div class="flex items-start gap-2 mb-2">
+                                        <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex justify-between items-start mb-1">
+                                                <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
+                                                <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
+                                            </div>
+                                            <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
                                         </div>
-                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
+                                    </div>
+                                    
+                                    <div class="flex gap-1.5 mb-2 flex-wrap">
+                                        <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
+                                        ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
+                                        ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
+                                        ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
+                                    </div>
+                                    
+                                    <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                        <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                        ${hasPhone && !isMyPost ? `
+                                        <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+                                            WhatsApp
+                                        </a>` : ''}
                                     </div>
                                 </div>
-                                
-                                <div class="flex gap-1.5 mb-2 flex-wrap">
-                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
-                                    ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
-                                    ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
-                                    ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
-                                </div>
-                                
-                                <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
-                                    <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
-                                </div>
-                                
-                                <div class="flex gap-2">
-                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
-                                    ${hasPhone && !isMyPost ? `
-                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95 transition-transform">
-                                        WhatsApp
-                                    </a>` : ''}
-                                </div>
-                            </div>
-                        </div>`);
-                });
-                list.innerHTML = html.join('');
+                            </div>`);
+                    });
+                    list.innerHTML = html.join('');
+                }
+                isInitialJobs = false;
             });
 
-            const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
-            unsubActivity = onSnapshot(qActivity, (snap) => {
+            unsubActivity = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid)), (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
@@ -1163,6 +1182,8 @@
         window.deleteRequest = async (id) => { if(confirm('حذف هذا النشاط؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
 
         window.openProfileModal = async (userStr) => {
+            // تصفير سكرول المودال
+            document.getElementById('profile-modal').scrollTop = 0;
             const user = JSON.parse(decodeURIComponent(userStr));
             currentModalUserId = user.uid;
             document.getElementById('modal-img').src = window.getCloudinaryUrl(user.photoURL, 'medium');
@@ -1300,6 +1321,7 @@
         window.openCategory = (profName) => {
             currentCategory = profName;
             document.getElementById('cat-search').value = ''; 
+            scrollPositions['category-details'] = 0; // التمرير للأعلى دائما عند فتح قسم جديد
             window.navTo('category-details');
             document.getElementById('page-title').innerText = profName;
             window.filterCategory();
@@ -1330,7 +1352,7 @@
             const isClient = u.role === 'client';
             
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer hover:-translate-y-0.5 transition-transform mb-2 flex items-start gap-2.5">
+            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 mb-2 flex items-start gap-2.5">
                 <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start mb-1">
@@ -1417,7 +1439,7 @@
         };
        
         window.switchHomeTab = (tab) => { 
-            window.scrollTo(0, 0);
+            // لا نغير مكان السكرول هنا حتى يبدو كتبويب ثابت
             if (tab === 'services') { 
                 document.getElementById('view-services').classList.remove('hidden'); 
                 document.getElementById('view-jobs').classList.add('hidden'); 
@@ -1447,10 +1469,11 @@
             if(unsubJobs) unsubJobs();
             if(unsubActivity) unsubActivity();
 
-            reqNotifs =[];
+            reqNotifs = [];
             reviewNotifs = [];
             myChatsCache =[];
             allUsersCache =[];
+            for(let key in scrollPositions) delete scrollPositions[key];
             
             document.getElementById('notif-list').innerHTML = '<p class="text-center text-[10px] font-bold text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
             document.getElementById('notif-dot').classList.add('hidden');
