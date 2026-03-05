@@ -2,276 +2,1444 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محلل رسائل JSON الذكي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دليل الشرقية V4 - الماسية</title>
+   
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+   
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+   
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans:['Cairo', 'sans-serif'] },
+                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
+                    animation: { 'fade': 'fadeIn 0.2s ease-in-out', 'pop': 'popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)' },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                        popIn: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f0f2f5; overflow: hidden; }
-        
-        /* تحسين منطقة النص */
-        .code-editor {
-            font-family: 'Consolas', monospace;
+        body { font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        button { cursor: pointer; touch-action: manipulation; }
+       
+        /* Custom Scrollbar for lists */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; display: block; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-track { background: #374151; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Glass Header */
+        .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
+        .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
+       
+        /* Inputs - Compact & Bordered */
+        input, select, textarea {
+            border: 2px solid #d1d5db;
+            background-color: #ffffff;
+            transition: all 0.2s;
             font-size: 13px;
-            tab-size: 4;
-            background: #1e1e1e;
-            color: #d4d4d4;
         }
-
-        /* أنماط الشات */
-        .chat-view {
-            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
-            background-repeat: repeat;
-            background-attachment: local;
+        input:focus, select:focus, textarea:focus {
+            border-color: #000000;
+            outline: none;
         }
-
-        .bubble {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 12px;
-            margin-bottom: 4px;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
-            position: relative;
-            font-size: 14px;
-            line-height: 1.4;
+        .dark input, .dark select, .dark textarea {
+            background-color: #1f2937;
+            border-color: #4b5563;
+            color: white;
         }
+        .dark input:focus { border-color: #fff; }
+       
+        /* Black Borders Custom Class */
+        .border-black-custom {
+            border: 2px solid #000000 !important;
+            box-shadow: 2px 2px 0px #000000 !important;
+        }
+        .dark .border-black-custom {
+            border: 2px solid #6b7280 !important;
+            box-shadow: 2px 2px 0px #6b7280 !important;
+        }
+       
+        /* Provider Card */
+        .provider-card {
+            border: 2px solid #000000;
+            box-shadow: 2px 2px 0px #000000;
+        }
+        .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        .bubble-in { background: white; align-self: flex-start; border-top-right-radius: 2px; }
-        .bubble-out { background: #dcf8c6; align-self: flex-end; border-top-left-radius: 2px; }
+        /* Modals */
+        .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+        .dark .full-screen-modal { background: #111827; }
 
-        .sender-name { font-size: 11px; font-weight: bold; color: #128c7e; margin-bottom: 2px; }
-        .timestamp { font-size: 10px; color: #888; text-align: left; margin-top: 4px; }
+        /* Toast */
+        #toast-box { position: fixed; top: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
+        .toast-msg { background: #000; color: white; padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; font-size: 12px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.3s; }
+        .toast-msg.show { opacity: 1; transform: translateY(0); }
 
-        /* الشجرة */
-        .json-tree { font-family: 'Consolas', monospace; font-size: 13px; direction: ltr; text-align: left; }
-        .nested { display: none; padding-left: 20px; border-left: 1px solid #ddd; }
-        .active { display: block; }
-        .caret { cursor: pointer; user-select: none; }
-        .caret::before { content: "▶"; display: inline-block; margin-right: 6px; transition: transform 0.2s; color: #999; }
-        .caret-down::before { transform: rotate(90deg); }
-
-        .split-pane { display: flex; height: calc(100vh - 64px); }
+        /* Badge */
+        .badge { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; border: 1px solid #000; }
+        .dark .badge { border-color: #fff; }
+       
+        /* Stars */
+        .star-rating { direction: ltr; display: inline-flex; }
+        .star-rating input { display: none; }
+        .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.2s; }
+        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-200">
 
-    <!-- الهيدر -->
-    <header class="h-16 bg-white border-b flex justify-between items-center px-6 shadow-sm z-30 relative">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
-                <i class="fas fa-comments text-xl"></i>
-            </div>
-            <h1 class="font-bold text-gray-800 text-lg">محلل ملفات فيسبوك و JSON</h1>
+    <div id="toast-box"></div>
+
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 z-[200] flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-black dark:border-white border-t-transparent"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto">
+        <div class="flex items-center gap-2">
+            <button id="btn-back" onclick="window.goBack()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <h1 id="page-title" class="text-[10px] font-bold sm:text-xs flex items-center">الرئيسية</h1>
         </div>
-
-        <div class="flex gap-3">
-            <input type="file" id="fileInput" class="hidden" accept=".json">
-            <button onclick="document.getElementById('fileInput').click()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2">
-                <i class="fas fa-file-import"></i> فتح ملف
+        <div class="flex items-center gap-3">
+            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
             </button>
-            <button id="renderBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-md transition">
-                تشغيل وعرض
-            </button>
+            <img id="header-avatar" src="" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
         </div>
     </header>
 
-    <main class="split-pane">
-        <!-- قسم الكود -->
-        <div class="w-1/3 border-l flex flex-col bg-[#1e1e1e]">
-            <div class="bg-[#252526] px-4 py-2 text-[10px] text-gray-400 uppercase font-bold tracking-widest flex justify-between">
-                <span>محرر JSON</span>
-                <span id="fileInfo">لا يوجد ملف</span>
-            </div>
-            <textarea id="jsonInput" class="flex-1 w-full p-4 code-editor outline-none" placeholder="الصق كود JSON هنا..."></textarea>
+    <!-- Notification Panel -->
+    <div id="notif-panel" class="fixed top-16 left-4 right-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_#000] z-40 hidden md:max-w-md md:mx-auto animate-pop origin-top-right p-4">
+        <div class="flex justify-between items-center mb-2 border-b-2 border-gray-100 pb-2 dark:border-gray-700">
+            <h3 class="font-bold text-sm">الإشعارات</h3>
+            <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold">✕</button>
+        </div>
+        <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1">
+            <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات حالياً</p>
+        </div>
+    </div>
+
+    <!-- AUTH VIEW -->
+    <div id="auth-view" class="hidden min-h-screen flex flex-col justify-center p-4 md:max-w-md md:mx-auto">
+        <div class="text-center mb-4">
+            <h1 class="text-2xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
         </div>
 
-        <!-- قسم العرض -->
-        <div class="flex-1 flex flex-col bg-gray-50">
-            <!-- التبويبات -->
-            <div class="bg-white border-b flex px-4">
-                <button onclick="showTab('chat')" id="tab-chat" class="px-6 py-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600">المحادثة</button>
-                <button onclick="showTab('tree')" id="tab-tree" class="px-6 py-4 text-sm font-bold text-gray-500 hover:text-gray-700">شجرة البيانات</button>
-            </div>
+        <!-- Auth Toggle -->
+        <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
+            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all">دخول</button>
+            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">جديد</button>
+        </div>
 
-            <!-- المحتوى -->
-            <div id="displayArea" class="flex-1 overflow-auto relative">
-                <!-- واجهة الشات -->
-                <div id="chatView" class="chat-view min-h-full p-6 flex flex-col gap-2">
-                    <div class="text-center text-gray-400 mt-20">
-                        <i class="fas fa-terminal text-6xl mb-4 opacity-20"></i>
-                        <p>قم برفع ملف أو لصق الكود للبدء</p>
+        <!-- Login Form -->
+        <form id="form-login" class="space-y-3">
+            <div class="space-y-3 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 bg-white dark:bg-gray-800 transition-colors">
+                    <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                </div>
+                
+                <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
+                <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform">تسجيل الدخول</button>
+            </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="form-signup" class="hidden bg-white dark:bg-gray-800 p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+            <div class="flex justify-center mb-3">
+                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('signup-file').click()">
+                    <img id="signup-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" class="w-full h-full object-cover opacity-80 hover:opacity-100">
+                </div>
+                <input type="file" id="signup-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'signup-preview')">
+            </div>
+           
+            <div class="space-y-2">
+                <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-sm h-10" required>
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                    <input type="tel" id="signup-phone" placeholder="رقم الهاتف (10 أرقام)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                </div>
+                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-sm h-10" required>
+               
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
+                    <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="male" checked> ذكر</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="female"> أنثى</label>
+                    </div>
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="client" checked onchange="window.toggleProfVisibility(false)"> عميل</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="provider" onchange="window.toggleProfVisibility(true)"> مقدم خدمة</label>
                     </div>
                 </div>
 
-                <!-- واجهة الشجرة -->
-                <div id="treeView" class="hidden p-6 bg-white min-h-full json-tree"></div>
+                <div id="prof-container" class="hidden mt-2">
+                    <select id="signup-prof" class="w-full p-2 rounded-lg text-xs h-10"><option value="">اختر المهنة...</option></select>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all">إنشاء حساب</button>
+        </form>
+    </div>
+
+    <!-- APP VIEW -->
+    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative">
+       
+        <!-- HOME -->
+        <section id="page-home" class="page-section px-3 animate-fade">
+            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
+                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">خدمات</button>
+                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all">وظائف</button>
+                </div>
+                <div id="prof-search-box" class="relative max-w-md mx-auto">
+                    <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
+                    <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
+                </div>
+            </div>
+           
+            <div id="view-services" class="pb-4">
+                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-5 gap-2"></div>
+            </div>
+           
+            <div id="view-jobs" class="hidden space-y-3 pb-4 max-w-2xl mx-auto">
+                <p class="text-center text-gray-400 py-10 text-[10px] font-bold">جاري تحميل الوظائف...</p>
+            </div>
+        </section>
+
+        <!-- CATEGORY -->
+        <section id="page-category-details" class="page-section hidden px-3 animate-fade">
+            <div class="max-w-md mx-auto">
+                <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث عن شخص بالاسم..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <div id="cat-list-container" class="space-y-2 pb-20"></div>
+            </div>
+        </section>
+
+        <!-- DIRECTORY -->
+        <section id="page-directory" class="page-section hidden px-3 animate-fade">
+            <div class="max-w-md mx-auto">
+                <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص أو وظيفة..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <div id="dir-list" class="space-y-2 pb-20"></div>
+            </div>
+        </section>
+
+        <!-- ADD -->
+        <section id="page-add" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
+                <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
+                <div class="flex gap-2 mb-4">
+                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all">طلب خدمة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all">وظيفة</button>
+                </div>
+               
+                <form id="form-req" class="space-y-3">
+                    <select id="req-prof" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
+                    
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="req-phone" placeholder="الواتساب (اختياري)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-900">نشر الطلب</button>
+                </form>
+
+                <form id="form-job" class="hidden space-y-3">
+                    <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50">
+                   
+                    <div class="grid grid-cols-2 gap-2">
+                         <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 rounded-lg text-xs">
+                         <input type="text" id="job-hours" placeholder="ساعات العمل" class="w-full p-2 rounded-lg text-xs">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="job-shift" class="w-full p-2 rounded-lg text-xs">
+                            <option value="صباحي">شيفت صباحي</option>
+                            <option value="مسائي">شيفت مسائي</option>
+                            <option value="متغير">شيفت متغير</option>
+                        </select>
+                        <select id="job-type" class="w-full p-2 rounded-lg text-xs">
+                            <option value="full">دوام كامل</option>
+                            <option value="part">دوام جزئي</option>
+                        </select>
+                    </div>
+
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
+
+                    <textarea id="job-desc" rows="4" placeholder="تفاصيل الوظيفة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
+                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-800">نشر الوظيفة</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="page-profile" class="page-section hidden px-3 animate-fade">
+            <div class="max-w-md mx-auto">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 relative overflow-hidden mt-4">
+                    <div class="flex flex-col items-center">
+                        <img id="prof-img-view" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 bg-white object-cover">
+                        <h2 id="prof-name-view" class="text-lg font-extrabold mt-2 dark:text-white"></h2>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="prof-role-view" class="badge bg-blue-100 text-blue-800 border-blue-800"></span>
+                            <span id="prof-address-view" class="text-xs text-gray-500 dark:text-gray-400 font-bold"></span>
+                        </div>
+                        <div class="flex gap-2 mt-4 w-full px-4">
+                            <button onclick="window.navTo('edit-profile')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">تعديل</button>
+                            <button onclick="window.navTo('settings')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">إعدادات</button>
+                        </div>
+                    </div>
+                </div>
+               
+                <!-- أزرار النشاط والخروج منفصلة -->
+                <div class="flex flex-col gap-3 mt-4 w-full pb-20">
+                    <button onclick="window.navToActivity('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
+                        <span>📊 نشاطي</span>
+                    </button>
+                    
+                    <button id="btn-profile-matching" onclick="window.navToActivity('matching')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform hidden">
+                        <span>🎯 طلبات تناسبك</span>
+                        <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold animate-pulse">!</span>
+                    </button>
+
+                    <button onclick="window.logout()" class="w-full py-3 text-red-500 bg-red-50 border-2 border-red-200 rounded-xl font-bold text-xs hover:bg-red-100 transition-colors mt-2">تسجيل الخروج</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTIVITY PAGE (نشاطي وطلباتي) -->
+        <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
+            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
+                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">نشاطي</button>
+                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all hidden">طلبات تناسبك</button>
+                </div>
+            </div>
+            
+            <div id="view-my-activity" class="pb-20 max-w-md mx-auto">
+                <div id="my-activity" class="space-y-3"></div>
+            </div>
+            
+            <div id="view-matching-reqs" class="hidden pb-20 max-w-md mx-auto">
+                <div id="matching-reqs-list" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <!-- EDIT PROFILE -->
+        <section id="page-edit-profile" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
+                <div class="flex flex-col items-center mb-4">
+                    <img id="edit-img-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-black">
+                    <button onclick="document.getElementById('edit-file').click()" class="text-xs font-bold text-blue-600 underline mt-1">تغيير الصورة</button>
+                    <input type="file" id="edit-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'edit-img-preview', true)">
+                </div>
+                <div class="space-y-3">
+                    <input type="text" id="edit-name" class="w-full p-2 rounded-lg text-sm" placeholder="الاسم">
+                    
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="edit-phone" placeholder="الهاتف" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                         <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 rounded-lg text-xs"></select>
+                         <select id="edit-village" class="w-full p-2 rounded-lg text-xs"></select>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="window.saveProfileChanges()" class="flex-1 py-2 bg-black text-white rounded-lg font-bold text-sm">حفظ</button>
+                    <button onclick="window.goBack()" class="flex-1 py-2 bg-gray-200 text-black rounded-lg font-bold text-sm">إلغاء</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="page-settings" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
+                <h3 class="font-bold text-base mb-3 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
+                <div class="space-y-2">
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">الإشعارات</span><input type="checkbox" id="toggle-notif" class="accent-black w-4 h-4" checked>
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">إخفاء رقمي</span><input type="checkbox" id="toggle-hide-phone" class="accent-red-500 w-4 h-4">
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">الملف الشخصي</span><input type="checkbox" id="toggle-hide-profile" class="accent-red-500 w-4 h-4">
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">الوضع الليلي</span><input type="checkbox" id="theme-toggle" class="accent-blue-600 w-4 h-4" onchange="window.toggleTheme()">
+                    </label>
+                </div>
+                <button onclick="window.saveSettings()" class="w-full py-2.5 bg-black text-white rounded-lg font-bold mt-4 text-sm">حفظ التغييرات</button>
+            </div>
+        </section>
+
+        <!-- CHAT LIST -->
+        <section id="page-chat" class="page-section hidden px-3 animate-fade">
+            <div id="chat-history-list" class="space-y-2 pb-20 max-w-md mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
+        </section>
+    </div>
+
+    <!-- PROFILE POPUP -->
+    <div id="profile-modal" class="modal-overlay hidden animate-pop overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-sm rounded-xl border-black-custom p-5 relative shadow-2xl my-10">
+            <button onclick="document.getElementById('profile-modal').classList.add('hidden')" class="absolute top-3 left-3 font-bold text-gray-400 hover:text-red-500 text-xl">✕</button>
+            <div class="flex flex-col items-center">
+                <img id="modal-img" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 mb-2 object-cover">
+                <h2 id="modal-name" class="text-lg font-extrabold dark:text-white"></h2>
+                <p id="modal-role" class="text-xs text-blue-600 font-bold mb-3"></p>
+               
+                <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-gray-400 block">العنوان</span><span id="modal-addr" class="font-bold"></span></div>
+                        <div><span class="text-gray-400 block">الجنس</span><span id="modal-gender" class="font-bold"></span></div>
+                    </div>
+                    <div class="mt-2 border-t border-gray-200 pt-2">
+                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm" dir="ltr"></span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 w-full mb-4" id="modal-actions"></div>
+
+                <div class="w-full border-t-2 border-gray-100 pt-3 dark:border-gray-700">
+                    <h4 class="font-bold text-xs mb-2 flex items-center justify-between">
+                        <span>التقييمات</span>
+                        <span id="modal-stars-display" class="text-yellow-500 font-bold"></span>
+                    </h4>
+                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 p-1">
+                        <!-- تم تثبيت ارتفاع صندوق التقييمات لمنع الاهتزاز (h-[150px] بدلاً من max-h) -->
+                        <div id="modal-reviews-list" class="space-y-2 h-[150px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <script>
-        const jsonInput = document.getElementById('jsonInput');
-        const chatView = document.getElementById('chatView');
-        const treeView = document.getElementById('treeView');
-        const renderBtn = document.getElementById('renderBtn');
-        const fileInput = document.getElementById('fileInput');
+    <!-- RATE MODAL -->
+    <div id="rate-modal" class="modal-overlay hidden animate-pop">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
+            <h3 class="text-center font-bold mb-3 text-sm">تقييم التجربة</h3>
+            <form id="form-review">
+                <div class="star-rating mb-3 flex flex-row-reverse justify-center gap-1">
+                    <input type="radio" name="stars" id="s5" value="5"><label for="s5">★</label>
+                    <input type="radio" name="stars" id="s4" value="4"><label for="s4">★</label>
+                    <input type="radio" name="stars" id="s3" value="3"><label for="s3">★</label>
+                    <input type="radio" name="stars" id="s2" value="2"><label for="s2">★</label>
+                    <input type="radio" name="stars" id="s1" value="1"><label for="s1">★</label>
+                </div>
+                <textarea id="review-text" rows="2" placeholder="تعليقك..." class="w-full p-2 text-xs rounded-lg border-2 border-gray-200 mb-3"></textarea>
+                <div class="flex gap-2">
+                    <button type="button" id="btn-submit-rate" onclick="window.submitReview()" class="flex-1 bg-black text-white py-2 rounded-lg font-bold text-xs">إرسال</button>
+                    <button type="button" onclick="document.getElementById('rate-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        // دالة إصلاح ترميز اللغة العربية (Facebook Fix)
-        function fixEncoding(text) {
-            if (typeof text !== 'string') return text;
-            try {
-                // تحويل النص من Latin-1 إلى مصفوفة بايتات ثم إعادة قراءتها كـ UTF-8
-                return decodeURIComponent(escape(text));
-            } catch (e) {
-                return text; // إذا فشل الإصلاح، نرجع النص كما هو
-            }
-        }
+    <!-- CHAT ROOM -->
+    <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
+        <div class="h-14 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
+            <div class="flex items-center gap-2">
+                <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
+                <h3 id="chat-room-name" class="font-bold text-base">...</h3>
+            </div>
+            <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-xs border border-yellow-300">
+                ★ تقييم
+            </button>
+        </div>
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar"></div>
+        <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
+            <input type="text" id="msg-input" class="flex-1 p-2 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm" placeholder="اكتب رسالة..." autocomplete="off">
+            <button type="submit" id="btn-send-msg" class="p-2 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
+        </form>
+    </div>
 
-        // دالة معالجة النصوص داخل الكائن بالكامل
-        function fixAllStrings(obj) {
-            if (typeof obj === 'string') return fixEncoding(obj);
-            if (Array.isArray(obj)) return obj.map(fixAllStrings);
-            if (typeof obj === 'object' && obj !== null) {
-                const newObj = {};
-                for (let key in obj) {
-                    newObj[key] = fixAllStrings(obj[key]);
-                }
-                return newObj;
-            }
-            return obj;
-        }
+    <!-- NAV -->
+    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
+        <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
+        <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500">
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span class="text-[9px] font-bold">محادثات</span>
+            <span id="chat-nav-dot" class="hidden absolute top-1 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></span>
+        </button>
+        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] font-bold">حسابي</span></button>
+    </nav>
 
-        function showTab(type) {
-            ['chat', 'tree'].forEach(t => {
-                document.getElementById(`${t}View`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "px-6 py-4 text-sm font-bold text-gray-500 hover:text-gray-700";
-            });
-            document.getElementById(`${type}View`).classList.remove('hidden');
-            document.getElementById(`tab-${type}`).className = "px-6 py-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600";
-        }
+    <!-- LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, addDoc, where, updateDoc, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        function process() {
-            const raw = jsonInput.value.trim();
-            if (!raw) return;
-
-            try {
-                let data = JSON.parse(raw);
-                // إصلاح مشكلة اللغة العربية في كل البيانات
-                data = fixAllStrings(data);
-                
-                renderChat(data);
-                renderTree(data, treeView);
-                showTab('chat');
-            } catch (e) {
-                chatView.innerHTML = `<div class="bg-red-100 text-red-700 p-4 rounded-lg m-6">خطأ في ملف JSON: ${e.message}</div>`;
-            }
-        }
-
-        function renderChat(data) {
-            chatView.innerHTML = '';
-            let messages = [];
-
-            // التحقق من هيكل فيسبوك (messages داخل كائن)
-            if (data.messages && Array.isArray(data.messages)) {
-                messages = data.messages;
-            } else if (Array.isArray(data)) {
-                messages = data;
-            } else {
-                chatView.innerHTML = '<div class="text-center p-10 text-gray-500">لا توجد رسائل بصيغة مفهومة.</div>';
-                return;
-            }
-
-            // ترتيب الرسائل من الأقدم للأحدث (فيسبوك يخزنها بالعكس)
-            const sortedMessages = [...messages].sort((a, b) => a.timestamp_ms - b.timestamp_ms);
-
-            let lastSender = "";
-            sortedMessages.forEach(msg => {
-                const isMe = msg.sender_name === data.participants?.[1]?.name || false;
-                const time = new Date(msg.timestamp_ms).toLocaleString('ar-EG');
-                
-                const bubble = document.createElement('div');
-                bubble.className = `bubble ${isMe ? 'bubble-out' : 'bubble-in'}`;
-                
-                let html = '';
-                if (msg.sender_name !== lastSender) {
-                    html += `<div class="sender-name">${msg.sender_name}</div>`;
-                }
-                
-                if (msg.content) {
-                    html += `<div>${msg.content}</div>`;
-                } else if (msg.photos) {
-                    html += `<div class="text-gray-400 italic text-xs">[صورة]</div>`;
-                }
-
-                html += `<div class="timestamp">${time}</div>`;
-                
-                bubble.innerHTML = html;
-                chatView.appendChild(bubble);
-                lastSender = msg.sender_name;
-            });
-
-            // النزول لآخر رسالة
-            setTimeout(() => chatView.scrollTop = chatView.scrollHeight, 100);
-        }
-
-        function renderTree(data, container) {
-            container.innerHTML = '';
-            container.appendChild(buildTreeBranch(data));
-        }
-
-        function buildTreeBranch(data) {
-            if (typeof data === 'object' && data !== null) {
-                const isArr = Array.isArray(data);
-                const root = document.createElement('div');
-                const label = document.createElement('span');
-                label.className = "caret";
-                label.innerHTML = `<strong>${isArr ? 'Array' : 'Object'}</strong> {${Object.keys(data).length}}`;
-                
-                const list = document.createElement('div');
-                list.className = "nested";
-                
-                label.onclick = function() {
-                    this.classList.toggle('caret-down');
-                    list.classList.toggle('active');
-                };
-
-                for (let key in data) {
-                    const item = document.createElement('div');
-                    item.className = "ml-4 my-1 border-l pl-2";
-                    item.innerHTML = `<span class="text-purple-700 font-bold">${key}:</span> `;
-                    item.appendChild(buildTreeBranch(data[key]));
-                    list.appendChild(item);
-                }
-
-                root.appendChild(label);
-                root.appendChild(list);
-                return root;
-            } else {
-                const leaf = document.createElement('span');
-                if (typeof data === 'string') leaf.className = "text-green-600";
-                else if (typeof data === 'number') leaf.className = "text-blue-600";
-                leaf.textContent = typeof data === 'string' ? `"${data}"` : data;
-                return leaf;
-            }
-        }
-
-        fileInput.onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            document.getElementById('fileInfo').textContent = file.name;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                jsonInput.value = e.target.result;
-                process();
-            };
-            reader.readAsText(file);
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7XMCaPTY73bfs8On_woRiFC7dmw2pwP4",
+            authDomain: "services-cef84.firebaseapp.com",
+            databaseURL: "https://services-cef84-default-rtdb.firebaseio.com",
+            projectId: "services-cef84",
+            storageBucket: "services-cef84.firebasestorage.app",
+            messagingSenderId: "902396219187",
+            appId: "1:902396219187:web:1d2ae6eb91215b148bb846"
         };
 
-        renderBtn.onclick = process;
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const APP_ID = 'services-cef84';
+
+        const sharkiaData = {
+            "الزقازيق":["هرية رزنة","شيبة","العصلوجي","بنايوس","الزنكلون","كفر الحصر","كفر عبد العزيز","كفر الحمام","النكارية","الشبانات","شوبك بسطة","بيشة قايد","الطاهرة","الزهراء","طوخ","ميت أبو علي","كفر السواقي","كفر منلا","كفر أبو حسين","عزبة البكري","كفر محفوظ","كفر الشرفا","عزبة العرب","عزبة الجندي","كفر المزارقة","بيشة نوي","كفر داوود","برازيل","المسلمية","الطيبة","القومية","الجامعة","الزراعة","الغشام","المنتزه","حي الزهور","حي الحسينية","حي النحال","حي عمر بن الخطاب","ميدان عرابي","شارع فاروق","شارع الجلاء"],
+            "منيا القمح":["المدينة","السعديين","كفر السعديين","كفر الشيخ سفر","شرشرة","ميت سهيل","التلين","سنهوا","كفر سلامة","شلشلمون","بني هلال","عزبة الطباخ","صهرجت الكبرى","صهرجت الصغرى","العزيزية","كفر الشيخ إبراهيم","البناتية","ملّيوس","كفر العرب"],
+            "بلبيس":["المدينة","أنشاص الرمل","تل روزن","العلاقمة","غيتة","كفر أيوب سليمان","ميت ربيعة","سلمنت","الكتيبة","كفر أبودقن","العدلية","كفر أيوب","كفر إبراهيم العايدي","أولاد سيف","كفر أبو شحاتة","السعادات"],
+            "أبو حماد":["المدينة","كفر أبو نجم","الأسدية","عزبة أبو عامر","الصوة","الطحاوية","الدويانية","القطاوية","أبو خروع","كفر البلاسي","عزبة جودة"],
+            "فاقوس":["المدينة","الصوالح","الكيلانية","الملاحات","الديدامون","قنتير","السماعنة","سماكين الغرب","سماكين الشرق","أبو شلبي","النمروط","الغزالي","قهبونة","أبو ياسين","المنشأة الجديدة","جلفيا"],
+            "الحسينية":["المدينة","سعود","منشأة أبو عامر","العبودي","الجمالية","بحر البقر","الأخيوة","الروضة","المناجاة","القصبي شرق","القصبي غرب","العائط"],
+            "أبو كبير":["المدينة","الرحمانية","المشاعلة","طوخ القراموص","هربيط","أبو شحاتة","كفر الشيخ عيسى","بني عياض","كفر بني عياض","كفر أبو حطب"],
+            "ديرب نجم":["المدينة","صفط زريق","جميزة بني عمرو","ديرب البلد","الهوابر","عزبة يوسف","إكوه","المناصافور","طحا المرج"],
+            "كفر صقر":["المدينة","أبو الشقوق","حانوت","الهجارسة","القُرين القديمة","كفر السويركي"],
+            "أولاد صقر":["المدينة","تلراك","منشأة ناصف","بني حسن","الهجارسة","القطيع"],
+            "الإبراهيمية":["المدينة","كفور نجم","العدوة","السدس","كفر أبو شريعة","شلش"],
+            "مشتول السوق":["المدينة","سنهوا","الصحافة","المنير","العقدة","العريشية"],
+            "ههيا":["المدينة","العلاقمة","السكاكرة","المهدية","كفر أبو كبير","شرشيمة"],
+            "العاشر من رمضان":["المجاورة 1-10", "المجاورة 11-30", "المجاورة 31-50", "المنطقة الصناعية", "الأردنية"]
+        };
+
+        const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
+        const validImages =['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
+       
+        function populateProfessionsGlobally() {
+            const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
+            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
+            if(document.getElementById('signup-prof')) document.getElementById('signup-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
+            if(document.getElementById('req-prof')) document.getElementById('req-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
+            if(document.getElementById('job-title-select')) document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
+        }
+        populateProfessionsGlobally();
+
+        function getProfImage(profName) {
+            if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
+            let hash = 0;
+            for (let i = 0; i < profName.length; i++) hash = profName.charCodeAt(i) + ((hash << 5) - hash);
+            const index = Math.abs(hash) % validImages.length;
+            return `https://images.pexels.com/photos/${validImages[index]}?auto=compress&cs=tinysrgb&w=200`;
+        }
+
+        let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
+        let tempSelectedFile = null;
+
+        // متغيرات لإيقاف جلب البيانات عند تسجيل الخروج
+        let unsubChats, unsubProfiles, unsubMatching, unsubReviews, unsubJobs, unsubActivity;
+
+        let reqNotifs =[];
+        let reviewNotifs =[];
+
+        const CLOUD_NAME = "db9h7zm1h"; 
+        const UPLOAD_PRESET = "souq_upload";
+
+        window.uploadToCloudinary = async (file) => {
+            const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+            const fd = new FormData();
+            fd.append("file", file);
+            fd.append("upload_preset", UPLOAD_PRESET);
+            const res = await fetch(url, { method: "POST", body: fd });
+            if (!res.ok) throw new Error("فشل رفع الصورة");
+            const data = await res.json();
+            return data.secure_url; 
+        };
+
+        window.getCloudinaryUrl = (url, size = 'thumb') => {
+            if (!url) return 'https://via.placeholder.com/40';
+            if (url.startsWith('data:image') && url.length > 50000) return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239ca3af"%3E%3Cpath d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/%3E%3C/svg%3E';
+            if (!url.includes('res.cloudinary.com')) return url; 
+            const parts = url.split('/upload/');
+            if (parts.length < 2) return url;
+            if (size === 'thumb') return `${parts[0]}/upload/w_100,h_100,c_fill,q_auto,f_auto/${parts[1]}`;
+            if (size === 'medium') return `${parts[0]}/upload/w_500,c_limit,q_auto,f_auto/${parts[1]}`;
+            return `${parts[0]}/upload/q_auto,f_auto/${parts[1]}`;
+        };
+
+        // دالة لمعالجة النصوص العربية وتجاهل اختلافات الهمزات وغيرها
+        window.normalizeArabic = (text) => {
+            if(!text) return '';
+            return text.replace(/[أإآ]/g, 'ا')
+                       .replace(/ة/g, 'ه')
+                       .replace(/ى/g, 'ي')
+                       .replace(/ً|ٌ|ٍ|َ|ُ|ِ|ّ|ْ/g, "");
+        };
+
+        window.showToast = (msg, type='success') => {
+            const box = document.getElementById('toast-box');
+            const el = document.createElement('div');
+            el.className = `toast-msg ${type}`;
+            el.innerText = msg;
+            box.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('show'));
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
+        };
+
+        window.handleImageUpload = (input, previewId) => {
+            if (input.files[0]) {
+                tempSelectedFile = input.files[0];
+                document.getElementById(previewId).src = URL.createObjectURL(input.files[0]);
+            }
+        };
+
+        window.navToActivity = (tab) => {
+            window.navTo('activity');
+            window.switchActivityTab(tab);
+        };
+
+        window.switchActivityTab = (tab) => {
+            if (tab === 'my-activity') {
+                document.getElementById('view-my-activity').classList.remove('hidden');
+                document.getElementById('view-matching-reqs').classList.add('hidden');
+                document.getElementById('tab-act-mine').classList.add('bg-black', 'text-white');
+                document.getElementById('tab-act-mine').classList.remove('text-gray-500');
+                document.getElementById('tab-act-matching').classList.remove('bg-black', 'text-white');
+                document.getElementById('tab-act-matching').classList.add('text-gray-500');
+            } else {
+                document.getElementById('view-my-activity').classList.add('hidden');
+                document.getElementById('view-matching-reqs').classList.remove('hidden');
+                document.getElementById('tab-act-matching').classList.add('bg-black', 'text-white');
+                document.getElementById('tab-act-matching').classList.remove('text-gray-500');
+                document.getElementById('tab-act-mine').classList.remove('bg-black', 'text-white');
+                document.getElementById('tab-act-mine').classList.add('text-gray-500');
+                
+                const badge1 = document.getElementById('act-notif-badge');
+                if(badge1) badge1.classList.add('hidden');
+            }
+        };
+
+        window.navTo = (pageId) => {
+            if(pageId === 'chat') {
+                localStorage.setItem(`chatTabLastOpened_${currentUser.uid}`, Date.now().toString());
+                document.getElementById('chat-nav-dot').classList.add('hidden');
+            }
+
+            if (pageId === 'chat-room') {
+                document.getElementById('page-chat-room').classList.remove('hidden');
+                navStack.push('chat-room'); return;
+            }
+            document.getElementById('page-chat-room').classList.add('hidden');
+            if (chatListener) { chatListener(); chatListener = null; }
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+           
+            const backBtn = document.getElementById('btn-back');
+            if (pageId === 'home') { 
+                document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`; 
+                backBtn.classList.add('hidden'); 
+            }
+            else { 
+                backBtn.classList.remove('hidden'); 
+                if (pageId === 'activity') document.getElementById('page-title').innerText = 'النشاط والطلبات';
+                else if(pageId === 'category-details') {} // Text set in openCategory
+                else document.getElementById('page-title').innerText = 'رجوع'; 
+            }
+           
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
+            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4, 'activity':4}; 
+            if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
+            
+            if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
+        };
+
+        window.goBack = () => {
+            if (navStack.length > 1) {
+                navStack.pop();
+                const prevPage = navStack[navStack.length-1];
+                document.getElementById('page-chat-room').classList.add('hidden');
+                if (prevPage !== 'chat-room') {
+                    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+                    document.getElementById(`page-${prevPage}`).classList.remove('hidden');
+                }
+                if (prevPage === 'home') {
+                    document.getElementById('btn-back').classList.add('hidden');
+                    document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
+                } else if (prevPage === 'activity') {
+                    document.getElementById('page-title').innerText = 'النشاط والطلبات';
+                } else if(prevPage === 'category-details') {
+                    document.getElementById('page-title').innerText = currentCategory || 'رجوع';
+                } else {
+                    document.getElementById('page-title').innerText = 'رجوع';
+                }
+            }
+        };
+
+        function initApp() {
+            renderProfessionsGrid(professions);
+            document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile.name}</span>`;
+            
+            // إظهار أو إخفاء التبويبات الخاصة بمقدم الخدمة
+            if(userProfile.role === 'provider') {
+                document.getElementById('tab-act-matching').classList.remove('hidden');
+                document.getElementById('btn-profile-matching').classList.remove('hidden');
+            } else {
+                document.getElementById('tab-act-matching').classList.add('hidden');
+                document.getElementById('btn-profile-matching').classList.add('hidden');
+            }
+        }
+
+        function renderProfessionsGrid(list) {
+            const grid = document.getElementById('professions-grid');
+            const html = list.map(p => `
+                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
+                    <img src="${getProfImage(p)}" class="w-full h-full object-cover">
+                    <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
+                        <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
+                    </div>
+                </div>
+            `).join('');
+            grid.innerHTML = html;
+        }
+
+        window.updateVillages = (prefix = 'signup') => {
+            const centerSelect = document.getElementById(`${prefix}-center`);
+            const villageSelect = document.getElementById(`${prefix}-village`);
+            const selectedCenter = centerSelect.value;
+            villageSelect.innerHTML = '<option value="">القرية...</option>';
+            if (selectedCenter && sharkiaData[selectedCenter]) {
+                sharkiaData[selectedCenter].forEach(village => {
+                    const opt = document.createElement('option');
+                    opt.value = village;
+                    opt.innerText = village;
+                    villageSelect.appendChild(opt);
+                });
+            }
+        };
+
+        function populateCenters(prefix = 'signup') {
+            const centerSelect = document.getElementById(`${prefix}-center`);
+            centerSelect.innerHTML = '<option value="">المركز...</option>';
+            Object.keys(sharkiaData).forEach(center => {
+                const opt = document.createElement('option');
+                opt.value = center;
+                opt.innerText = center;
+                centerSelect.appendChild(opt);
+            });
+        }
+
+        let searchTimeout;
+        window.filterProfessions = () => {
+            clearTimeout(searchTimeout);
+            const term = document.getElementById('prof-search').value.trim();
+            searchTimeout = setTimeout(() => {
+                if(!term) { renderProfessionsGrid(professions); return; }
+                // Use normalizer here too if you wish, but exact match for categories is usually fine
+                const normTerm = window.normalizeArabic(term).toLowerCase();
+                renderProfessionsGrid(professions.filter(p => window.normalizeArabic(p).toLowerCase().includes(normTerm)));
+            }, 200);
+        };
+
+        window.switchAuthMode = (mode) => {
+            const btnLogin = document.getElementById('btn-mode-login');
+            const btnSignup = document.getElementById('btn-mode-signup');
+            const formLogin = document.getElementById('form-login');
+            const formSignup = document.getElementById('form-signup');
+
+            if(mode === 'login'){
+                formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+            } else {
+                formLogin.classList.add('hidden'); formSignup.classList.remove('hidden');
+                populateCenters();
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+            }
+        };
+
+        window.toggleProfVisibility = (show) => document.getElementById('prof-container').style.display = show ? 'block' : 'none';
+
+        const phoneToEmail = (phone) => `user_${phone}@dalil-sharkia.com`;
+
+        document.getElementById('form-login').onsubmit = async (e) => {
+            e.preventDefault(); 
+            const phoneVal = document.getElementById('login-phone').value;
+            if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
+            document.getElementById('loader').classList.remove('hidden');
+            try { await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); }
+            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); document.getElementById('loader').classList.add('hidden'); }
+        };
+
+        document.getElementById('form-signup').onsubmit = async (e) => {
+            e.preventDefault(); 
+            const phoneVal = document.getElementById('signup-phone').value;
+            if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
+
+            document.getElementById('loader').classList.remove('hidden');
+            try {
+                const role = document.querySelector('input[name="role"]:checked').value;
+                const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
+                if(role === 'provider' && !prof) throw new Error('اختر المهنة');
+               
+                const center = document.getElementById('signup-center').value;
+                const village = document.getElementById('signup-village').value;
+                if(!center || !village) throw new Error('يرجى اختيار الموقع');
+
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const userName = document.getElementById('signup-name').value;
+                
+                let finalPhotoURL = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
+                if (tempSelectedFile) {
+                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
+                    tempSelectedFile = null; 
+                }
+
+                const cred = await createUserWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('signup-pass').value);
+
+                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
+                    uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, role, profession: prof, 
+                    photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
+                    createdAt: new Date().toISOString()
+                });
+                window.showToast('تم التسجيل بنجاح');
+            } catch (err) { 
+                let errorMsg = err.message;
+                if (err.code === 'auth/email-already-in-use') errorMsg = 'رقم الهاتف مستخدم مسبقاً لحساب آخر';
+                if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
+                window.showToast(errorMsg, 'error'); 
+                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
+                document.getElementById('loader').classList.add('hidden'); 
+            }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                if(userProfile && userProfile.uid === user.uid) { document.getElementById('loader').classList.add('hidden'); return; }
+               
+                try {
+                    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
+                    if (snap.exists()) {
+                        userProfile = snap.data();
+                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
+                       
+                        document.getElementById('auth-view').classList.add('hidden');
+                        document.getElementById('app-view').classList.remove('hidden');
+                        document.getElementById('app-header').classList.remove('hidden');
+                        document.getElementById('nav-bar').classList.remove('hidden');
+                        document.getElementById('header-avatar').src = window.getCloudinaryUrl(userProfile.photoURL, 'thumb');
+
+                        document.getElementById('prof-name-view').innerText = userProfile.name;
+                        document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
+                        document.getElementById('prof-address-view').innerText = `${userProfile.area || ''} - ${userProfile.city || ''}`;
+                        document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
+
+                        document.getElementById('edit-name').value = userProfile.name;
+                        document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
+                        document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
+                       
+                        populateCenters('edit'); document.getElementById('edit-center').value = userProfile.city || '';
+                        window.updateVillages('edit'); setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+
+                        initApp(); startListeners(); window.navTo('home');
+                    } else {
+                        signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
+                    }
+                } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); }
+                document.getElementById('loader').classList.add('hidden');
+            } else {
+                document.getElementById('app-view').classList.add('hidden');
+                document.getElementById('app-header').classList.add('hidden');
+                document.getElementById('nav-bar').classList.add('hidden');
+                document.getElementById('auth-view').classList.remove('hidden');
+                document.getElementById('loader').classList.add('hidden');
+            }
+        });
+
+        function renderNotificationsList() {
+            let allNotifs =[...reqNotifs, ...reviewNotifs];
+            allNotifs.sort((a,b) => b.time - a.time);
+            
+            let unreadCount = 0;
+            const notifKey = `notifSeen_${currentUser.uid}`;
+            const lastSeenN = parseInt(localStorage.getItem(notifKey) || '0');
+            
+            const html = allNotifs.map(n => {
+                const isNew = n.time > lastSeenN;
+                if(isNew) unreadCount++;
+                return `
+                <div class="p-3 ${isNew ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'} rounded-lg border mb-2 relative transition-colors">
+                    ${isNew ? '<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>' : ''}
+                    <p class="text-[10px] font-bold ${isNew ? 'text-black dark:text-white' : 'text-gray-600 dark:text-gray-300'} pl-3">${n.text}</p>
+                    <span class="block mt-1 text-[9px] text-gray-400 font-bold">${new Date(n.time).toLocaleString('ar-EG')}</span>
+                </div>`;
+            }).join('');
+            
+            document.getElementById('notif-list').innerHTML = html || '<p class="text-center text-[10px] font-bold text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
+            
+            if(unreadCount > 0 && userProfile.settings?.notifEnabled) document.getElementById('notif-dot').classList.remove('hidden');
+            else document.getElementById('notif-dot').classList.add('hidden');
+        }
+
+        window.toggleNotifPanel = () => {
+            const panel = document.getElementById('notif-panel');
+            panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) {
+                localStorage.setItem(`notifSeen_${currentUser.uid}`, Date.now().toString());
+                renderNotificationsList();
+            }
+        };
+
+        window.renderChatsUI = function() {
+            const list = document.getElementById('chat-history-list');
+            
+            if(myChatsCache.length === 0) { 
+                list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد محادثات</p>'; 
+                document.getElementById('chat-nav-dot').classList.add('hidden');
+                return; 
+            }
+
+            myChatsCache.sort((a,b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
+
+            let hasUnreadChatsForTab = false;
+            const chatTabLastOpened = parseInt(localStorage.getItem(`chatTabLastOpened_${currentUser.uid}`) || '0');
+
+            const html = myChatsCache.map(c => {
+                const otherId = c.users.find(u => u !== currentUser.uid);
+                const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم (جاري التحميل...)', photoURL: 'https://via.placeholder.com/40' };
+                
+                const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
+                
+                const chatSeenKey = `chatSeen_${currentUser.uid}_${c.id}`;
+                const lastSeenThisChat = parseInt(localStorage.getItem(chatSeenKey) || '0');
+                const isNew = (new Date(c.lastUpdated || 0).getTime() > lastSeenThisChat) && (c.lastSenderId !== currentUser.uid);
+
+                if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) {
+                    hasUnreadChatsForTab = true;
+                }
+
+                return `
+                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
+                       <div class="flex-1 min-w-0">
+                           <div class="flex justify-between items-center mb-1">
+                               <h4 class="font-bold text-[11px] dark:text-white truncate">${otherUser.name}</h4>
+                               <span class="text-[9px] text-gray-500 font-bold bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">${time}</span>
+                           </div>
+                           <p class="text-[10px] truncate ${isNew?'font-bold text-black dark:text-white':'text-gray-500'}">${c.lastMessage || '...'}</p>
+                       </div>
+                       ${isNew ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></div>' : ''}
+                   </div>
+                `;
+            }).join('');
+            
+            list.innerHTML = html;
+            
+            const chatTabActive = navStack[navStack.length-1] === 'chat';
+            if (hasUnreadChatsForTab && !chatTabActive) {
+                document.getElementById('chat-nav-dot').classList.remove('hidden');
+            } else {
+                document.getElementById('chat-nav-dot').classList.add('hidden');
+            }
+        };
+
+        function startListeners() {
+            const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
+            unsubChats = onSnapshot(chatQuery, (snap) => {
+                myChatsCache =[];
+                snap.forEach(d => myChatsCache.push({id: d.id, ...d.data()}));
+                window.renderChatsUI(); 
+            });
+
+            unsubProfiles = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
+                allUsersCache =[];
+                snap.forEach(d => {
+                    const u = d.data();
+                    if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
+                });
+                window.renderDirectory(); 
+                if(currentCategory) window.filterCategory();
+                window.renderChatsUI(); 
+            });
+
+            if(userProfile.role === 'provider') {
+                const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
+                unsubMatching = onSnapshot(q, (snap) => {
+                    const container = document.getElementById('matching-reqs-list'); 
+                    container.innerHTML = '';
+                    reqNotifs =[]; 
+                    const html =[];
+                    let hasNewMatching = false;
+                   
+                    snap.forEach(d => {
+                        const req = d.data();
+                        if(req.uid === currentUser.uid || req.profession !== userProfile.profession) return; 
+
+                        reqNotifs.push({ id: d.id, time: new Date(req.createdAt).getTime(), text: `🔔 يوجد طلب جديد لمهنتك (${req.profession}) من ${req.requesterName}` });
+
+                        const hasPhone = req.phone && req.phone.length > 5;
+                        const notifKey = `notifSeen_${currentUser.uid}`;
+                        const isNew = new Date(req.createdAt).getTime() > parseInt(localStorage.getItem(notifKey) || '0');
+                        if (isNew) hasNewMatching = true;
+
+                        const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
+
+                        html.push(`
+                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative animate-fade hover:-translate-y-0.5 transition-transform">
+                                ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
+                                
+                                <div class="flex items-start gap-2 mb-2">
+                                    <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">طالب الخدمة:</span> <strong class="text-black dark:text-white">${req.requesterName}</strong></span>
+                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(req.createdAt).toLocaleDateString('ar-EG')}</span>
+                                        </div>
+                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة المطلوبة:</span> <strong class="text-black dark:text-white">${req.profession}</strong></div>
+                                        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                            <span class="text-gray-500 font-bold">الوصف:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${req.desc}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    <button onclick="window.openChat('${req.uid}','${req.requesterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center active:scale-95 transition-transform">
+                                        محادثة
+                                    </button>
+                                    ${hasPhone ? `
+                                    <a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center active:scale-95 transition-transform">
+                                        WhatsApp
+                                    </a>` : ''}
+                                </div>
+                            </div>
+                        `);
+                    });
+                   
+                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2 font-bold">لا توجد طلبات تناسبك حالياً</p>';
+                    else container.innerHTML = html.join('');
+
+                    if (hasNewMatching) {
+                        const badge = document.getElementById('act-notif-badge');
+                        if(badge && document.getElementById('view-matching-reqs').classList.contains('hidden')) badge.classList.remove('hidden');
+                    }
+
+                    renderNotificationsList();
+                });
+            }
+
+            // إشعارات التقييمات
+            const qRev = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', currentUser.uid));
+            unsubReviews = onSnapshot(qRev, (snap) => {
+                reviewNotifs =[];
+                snap.forEach(d => {
+                    const rev = d.data();
+                    reviewNotifs.push({
+                        id: d.id,
+                        time: new Date(rev.createdAt).getTime(),
+                        text: `⭐ قام ${rev.fromName} بتقييمك بـ ${rev.stars} نجوم: "${rev.comment}"`
+                    });
+                });
+                renderNotificationsList();
+            });
+
+            unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
+                const list = document.getElementById('view-jobs');
+                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد وظائف حالياً</p>'; return; }
+                const html =[];
+                snap.forEach(d => {
+                    const j = d.data();
+                    const hasPhone = j.contactPhone && j.contactPhone.length > 5;
+                    const isMyPost = j.uid === currentUser.uid;
+                    html.push(`
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade hover:-translate-y-0.5 transition-transform">
+                            <div class="p-2.5">
+                                <div class="flex items-start gap-2 mb-2">
+                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
+                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
+                                        </div>
+                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-1.5 mb-2 flex-wrap">
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
+                                    ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
+                                    ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
+                                    ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
+                                </div>
+                                
+                                <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                    <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                    ${hasPhone && !isMyPost ? `
+                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+                                        WhatsApp
+                                    </a>` : ''}
+                                </div>
+                            </div>
+                        </div>`);
+                });
+                list.innerHTML = html.join('');
+            });
+
+            const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
+            unsubActivity = onSnapshot(qActivity, (snap) => {
+                const list = document.getElementById('my-activity'); list.innerHTML = '';
+                const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
+                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
+                
+                docs.forEach((act) => {
+                    const el = document.createElement('div');
+                    const isJob = act.type === 'job';
+                    el.className = `bg-gray-50 dark:bg-gray-700 p-2 rounded-xl mb-2 flex items-start gap-2 border border-black dark:border-gray-500 shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_#6b7280]`;
+                    el.innerHTML = `
+                        <div class="flex-1 min-w-0 pr-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-[10px]"><span class="text-gray-500 font-bold">النوع:</span> <strong class="text-black dark:text-white">${isJob ? 'طلب توظيف' : 'طلب خدمة'}</strong></span>
+                                <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(act.createdAt).toLocaleDateString('ar-EG')}</span>
+                            </div>
+                            <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-black dark:text-white">${isJob ? act.title : act.profession}</strong></div>
+                            <div class="text-[9px] text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 p-1.5 rounded border border-gray-200 dark:border-gray-600 truncate">
+                                <span class="text-gray-500 font-bold">الوصف:</span> ${act.desc || 'بدون وصف'}
+                            </div>
+                        </div>
+                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">
+                            حذف
+                        </button>
+                    `;
+                    list.appendChild(el);
+                });
+            });
+        }
+
+        window.deleteRequest = async (id) => { if(confirm('حذف هذا النشاط؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
+
+        window.openProfileModal = async (userStr) => {
+            const user = JSON.parse(decodeURIComponent(userStr));
+            currentModalUserId = user.uid;
+            document.getElementById('modal-img').src = window.getCloudinaryUrl(user.photoURL, 'medium');
+            document.getElementById('modal-name').innerText = user.name;
+            document.getElementById('modal-role').innerText = user.role === 'provider' ? user.profession : 'عميل';
+            document.getElementById('modal-addr').innerText = `${user.area || ''} - ${user.city || ''}`;
+            document.getElementById('modal-phone-disp').innerText = (user.settings?.hidePhone) ? 'مخفي 🔒' : user.phone;
+            document.getElementById('modal-gender').innerText = user.gender === 'male' ? 'ذكر' : 'أنثى';
+
+            const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
+            if (!user.settings?.hidePhone) {
+                const justPhone = user.phone.replace('+20', '');
+                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 bg-green-500 text-white rounded-lg font-bold text-xs text-center hover:bg-green-600 shadow flex items-center justify-center gap-1">WhatsApp</a>`;
+            }
+            const chatBtn = document.createElement('button');
+            chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800";
+            chatBtn.innerText = "محادثة";
+            chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid, user.name); };
+            actionsDiv.appendChild(chatBtn);
+           
+            loadReviews(user.uid);
+            document.getElementById('profile-modal').classList.remove('hidden');
+        };
+
+        async function loadReviews(targetId) {
+             const list = document.getElementById('modal-reviews-list');
+             const starsDisplay = document.getElementById('modal-stars-display');
+             list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2">جاري التحميل...</p>';
+             const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', targetId));
+             const snap = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js").then(m => m.getDocs(q));
+             list.innerHTML = '';
+             let totalStars = 0;
+             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2 font-bold mt-4">لا توجد تقييمات حتى الآن</p>'; starsDisplay.innerText = '0.0'; }
+             else {
+                 const reviews =[]; snap.forEach(d => reviews.push(d.data()));
+                 reviews.forEach((r) => {
+                     totalStars += parseInt(r.stars);
+                     const el = document.createElement('div');
+                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600`;
+                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
+                     list.appendChild(el);
+                 });
+                 starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
+             }
+        }
+
+        window.submitReview = async () => {
+            const btn = document.getElementById('btn-submit-rate');
+            const text = document.getElementById('review-text').value;
+            const stars = document.querySelector('input[name="stars"]:checked')?.value;
+            if(!stars || !currentChatId) return window.showToast('أدخل التقييم أولاً', 'error');
+            btn.innerText = '...'; btn.disabled = true;
+            try {
+                const otherUserId = currentChatId.replace(currentUser.uid, '').replace('_', '');
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), {
+                    fromId: currentUser.uid, fromName: userProfile.name, fromPhoto: userProfile.photoURL,
+                    toId: otherUserId, stars, comment: text || '', createdAt: new Date().toISOString()
+                });
+                window.showToast('تم إرسال التقييم');
+                document.getElementById('rate-modal').classList.add('hidden');
+                document.getElementById('form-review').reset();
+            } catch(e) { window.showToast('خطأ', 'error'); } finally { btn.innerText = 'إرسال'; btn.disabled = false; }
+        };
+
+        document.getElementById('form-message').onsubmit = async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim();
+            if(!text || !currentChatId) return;
+            
+            input.value = '';
+            try {
+                const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
+                await addDoc(msgsRef, {
+                    text: text, senderId: currentUser.uid, createdAt: new Date().toISOString()
+                });
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                    lastMessage: text, lastUpdated: new Date().toISOString(), lastSenderId: currentUser.uid
+                });
+            } catch (err) { window.showToast('فشل إرسال الرسالة', 'error'); }
+        };
+
+        window.openChat = (uid, name) => {
+            currentChatId =[currentUser.uid, uid].sort().join('_');
+            document.getElementById('chat-room-name').innerText = name;
+            
+            const chatSeenKey = `chatSeen_${currentUser.uid}_${currentChatId}`;
+            localStorage.setItem(chatSeenKey, Date.now().toString());
+            
+            window.navTo('chat-room');
+            window.renderChatsUI(); 
+           
+            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                users:[currentUser.uid, uid],
+            }, { merge: true });
+
+            const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
+            const q = query(msgsRef, orderBy('createdAt', 'asc'));
+            if (chatListener) chatListener();
+            chatListener = onSnapshot(q, (snap) => {
+                const box = document.getElementById('messages-container'); box.innerHTML = '';
+                const html =[];
+                snap.forEach(d => {
+                    const m = d.data();
+                    const isMe = m.senderId === currentUser.uid;
+                    html.push(`<div class="flex ${isMe?'justify-end':'justify-start'} animate-fade"><div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">${m.text}</div></div>`);
+                });
+                box.innerHTML = html.join('');
+                box.scrollTop = box.scrollHeight;
+                
+                if (navStack[navStack.length-1] === 'chat-room') {
+                    localStorage.setItem(chatSeenKey, Date.now().toString());
+                }
+            });
+        };
+
+        window.renderDirectory = () => {
+            const cont = document.getElementById('dir-list');
+            const list = allUsersCache.slice(0,50);
+            cont.innerHTML = list.map(u => createUserCard(u)).join('');
+        };
+
+        window.filterDirectory = () => {
+            const term = window.normalizeArabic(document.getElementById('dir-search').value.trim().toLowerCase());
+            const cont = document.getElementById('dir-list');
+            const filtered = term ? allUsersCache.filter(u => 
+                window.normalizeArabic(u.name).toLowerCase().includes(term) || 
+                (u.profession && window.normalizeArabic(u.profession).toLowerCase().includes(term))
+            ) : allUsersCache.slice(0,50);
+            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+        };
+
+        let currentCategory = '';
+        window.openCategory = (profName) => {
+            currentCategory = profName;
+            document.getElementById('cat-search').value = ''; 
+            window.navTo('category-details');
+            document.getElementById('page-title').innerText = profName;
+            window.filterCategory();
+        };
+
+        // بحث داخل القسم مع تجاهل الهمزات والتاء المربوطة
+        window.filterCategory = () => {
+            const term = window.normalizeArabic(document.getElementById('cat-search').value.trim().toLowerCase());
+            const cont = document.getElementById('cat-list-container');
+            const catUsers = allUsersCache.filter(u => u.profession === currentCategory);
+            
+            const filtered = term ? catUsers.filter(u => 
+                window.normalizeArabic(u.name).toLowerCase().includes(term)
+            ) : catUsers;
+
+            if(filtered.length === 0) { 
+                cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; 
+                return; 
+            }
+            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+        };
+
+        function createUserCard(u) {
+            const userStr = encodeURIComponent(JSON.stringify(u));
+            const joinDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString('ar-EG') : 'غير متوفر';
+            const locationStr =[u.area, u.city].filter(Boolean).join(' - ') || 'غير محدد';
+            const isClient = u.role === 'client';
+            
+            return `
+            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer hover:-translate-y-0.5 transition-transform mb-2 flex items-start gap-2.5">
+                <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
+                <div class="flex-1 min-w-0">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="text-[10px]"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
+                        <span class="text-[9px] text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+                    </div>
+                    ${!isClient ? `<div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                    <div class="text-[10px]"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
+                </div>
+            </div>`;
+        }
+       
+        window.saveProfileChanges = async () => {
+            try {
+                document.getElementById('loader').classList.remove('hidden');
+                let finalPhotoURL = userProfile.photoURL;
+                if (tempSelectedFile) {
+                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
+                    tempSelectedFile = null;
+                }
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
+                    name: document.getElementById('edit-name').value, phone: `+20${document.getElementById('edit-phone').value}`,
+                    city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, photoURL: finalPhotoURL
+                });
+                window.location.reload();
+            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); document.getElementById('loader').classList.add('hidden'); }
+        };
+       
+        window.saveSettings = async () => {
+            try {
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: {
+                    notifEnabled: document.getElementById('toggle-notif').checked,
+                    hidePhone: document.getElementById('toggle-hide-phone').checked,
+                    hideProfile: document.getElementById('toggle-hide-profile').checked
+                }});
+                window.showToast('تم الحفظ بنجاح'); window.goBack();
+            } catch (e) { window.showToast('خطأ', 'error'); }
+        };
+
+        window.switchAddMode = (mode) => {
+            const btnReq = document.getElementById('btn-add-req');
+            const btnJob = document.getElementById('btn-add-job');
+            const formReq = document.getElementById('form-req');
+            const formJob = document.getElementById('form-job');
+
+            if (mode === 'req') {
+                formReq.classList.remove('hidden'); formJob.classList.add('hidden');
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all";
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all";
+            } else {
+                formReq.classList.add('hidden'); formJob.classList.remove('hidden');
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all";
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all";
+            }
+        };
+       
+        document.getElementById('form-job').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                let title = document.getElementById('job-title-select').value;
+                if (title === 'أخرى') title = document.getElementById('job-custom-title').value;
+                if(!title) throw new Error('أدخل المسمى الوظيفي');
+
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), {
+                    type: 'job', title: title, salary: document.getElementById('job-salary').value, hours: document.getElementById('job-hours').value,
+                    shift: document.getElementById('job-shift').value, jobType: document.getElementById('job-type').value, desc: document.getElementById('job-desc').value,
+                    contactPhone: document.getElementById('job-phone').value, posterName: userProfile.name, posterPhoto: userProfile.photoURL,
+                    posterPhone: userProfile.phone, uid: currentUser.uid, createdAt: new Date().toISOString()
+                });
+                window.showToast('تم النشر بنجاح'); e.target.reset(); window.goBack();
+            } catch(err) { window.showToast(err.message || 'حدث خطأ', 'error'); }
+        };
+       
+        document.getElementById('form-req').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), {
+                    type: 'service', profession: document.getElementById('req-prof').value, desc: document.getElementById('req-desc').value,
+                    phone: document.getElementById('req-phone').value, uid: currentUser.uid, requesterName: userProfile.name, requesterPhoto: userProfile.photoURL,
+                    createdAt: new Date().toISOString()
+                });
+                window.showToast('تم النشر بنجاح'); e.target.reset(); window.goBack();
+            } catch(err) { window.showToast('خطأ', 'error'); }
+        };
+       
+        window.switchHomeTab = (tab) => { 
+            if (tab === 'services') { 
+                document.getElementById('view-services').classList.remove('hidden'); 
+                document.getElementById('view-jobs').classList.add('hidden'); 
+                document.getElementById('prof-search-box').classList.remove('hidden'); 
+                document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); 
+                document.getElementById('tab-home-serv').classList.remove('text-gray-500'); 
+                document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); 
+                document.getElementById('tab-home-jobs').classList.add('text-gray-500'); 
+            } else { 
+                document.getElementById('view-services').classList.add('hidden'); 
+                document.getElementById('view-jobs').classList.remove('hidden'); 
+                document.getElementById('prof-search-box').classList.add('hidden'); 
+                document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); 
+                document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); 
+                document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); 
+                document.getElementById('tab-home-serv').classList.add('text-gray-500'); 
+            } 
+        };
+
+        window.logout = () => { 
+            // تسجيل الخروج وإيقاف المستمعين
+            signOut(auth); 
+            navStack =['home']; 
+            if(unsubChats) unsubChats();
+            if(unsubProfiles) unsubProfiles();
+            if(unsubMatching) unsubMatching();
+            if(unsubReviews) unsubReviews();
+            if(unsubJobs) unsubJobs();
+            if(unsubActivity) unsubActivity();
+
+            // تفريغ الكاش
+            reqNotifs = [];
+            reviewNotifs = [];
+            myChatsCache =[];
+            allUsersCache =[];
+            
+            // تفريغ الواجهة لمنع تسريب بيانات الحساب الأول للحساب الثاني
+            document.getElementById('notif-list').innerHTML = '<p class="text-center text-[10px] font-bold text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
+            document.getElementById('notif-dot').classList.add('hidden');
+            document.getElementById('my-activity').innerHTML = '';
+            document.getElementById('matching-reqs-list').innerHTML = '';
+            document.getElementById('chat-history-list').innerHTML = '';
+            const badge = document.getElementById('act-notif-badge');
+            if(badge) badge.classList.add('hidden');
+        };
+
+        window.toggleTheme = () => document.documentElement.classList.toggle('dark');
     </script>
 </body>
 </html>
-
-
