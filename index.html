@@ -57,9 +57,17 @@
         @keyframes popIn { from { transform: scale(0.98); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .animate-pop { animation: popIn 0.08s ease-out forwards; will-change: transform, opacity; }
 
-        .modal-overlay { position: fixed; inset: 0; z-index: 100; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        /* تعديلات الـ Modals لدعم الكيبورد بشكل مثالي */
+        .modal-overlay { position: fixed; inset: 0; z-index: 100; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 1rem; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .modal-overlay > div { margin: auto; } /* يسمح بالتمرير إذا زاد حجم النافذة عن الشاشة بسبب الكيبورد */
+        
         .mobile-full-modal { position: relative; width: 100%; max-width: 32rem; background-color: #ffffff; display: flex; flex-direction: column; max-height: 90vh; height: auto; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        @media (max-width: 767px) { .mobile-full-modal { height: 100dvh; max-height: 100dvh; border-radius: 0; } .modal-overlay { padding: 0; } }
+        
+        @media (max-width: 767px) { 
+            /* استخدام 100% بدلاً من 100dvh لمنع القفز العشوائي مع الكيبورد */
+            .mobile-full-modal { height: 100%; max-height: 100%; border-radius: 0; } 
+            .modal-overlay { padding: 0; align-items: flex-start; } 
+        }
         .dark .mobile-full-modal { background-color: #1e293b; }
 
         .sticky-header { z-index: 40; background-color: #064e3b; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
@@ -117,7 +125,6 @@
     </div>
 
     <div id="app-content-wrapper">
-        <!-- تم تعديل z-index ليكون 99999 لتظهر فوق لوحة التحكم -->
         <div id="toast-container" class="fixed top-4 left-0 right-0 z-[99999] flex flex-col items-center gap-2 pointer-events-none px-4"></div>
 
         <header class="fixed top-0 w-full sticky-header flex items-center justify-between px-4 h-14">
@@ -233,7 +240,6 @@
 
         <div id="logout-modal" class="hidden modal-overlay" style="z-index: 150;"><div class="relative w-full max-w-xs bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 text-center animate-pop border border-slate-200 dark:border-slate-700"><div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100 dark:border-red-800/50"><i data-lucide="log-out" class="w-8 h-8"></i></div><h3 class="text-lg font-black text-slate-800 dark:text-white mb-2">تسجيل الخروج</h3><p class="text-xs text-slate-500 dark:text-slate-400 mb-6">هل أنت متأكد أنك تريد تسجيل الخروج من حسابك الحالي؟</p><div class="flex gap-2"><button onclick="confirmLogout()" class="flex-1 bg-red-500 text-white py-2.5 rounded-xl font-bold text-sm shadow hover:bg-red-600 transition-all active:scale-95">نعم، خروج</button><button onclick="toggleModal('logout-modal')" class="flex-1 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white py-2.5 rounded-xl font-bold text-sm shadow-sm transition-all active:scale-95 border dark:border-slate-700">إلغاء</button></div></div></div>
 
-        <!-- نافذة تأكيد الحذف العصرية -->
         <div id="delete-modal" class="hidden modal-overlay" style="z-index: 150;"><div class="relative w-full max-w-xs bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 text-center animate-pop border border-slate-200 dark:border-slate-700"><div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100 dark:border-red-800/50"><i data-lucide="trash-2" class="w-8 h-8"></i></div><h3 class="text-lg font-black text-slate-800 dark:text-white mb-2">تأكيد الحذف</h3><p class="text-xs text-slate-500 dark:text-slate-400 mb-6">هل أنت متأكد أنك تريد حذف هذا العقار نهائياً؟</p><div class="flex gap-2"><button onclick="confirmDelete()" class="flex-1 bg-red-500 text-white py-2.5 rounded-xl font-bold text-sm shadow hover:bg-red-600 transition-all active:scale-95">نعم، احذف</button><button onclick="toggleModal('delete-modal')" class="flex-1 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white py-2.5 rounded-xl font-bold text-sm shadow-sm transition-all active:scale-95 border dark:border-slate-700">إلغاء</button></div></div></div>
 
         <div id="auth-modal" class="hidden modal-overlay"><div class="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 overflow-hidden animate-pop z-50"><button onclick="toggleModal('auth-modal')" class="absolute top-3 left-3 text-slate-400 hover:text-red-500 transition-all z-10"><i data-lucide="x" class="w-5 h-5"></i></button><div class="flex justify-center mb-5"><div class="w-14 h-14 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center border-2 border-emerald-500 shadow-lg"><i data-lucide="building-2" class="w-7 h-7 text-emerald-600 dark:text-emerald-400"></i></div></div><div class="flex justify-center mb-5"><div class="bg-slate-100 dark:bg-slate-900 p-1 rounded-xl flex w-full border dark:border-slate-700"><button onclick="switchAuthMode('login')" id="tab-login" class="flex-1 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-800 shadow text-emerald-600 dark:text-white border dark:border-slate-600">دخول</button><button onclick="switchAuthMode('register')" id="tab-register" class="flex-1 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 dark:text-slate-400">إنشاء حساب</button></div></div><div id="form-login" class="space-y-3"><div class="space-y-1"><label class="text-[9px] font-bold text-slate-500">رقم الهاتف</label><div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs bg-slate-200 dark:bg-slate-900 px-1.5 rounded">+20</span><input id="login-phone" type="tel" class="input-box pl-12 text-left" placeholder="1xxxxxxxxx" oninput="formatPhone(this)"></div></div><div class="space-y-1"><label class="text-[9px] font-bold text-slate-500">كلمة المرور</label><input id="login-pass" type="password" class="input-box" placeholder="••••••••"></div><button id="btn-login" onclick="loginUser()" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs shadow-md hover:bg-emerald-700 transition-all transform active:scale-95 mt-2">تسجيل الدخول</button></div><div id="form-register" class="hidden space-y-3"><div class="flex justify-center"><label class="relative w-16 h-16 rounded-full border-2 border-dashed border-emerald-500 flex items-center justify-center cursor-pointer overflow-hidden bg-slate-50 dark:bg-slate-900 group transition-all"><input type="file" accept="image/*" class="hidden" onchange="previewProfileImage(this)"><img id="reg-img-preview" class="absolute inset-0 w-full h-full object-cover hidden"><div id="reg-img-placeholder" class="flex flex-col items-center text-emerald-500"><i data-lucide="camera" class="w-5 h-5 mb-0.5"></i><span class="text-[7px] font-bold">صورة</span></div></label></div><div class="space-y-1"><input id="reg-name" type="text" class="input-box text-center" placeholder="الاسم بالكامل"></div><div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs bg-slate-200 dark:bg-slate-900 px-1.5 rounded">+20</span><input id="reg-phone" type="tel" class="input-box pl-12 text-left" placeholder="رقم الهاتف" oninput="formatPhone(this)"></div><input id="reg-pass" type="password" class="input-box" placeholder="كلمة المرور (6 أحرف أو أكثر)"><button onclick="registerUser()" id="btn-register" class="w-full bg-slate-800 dark:bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs shadow-md hover:opacity-90 transition-all transform active:scale-95 mt-2">إنشاء حساب جديد</button></div></div></div>
@@ -325,7 +331,9 @@
             document.getElementById('listings-view').classList.add('hidden');
             document.getElementById('cat-filter-wrapper').classList.remove('hidden'); 
             document.getElementById('filter-panel').classList.remove('open');
-            window.scrollTo({top:0, behavior:'smooth'});
+            resetFiltersBase();
+            performSearch(false); // تم تغييرها لـ false لعدم التهنيج
+            window.scrollTo(0, 0); // تمرير فوري بدون smooth
             if(!isHistoryBack) history.pushState({view: 'home'}, '', window.location.pathname);
         };
 
@@ -340,8 +348,8 @@
 
             resetFiltersBase(); 
             catSelect.value = catId;
-            performSearch(true);
-            window.scrollTo({top:0, behavior:'smooth'});
+            performSearch(false); // تم تغييرها لـ false لعدم التهنيج
+            window.scrollTo(0, 0); // تمرير فوري بدون smooth
             history.pushState({view: 'category', id: catId}, '', window.location.pathname);
         };
 
@@ -349,7 +357,7 @@
             document.getElementById('search-input').value = '';
             document.getElementById('filter-type').selectedIndex = 0;
             document.getElementById('filter-gov').selectedIndex = 0;
-            document.getElementById('filter-city').innerHTML = '<option value="">كل المراكز</option>';
+            document.getElementById('filter-city').innerHTML = '<option value="" disabled selected>كل المراكز</option>';
             document.getElementById('filter-min-price').value = '';
             document.getElementById('filter-max-price').value = '';
             state.currentFilter = 'all';
@@ -381,6 +389,7 @@
         setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden-splash'); document.body.classList.add('app-loaded'); renderCategories(); }, 5000);
 
         let featuredAutoScroll; 
+        let sliderDirection = 1; // 1 لليسار، -1 لليمين
 
         function startAutoScroll() {
             clearInterval(featuredAutoScroll);
@@ -388,7 +397,17 @@
             if (!slider || slider.children.length <= 1) return;
 
             featuredAutoScroll = setInterval(() => {
-                window.scrollFeatured(-1, false);
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                const currentScroll = Math.abs(slider.scrollLeft);
+
+                // تغيير الاتجاه (Ping-Pong)
+                if (currentScroll >= maxScroll - 5) {
+                    sliderDirection = -1; // ارجع لليمين
+                } else if (currentScroll <= 5) {
+                    sliderDirection = 1; // ارجع لليسار
+                }
+
+                slider.scrollBy({ left: slider.clientWidth * sliderDirection, behavior: 'smooth' });
             }, 3000); 
         }
 
@@ -414,27 +433,11 @@
             }
         }
 
-        // تم تعديل التمرير ليكون سلساً وبدون تكرار في الـ DOM لمنع التهنيج
         window.scrollFeatured = (dir, resetTimer = true) => { 
             const slider = document.getElementById('featured-slider'); 
             if (!slider || slider.children.length <= 1) return;
-
-            const cardWidth = slider.clientWidth; 
-            const maxScroll = slider.scrollWidth - slider.clientWidth;
-            
-            if (dir === -1) { 
-                if (Math.abs(slider.scrollLeft) >= maxScroll - 10) {
-                    slider.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-                }
-            } else { 
-                if (Math.abs(slider.scrollLeft) <= 10) {
-                    slider.scrollTo({ left: -maxScroll, behavior: 'smooth' });
-                } else {
-                    slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
-                }
-            }
+            sliderDirection = dir; // تحديث الاتجاه بناءً على ضغطة المستخدم
+            slider.scrollBy({ left: slider.clientWidth * dir, behavior: 'smooth' });
             if(resetTimer) startAutoScroll();
         }
 
@@ -567,7 +570,7 @@
 
         function renderAmenities(list) { document.getElementById('amenities-grid').innerHTML = list.map(a => `<label class="amenity-tile cursor-pointer"><input type="checkbox" class="amenity-check hidden" value="${a}"><div class="text-center py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-[9px] font-bold text-slate-600 dark:text-slate-300 transition-all hover:bg-slate-100 dark:hover:bg-slate-800 truncate">${a}</div></label>`).join(''); }
         function initLocations() { const govSelects =['in-gov', 'filter-gov']; govSelects.forEach(id => { const sel = document.getElementById(id); if(sel) { sel.innerHTML = `<option value="" ${id==='in-gov'?'disabled selected':'selected'}>${id==='in-gov'?'المحافظة':'كل المحافظات'}</option>`; Object.keys(EGYPT_LOCATIONS).forEach(gov => { sel.innerHTML += `<option value="${gov}">${gov}</option>`; }); } }); }
-        window.populateCities = (govId, cityId) => { const gov = document.getElementById(govId).value; const citySel = document.getElementById(cityId); citySel.innerHTML = `<option value="" ${govId==='in-gov'?'disabled selected':'selected'}>${govId==='in-gov'?'المركز/المدينة':'كل المراكز'}</option>`; if(gov && EGYPT_LOCATIONS[gov]) { EGYPT_LOCATIONS[gov].forEach(city => { citySel.innerHTML += `<option value="${city}">${city}</option>`; }); } };
+        window.populateCities = (govId, cityId) => { const gov = document.getElementById(govId).value; const citySel = document.getElementById(cityId); citySel.innerHTML = `<option value="" disabled selected>${govId==='in-gov'?'المركز/المدينة':'كل المراكز'}</option>`; if(gov && EGYPT_LOCATIONS[gov]) { EGYPT_LOCATIONS[gov].forEach(city => { citySel.innerHTML += `<option value="${city}">${city}</option>`; }); } };
         window.toggleFilterPanel = () => { document.getElementById('filter-panel').classList.toggle('open'); };
         window.updateFormFields = () => { const cat = document.getElementById('in-category').value; const rF=document.getElementById('room-fields'), fF=document.getElementById('furnished-field'), lI=document.getElementById('in-level'), fA=document.getElementById('in-floors-alt'), lTW=document.getElementById('land-type-wrapper'), lF=document.getElementById('land-fields'), bF=document.getElementById('building-fields'), eF=document.getElementById('extra-fields'); rF.classList.remove('hidden'); fF.classList.remove('hidden'); lI.classList.remove('hidden'); fA.classList.add('hidden'); lTW.classList.add('hidden'); lF.classList.add('hidden'); bF.classList.add('hidden'); eF.classList.remove('hidden'); if(cat==='land') { renderAmenities(LAND_AMENITIES); rF.classList.add('hidden'); fF.classList.add('hidden'); lI.classList.add('hidden'); eF.classList.add('hidden'); lTW.classList.remove('hidden'); lF.classList.remove('hidden'); } else { renderAmenities(ALL_AMENITIES); if (cat === 'building') { rF.classList.add('hidden'); fF.classList.add('hidden'); lI.classList.add('hidden'); fA.classList.remove('hidden'); bF.classList.remove('hidden'); eF.classList.add('hidden'); } else if (['shop','office','warehouse'].includes(cat)) { rF.classList.add('hidden'); eF.classList.add('hidden'); } } };
 
@@ -685,6 +688,15 @@
                 else if(active.id === 'chat-msg') { e.preventDefault(); sendMsg(); }
             }
         });
+        
+        // استماع لحدث التركيز على المدخلات لحل مشكلة قفز الصفحة مع الكيبورد
+        document.addEventListener('focusin', (e) => {
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 400); // تأخير بسيط حتى يفتح الكيبورد بالكامل
+            }
+        });
 
         let searchTimeout; document.getElementById('search-input').addEventListener('input', () => { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => performSearch(false), 200); });
 
@@ -710,8 +722,9 @@
 
             const locDisplay = item.gov ? `${item.city}، ${item.gov}` : (item.location || ''); const code = item.shortCode || (item.id ? item.id.substring(0,3).toUpperCase() : ''); 
             
-            // تعديل رسالة الواتساب بناءً على طلبك وإزالة الرابط
-            const waMsg = `مرحبا اريد الاستفسار عن هذا العقار: ${item.title || ''}\nكود العقار: ${code}`; 
+            // إضافة الرابط للرسالة لكي تظهر المعاينة
+            const shareUrl = window.location.origin + '/property/' + item.id;
+            const waMsg = `مرحبا اريد الاستفسار عن هذا العقار: ${item.title || ''}\nكود العقار: ${code}\n\nرابط العقار للمعاينة:\n${shareUrl}`; 
             const waLink = `https://wa.me/20${item.phone}?text=${encodeURIComponent(waMsg)}`;
 
             return `<div id="card-${prefix}-${item.id}" class="listing-card bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm border border-emerald-800 dark:border-emerald-600 flex flex-col h-full cursor-pointer active:scale-95 transition-transform relative" onclick="openDetails('${item.id}')">
@@ -790,8 +803,8 @@
                     }
 
                     const updateWaLink = () => { 
-                        // تعديل رسالة الواتساب بناءً على طلبك وإزالة الرابط
-                        const waMsg = `مرحبا اريد الاستفسار عن هذا العقار: ${item.title || ''}\nكود العقار: ${code}`; 
+                        const shareUrl = window.location.origin + '/property/' + item.id;
+                        const waMsg = `مرحبا اريد الاستفسار عن هذا العقار: ${item.title || ''}\nكود العقار: ${code}\n\nرابط العقار للمعاينة:\n${shareUrl}`; 
                         document.getElementById('d-wa').href = `https://wa.me/20${item.phone}?text=${encodeURIComponent(waMsg)}`; 
                     }; 
                     updateWaLink(); 
@@ -852,7 +865,6 @@
 
         window.closeDetails = (isHistoryBack = false) => { const slider = document.getElementById('details-slider'); if(slider && slider.firstElementChild) { slider.firstElementChild.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' }); } toggleModal('details-modal', isHistoryBack); const newUrl = new URL(window.location); newUrl.searchParams.delete('id'); window.history.pushState({}, '', newUrl); state.activeDetailsId = null; }
         
-        // تم إضافة التأخير ليتمكن الواتساب من التقاط الصورة
         window.shareListing = async () => { 
             if(!state.currentItem) return; 
             const d = { 
@@ -986,11 +998,20 @@
             document.getElementById('in-map').value = ''; 
             document.getElementById('in-address').value = ''; 
             document.getElementById('in-phone').value = state.userProfile ? state.userProfile.phoneNumber.replace('+20', '') : ''; 
+            
+            // تفريغ وتصفير جميع الحقول الاختيارية['in-floors-alt', 'in-apartments', 'in-rooms', 'in-baths', 'in-balconies', 'in-feddan', 'in-qirat', 'in-level'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = '';
+            });
+            document.getElementById('in-finishing').selectedIndex = 0;
+            document.getElementById('in-land-type').selectedIndex = 0;
+            document.getElementById('in-gov').selectedIndex = 0;
+            document.getElementById('in-city').innerHTML = '<option value="" disabled selected>المركز/المدينة</option>';
+
             document.querySelectorAll('.amenity-check').forEach(c => c.checked = false); 
             document.getElementById('furn-no').checked = true; 
             document.getElementById('add-modal-title').innerText = 'إضافة عقار'; 
             
-            // تم فك تجميد الزر هنا
             const btn = document.getElementById('btn-publish');
             btn.innerText = 'نشر الإعلان'; 
             btn.disabled = false;
@@ -1005,7 +1026,6 @@
 
         window.submitListing = async () => { try { const gov = document.getElementById('in-gov').value; const city = document.getElementById('in-city').value; if(!gov || !city) return showToast('يرجى اختيار المحافظة والمركز', 'e'); let uploadedUrls =[]; if(state.filesToUpload.length > 0) { const btn = document.getElementById('btn-publish'); btn.innerText='جاري الرفع...'; btn.disabled = true; for(let f of state.filesToUpload) { const url = await uploadToCloudinary(f); uploadedUrls.push(url); } } else if (state.editingId) { uploadedUrls = state.existingImages; } else { return showToast('مطلوب صورة أو فيديو','e'); } document.getElementById('btn-publish').innerText = 'جاري المعالجة...'; document.getElementById('btn-publish').disabled = true; const am =[]; document.querySelectorAll('.amenity-check:checked').forEach(c => am.push(c.value)); const cat = document.getElementById('in-category').value; const furnished = document.querySelector('input[name="furnished"]:checked')?.value; const landType = document.getElementById('in-land-type').value; const listingData = { title: document.getElementById('in-title').value, price: Number(document.getElementById('in-price').value), type: document.getElementById('in-type').value, category: cat, area: Number(document.getElementById('in-area').value) || 0, feddan: Number(document.getElementById('in-feddan').value) || 0, qirat: Number(document.getElementById('in-qirat').value) || 0, landType: landType, floors: Number(cat === 'building' ? document.getElementById('in-floors-alt').value : document.getElementById('in-floors-alt').value) || 0, apartments: Number(document.getElementById('in-apartments').value) || 0, rooms: Number(document.getElementById('in-rooms').value) || 0, baths: Number(document.getElementById('in-baths').value) || 0, balconies: Number(document.getElementById('in-balconies').value) || 0, finishing: document.getElementById('in-finishing').value, level: document.getElementById('in-level').value, furnished: furnished, gov: gov, city: city, address: document.getElementById('in-address').value, phone: document.getElementById('in-phone').value, desc: document.getElementById('in-desc').value, mapLink: document.getElementById('in-map').value, amenities: am, images: uploadedUrls, image: uploadedUrls[0] }; if(state.editingId) { await updateDoc(doc(db, COLLECTION_NAME, state.editingId), listingData); showToast('تم حفظ التعديلات بنجاح'); } else { const generatedCode = Math.floor(100 + Math.random() * 900).toString(); listingData.shortCode = generatedCode; listingData.status = 'available'; listingData.isPinned = false; listingData.createdAt = serverTimestamp(); listingData.authorId = state.user.uid; await addDoc(collection(db, COLLECTION_NAME), listingData); showToast('تم النشر بنجاح'); } toggleModal('add-modal'); resetAddForm(); } catch(e) { console.error(e); showToast('حدث خطأ أثناء العملية', 'e'); document.getElementById('btn-publish').innerText = state.editingId ? 'حفظ التعديلات' : 'نشر الإعلان'; document.getElementById('btn-publish').disabled = false; } };
 
-        // تم إضافة نافذة تأكيد الحذف العصرية
         let itemToDelete = null;
         window.del = (e, id) => {
             if(e) e.stopPropagation();
