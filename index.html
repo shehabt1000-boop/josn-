@@ -2,1220 +2,530 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=overlays-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بحبك يا آية ❤️</title>
 
-    <!-- PWA Settings -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" id="theme-color-meta" content="#064e3b">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/shehabt1000-boop/real-estate-/3c57da6b5eb64d257a15e1a2ff26510ac9c5549f/real-estate.jpg">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+    <!-- 1. تحسين الاتصال بالسيرفرات والخطوط -->
     <link rel="preconnect" href="https://res.cloudinary.com">
-    <link rel="preconnect" href="https://images.pexels.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- تحسين الأداء: تقليل التحميل المسبق للصور الضرورية فقط -->
-    <link rel="preload" as="image" href="https://images.pexels.com/photos/439227/pexels-photo-439227.jpeg?auto=compress&cs=tinysrgb&w=300&q=50">
-    <link rel="preload" as="image" href="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=300&q=50">
+    <!-- 2. تحميل الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <title>السوق وياك | عقارات مصر</title>
-
-    <!-- تحسين تجربة المستخدم: فحص الوضع الداكن مبكراً لمنع الوميض الأبيض -->
-    <script>
-        if (localStorage.getItem('souq_theme') === 'dark' || (!('souq_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            document.getElementById('theme-color-meta').setAttribute('content', '#1e293b');
-        } else {
-            document.getElementById('theme-color-meta').setAttribute('content', '#064e3b');
-        }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: { 
-                extend: { 
-                    colors: { navy: '#0f172a', darkbg: '#1e293b', brand: '#10b981' },
-                    fontFamily: { sans:['Cairo', 'sans-serif'] },
-                    screens: { 'xs': '400px' }
-                } 
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 3. تحميل مسبق لأهم الصور (LCP) لفتح الموقع فوراً -->
+    <link rel="preload" as="image" href="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006566/nmblpuvgtpreweumrunp.jpg">
+    <link rel="preload" as="image" href="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006521/cvkuvh1r6iuuiqxlstso.jpg">
+    <link rel="preload" as="image" href="https://res.cloudinary.com/db9h7zm1h/image/upload/w_400,f_auto,q_auto/v1773919947/gjvz0c6qm3fjbn5srcjv.jpg">
 
     <style>
-        html { background-color: #cbd5e1; }
-        .dark html { background-color: #0f172a; } 
-        body { font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; background-color: transparent; }
+        :root {
+            --primary: #d00000;
+            --dark-red: #660000;
+            --neon-red: #ff0000;
+            --gold: #ffd700;
+            --bg: #fff0f0; 
+            --glass: rgba(255, 235, 235, 0.95);
+        }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .select-none { user-select: none; }
+        /* --- الأساسيات --- */
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            /* تم إزالة خصائص السكرول التي تسبب اللاج ليعمل التمرير بشكل طبيعي وسريع */
+            -webkit-font-smoothing: antialiased;
+            background-color: var(--bg);
+            color: #333;
+            overflow-x: hidden;
+        }
 
-        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-        .skeleton { animation: shimmer 1.5s infinite linear; background: linear-gradient(to right, #f8fafc 4%, #e2e8f0 25%, #f8fafc 36%); background-size: 1000px 100%; }
-        .dark .skeleton { background: linear-gradient(to right, #1e293b 4%, #334155 25%, #1e293b 36%); }
+        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        @keyframes popIn { from { transform: scale(0.98); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .animate-pop { animation: popIn 0.08s ease-out forwards; will-change: transform, opacity; }
+        /* --- تحسين الأداء (GPU Layers) --- */
+        section, header, .marquee-wrapper {
+            transform: translate3d(0, 0, 0);
+            will-change: transform; 
+        }
 
-        /* توحيد وتنظيم الـ Z-Index */
-        .modal-overlay { position: fixed; inset: 0; z-index: 100; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .mobile-full-modal { position: relative; width: 100%; max-width: 32rem; background-color: #ffffff; display: flex; flex-direction: column; max-height: 90vh; height: auto; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        @media (max-width: 767px) { .mobile-full-modal { height: 100dvh; max-height: 100dvh; border-radius: 0; } .modal-overlay { padding: 0; } }
-        .dark .mobile-full-modal { background-color: #1e293b; }
+        /* --- شاشة التحميل --- */
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--dark-red); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s; cursor: pointer;
+        }
+        .loader-circle {
+            width: 120px; height: 120px; background: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            border: 4px solid var(--gold);
+            box-shadow: 0 0 20px var(--gold);
+            animation: pulseScale 1.5s infinite alternate;
+        }
+        .heart-svg-loader { width: 60px; height: 60px; fill: var(--dark-red); animation: pulseScale 0.8s ease-in-out infinite alternate; }
+        .loader-text { color: white; margin-top: 25px; font-size: 1.1rem; font-weight: bold; }
+        #loader-wrapper.fade-out { opacity: 0; visibility: hidden; }
 
-        .sticky-header { z-index: 40; background-color: #064e3b; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .dark .sticky-header { background-color: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+        /* --- الشريط المتحرك --- */
+        .marquee-wrapper {
+            background: var(--primary); color: white; padding: 10px 0;
+            position: fixed; top: 0; width: 100%; z-index: 1000; overflow: hidden; display: flex;
+        }
+        .marquee-content {
+            display: flex; width: max-content;
+            animation: infiniteScroll 40s linear infinite;
+            animation-play-state: paused;
+            will-change: transform; 
+        }
+        body.active-experience .marquee-content { animation-play-state: running; }
+        .marquee-item { padding: 0 50px; font-weight: bold; font-size: 0.9rem; white-space: nowrap; }
 
-        .sticky-search-bar { position: sticky; top: 3.5rem; z-index: 30; margin: 0 0 0.5rem 0; padding: 0.25rem; border-radius: 0.75rem; background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.1s; }
-        .dark .sticky-search-bar { background: #1e293b; border-color: #334155; }
+        @keyframes infiniteScroll { 
+            0% { transform: translate3d(0,0,0); } 
+            100% { transform: translate3d(50%,0,0); } 
+        }
 
-        #bottom-nav { z-index: 50; }
+        /* --- الهيدر --- */
+        header {
+            height: 60vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006566/nmblpuvgtpreweumrunp.jpg') center/cover no-repeat;
+            color: white; margin-top: 35px; padding-top: 80px;
+            background-attachment: scroll; 
+        }
+        header h1 { font-size: clamp(4rem, 12vw, 7rem); font-family: 'Sacramento', cursive; text-shadow: 0 4px 15px rgba(0,0,0,0.4); margin-bottom: 10px; }
+        header p { font-size: 1.2rem; font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        #splash-screen { position: fixed; inset: 0; z-index: 300; background-color: #0f172a; background-image: linear-gradient(rgba(15, 23, 42, 0.40), rgba(15, 23, 42, 0.60)), url('https://images.pexels.com/photos/19213018/pexels-photo-19213018.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s ease-out, visibility 0.3s; }
-        .hidden-splash { opacity: 0; visibility: hidden; pointer-events: none; }
-        @keyframes ring-pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }
-        .splash-icon-container { position: relative; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .splash-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #10b981; animation: ring-pulse 1.5s infinite ease-out; }
-        .splash-logo { color: #ffffff; z-index: 2; }
+        /* --- العداد --- */
+        .countdown-wrapper {
+            border-radius: 20px; 
+            margin: -50px auto 40px;
+            position: relative; 
+            z-index: 100; 
+            text-align: center; 
+            width: 85%; 
+            max-width: 600px;
+            padding: 15px;
+            border: 2px solid var(--neon-red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+            /* تم إزالة الأنيميشن من الحاوية لمنع اللاج واستهلاك الرامات */
+            overflow: hidden; 
+        }
 
-        .input-box { width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 700; outline: none; color: #0f172a; transition: all 0.1s; }
-        .dark .input-box { background: #0f172a; border-color: #334155; color: white; }
-        .input-box:focus { border-color: #10b981; background: #ffffff; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
-        .dark .input-box:focus { background: #0f172a; }
+        /* عرض الصورة كاملة بدون قص */
+.countdown-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://res.cloudinary.com/db9h7zm1h/image/upload/v1773919947/gjvz0c6qm3fjbn5srcjv.jpg') center center / contain no-repeat;
+    opacity: 0.98;
+    z-index: -1;
+}
+        /* إضافة تأثير للنص ليكون أوضح فوق الصورة */
+        .countdown-wrapper h2 {
+            text-shadow: 0 2px 6px rgba(255, 255, 255, 1), 0 0 10px rgba(255,255,255,0.8);
+            position: relative;
+            z-index: 10;
+        }
 
-        .custom-select { appearance: none; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 0.4rem; padding: 0.35rem 1.5rem 0.35rem 0.5rem; width: 100%; font-weight: 700; font-size: 0.75rem; color: #334155; cursor: pointer; transition: all 0.1s; }
-        .dark .custom-select { background-color: #0f172a; color: white; border-color: #334155; }
-        .custom-select-wrapper { position: relative; }
-        .custom-select-icon { position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; width: 0.8rem; height: 0.8rem; }
+        .timer-container { display: flex; justify-content: space-around; }
+        .heart-timer-item {
+            position: relative; width: clamp(70px, 20vw, 110px); height: clamp(70px, 20vw, 110px);
+            display: flex; justify-content: center; align-items: center;
+        }
 
-        .modern-table { border-collapse: collapse; width: 100%; }
-        .modern-table td, .modern-table th { padding: 0.4rem; border-bottom: 1px solid #e2e8f0; }
-        .dark .modern-table td, .dark .modern-table th { border-color: #334155; }
-        .modern-table tr:nth-child(even) { background-color: #f8fafc; }
-        .dark .modern-table tr:nth-child(even) { background-color: #1e293b; }
-        .amenity-tile input:checked + div { background-color: #10b981; color: white; border-color: #10b981; }
+        .heart-timer-item svg {
+            position: absolute; width: 100%; height: 100%;
+            fill: var(--primary);
+            /* تم إزالة filter drop-shadow لأنه أكبر مسبب لتقطيع السكرول في الموبايل */
+            animation: pulseScale 2s infinite alternate; 
+            will-change: transform;
+        }
 
-        #filter-panel { display: none; opacity: 0; transform: scaleY(0.95); transform-origin: top; transition: opacity 0.1s ease, transform 0.1s ease; }
-        #filter-panel.open { display: block; opacity: 1; transform: scaleY(1); }
+        /* إضافة ظل للنصوص لتكون واضحة ومقروءة بشكل ممتاز فوق القلوب والصورة */
+        .timer-content { 
+            position: relative; z-index: 10; color: white; display: flex; flex-direction: row-reverse; 
+            align-items: baseline; justify-content: center; gap: 3px; padding-top: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6); 
+        }
+        .timer-val { font-size: clamp(1rem, 3.5vw, 1.5rem); font-weight: bold; line-height: 1; }
+        .timer-label { font-size: clamp(0.6rem, 2vw, 0.8rem); font-weight: normal; }
 
-        .profile-btn-header { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        .profile-img-header { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; }
-        .profile-name-header { font-size: 0.75rem; font-weight: 800; color: #ffffff; display: flex; flex-direction: column; line-height: 1.2; }
-        .profile-welcome-sub { font-size: 0.6rem; color: #a7f3d0; font-weight: 600; }
+        /* --- السلايدر --- */
+        .slider-section { padding: 20px 10px; max-width: 500px; margin: 0 auto; }
+        .slider-container {
+            position: relative; width: 100%; aspect-ratio: 9 / 16;
+            border-radius: 20px; overflow: hidden; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background: #000;
+            transform: translate3d(0,0,0);
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out; pointer-events: none;
+            will-change: opacity;
+        }
+        .slide.active { opacity: 1; z-index: 1; pointer-events: auto; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .toast { animation: slideInDown 0.2s ease-out forwards; }
-        .toast.hiding { animation: fadeOut 0.2s ease-in forwards; }
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.7); border: none; width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; color: var(--primary); z-index: 10;
+            font-size: 1.2rem; display: flex; justify-content: center; align-items: center;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover { background: white; }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+        .toast-container { height: 40px; display: flex; justify-content: center; margin-bottom: 15px; }
+        .slide-toast {
+            background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: bold; opacity: 0; transform: translateY(10px); transition: 0.5s;
+        }
+        .slide-toast.show { opacity: 1; transform: translateY(0); }
 
-        .listing-card { content-visibility: auto; contain-intrinsic-size: 0 300px; }
+        /* --- الفيديوهات --- */
+        .video-section { padding: 30px 15px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 25px; justify-items: center; }
+        .video-wrapper {
+            width: 100%; max-width: 300px; aspect-ratio: 9 / 16; background: #000;
+            border-radius: 15px; overflow: hidden; position: relative; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translate3d(0,0,0);
+        }
+        .video-preview { width: 100%; height: 100%; object-fit: cover; }
+        .play-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 3rem; transition: 0.3s; pointer-events: none;
+        }
+        .video-wrapper:hover .play-overlay { background: rgba(0,0,0,0.1); }
+
+        /* --- البطاقات --- */
+        .cards-section { padding: 30px 15px; max-width: 800px; margin: 0 auto; }
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .flip-card { height: 180px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .flip-card-front { background: linear-gradient(135deg, var(--primary), var(--dark-red)); color: white; }
+        .flip-card-back { background: white; color: var(--dark-red); transform: rotateY(180deg); border: 2px solid var(--primary); }
+        .flip-card-back p { font-size: 0.9rem; font-weight: bold; line-height: 1.4; }
+
+        .card-heart-icon { width: 40px; fill: white; margin-bottom: 10px; animation: pulseScale 2s infinite alternate; }
+
+        /* --- مشغل الموسيقى --- */
+        .music-player {
+            position: fixed; bottom: 20px; left: 20px; background: rgba(255, 255, 255, 0.9);
+            padding: 10px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 900; display: flex; align-items: center; gap: 10px;
+            border: 2px solid var(--primary); transition: transform 0.3s; transform: translateY(100px);
+        }
+        .music-player.show { transform: translateY(0); }
+        .music-btn { background: var(--primary); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .music-waves { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
+        .wave { width: 3px; background: var(--primary); animation: wave 1s infinite; }
+        .wave:nth-child(2) { animation-delay: 0.2s; }
+        .wave:nth-child(3) { animation-delay: 0.4s; }
+        .paused .wave { animation-play-state: paused; height: 3px; }
+
+        /* --- Lightbox --- */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+            justify-content: center; align-items: center; padding: 20px; overscroll-behavior: none;
+        }
+        .lightbox.active { display: flex; }
+        .close-lb { position: absolute; top: 20px; right: 25px; color: white; font-size: 2.5rem; cursor: pointer; }
+
+        footer { text-align: center; padding: 30px; background: var(--primary); color: white; font-size: 0.9rem; font-weight: bold; margin-top: 40px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+
+        /* --- الأنيميشن المحسن (يعتمد على Transform فقط) --- */
+        @keyframes pulseScale { 
+            0% { transform: scale(1); } 
+            100% { transform: scale(1.1); } 
+        }
+        @keyframes wave { 0%, 100% { height: 5px; } 50% { height: 15px; } }
     </style>
 </head>
-<body class="text-slate-800 dark:text-slate-100 select-none">
+<body>
 
-    <div id="splash-screen">
-        <div class="splash-icon-container mb-3">
-            <div class="splash-ring"></div>
-            <svg class="splash-logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline><circle cx="12" cy="7" r="2" fill="#10b981" stroke="none"></circle></svg>
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/gvii2x.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="loader-wrapper" onclick="startExperience()">
+        <div class="loader-circle">
+            <svg class="heart-svg-loader" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg>
         </div>
-        <div class="text-white font-bold text-lg tracking-wide">السوق <span class="text-emerald-500">وياك</span></div>
+        <div class="loader-text" id="loader-msg">جاري تجهيز المفاجأة...</div>
     </div>
 
-    <div id="app-content-wrapper">
-        <!-- Z-Index 200 for Toasts -->
-        <div id="toast-container" class="fixed top-4 left-0 right-0 z-[200] flex flex-col items-center gap-2 pointer-events-none px-4"></div>
-
-        <header class="fixed top-0 w-full sticky-header flex items-center justify-between px-4 h-14">
-            <div class="flex flex-col justify-center" id="header-welcome-section">
-                <span class="text-[9px] font-bold text-emerald-200 dark:text-slate-400 leading-none">مرحبا بكم في</span>
-                <span class="text-[13px] font-black text-white leading-tight">السوق <span class="text-yellow-400">وياك</span></span>
-            </div>
-            <div class="flex gap-2 items-center">
-                <!-- إضافة aria-label لتحسين إمكانية الوصول -->
-                <button id="btn-header-login" onclick="toggleModal('auth-modal')" aria-label="تسجيل الدخول" class="p-1.5 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all duration-100"><i data-lucide="user" class="w-4 h-4"></i></button>
-                <button id="btn-logout" onclick="logoutUser()" aria-label="تسجيل الخروج" class="hidden p-1.5 rounded-full bg-red-500/80 text-white hover:bg-red-500 transition-all duration-100"><i data-lucide="log-out" class="w-4 h-4"></i></button>
-                <button id="btn-toggle-theme" aria-label="تبديل المظهر" class="p-1.5 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all duration-100"><i data-lucide="moon" class="w-3.5 h-3.5 block dark:hidden"></i><i data-lucide="sun" class="w-3.5 h-3.5 hidden dark:block text-yellow-300"></i></button>
-                <button onclick="toggleAdminPanel()" id="btn-admin-top" aria-label="لوحة التحكم" class="hidden p-1.5 rounded-full bg-yellow-500/90 text-slate-900 hover:bg-yellow-400 transition-all duration-100"><i data-lucide="shield" class="w-3.5 h-3.5"></i></button>
-            </div>
-        </header>
-
-        <main class="pt-[4rem] pb-24 container mx-auto px-3 max-w-5xl min-h-screen">
-
-            <div id="home-view" class="block w-full"> 
-
-                <div class="mb-6 mt-1">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="categories-grid"></div>
-                </div>
-
-                <!-- Featured Slider Section -->
-                <div id="featured-section" class="mb-8 hidden">
-                    <div class="flex justify-center mb-3">
-                        <div class="bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-slate-700 shadow-sm px-8 py-1.5 rounded-full text-[11px] font-black tracking-widest select-none">
-                            العروض المميزة
-                        </div>
-                    </div>
-                    <div class="relative w-full rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700">
-                        <div id="featured-slider" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar w-full bg-slate-100 dark:bg-slate-800">
-                            <!-- Items Populated via JS -->
-                        </div>
-                        <button onclick="window.scrollFeatured(-1)" aria-label="التالي" class="absolute right-0 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2.5 rounded-l-xl z-10 hover:bg-black/60 transition-all duration-100"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
-                        <button onclick="window.scrollFeatured(1)" aria-label="السابق" class="absolute left-0 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2.5 rounded-r-xl z-10 hover:bg-black/60 transition-all duration-100"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                    </div>
-                </div>
-
-                <!-- Reviews Section -->
-                <div id="reviews-section" class="mb-8">
-                    <div class="flex justify-center mb-3">
-                        <div class="bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-slate-700 shadow-sm px-8 py-1.5 rounded-full text-[11px] font-black tracking-widest select-none">
-                            تقييمات العملاء
-                        </div>
-                    </div>
-                    <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl p-3 shadow-sm border border-slate-200 dark:border-slate-700">
-                        <div class="flex justify-between items-center mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">
-                            <button onclick="openReviewModal()" class="bg-emerald-600 text-white border border-emerald-500 px-4 py-1.5 rounded-xl text-[11px] font-bold shadow-sm hover:bg-emerald-700 transition-all duration-100 flex items-center gap-1"><i data-lucide="pen-line" class="w-3.5 h-3.5"></i> إضافة تقييم</button>
-                            <div class="flex gap-1.5">
-                                <button onclick="changeReviewPage(1)" aria-label="التقييمات السابقة" class="bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 p-1.5 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-200 transition-all duration-100"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-                                <button onclick="changeReviewPage(-1)" aria-label="التقييمات التالية" class="bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 p-1.5 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-200 transition-all duration-100"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>
-                        <div id="reviews-container" class="space-y-2.5 min-h-[120px]">
-                            <div class="flex justify-center items-center h-20 text-slate-400 text-xs">جاري تحميل التقييمات...</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-6 mb-4 pt-6 px-4 pb-6 bg-[#065f46] dark:bg-slate-800 rounded-2xl shadow-lg text-center text-white border border-emerald-500/30 dark:border-slate-700">
-                    <h3 class="text-sm font-black mb-4">السوق وياك للعقارات</h3>
-                    <div class="space-y-2.5 text-[11px] font-bold text-emerald-100 dark:text-slate-300">
-                        <p class="flex items-center justify-center gap-1.5"><i data-lucide="headphones" class="w-3.5 h-3.5 text-yellow-400 dark:text-emerald-400"></i> رقم الدعم الفني: <a href="tel:01206244875" class="hover:underline text-white" dir="ltr">01206244875</a></p>
-                        <p class="flex items-center justify-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-yellow-400 dark:text-emerald-400"></i> العنوان: شوبك بسطه، مركز الزقازيق، الشرقية</p>
-                        <p class="flex items-center justify-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-yellow-400 dark:text-emerald-400"></i> تاريخ التأسيس: 2026</p>
-                    </div>
-                    <div class="flex justify-center gap-3 mt-5">
-                        <a href="#" target="_blank" aria-label="فيسبوك" class="bg-white/10 dark:bg-slate-700 p-2.5 rounded-full hover:bg-white/20 transition-all shadow-sm"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-                        <a href="#" target="_blank" aria-label="انستجرام" class="bg-white/10 dark:bg-slate-700 p-2.5 rounded-full hover:bg-white/20 transition-all shadow-sm"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div id="listings-view" class="hidden w-full flex-col min-h-screen mt-2">
-                <div class="flex items-center gap-2 mb-3 bg-white dark:bg-slate-800 p-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
-                    <button onclick="window.history.back()" aria-label="رجوع" class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white p-1.5 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-200 transition-all duration-100"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-                    <h2 id="listings-view-title" class="text-xs font-black text-emerald-600 dark:text-emerald-400"></h2>
-                </div>
-
-                <div class="sticky-search-bar !top-[4rem] !mb-4">
-                    <div class="relative w-full">
-                        <button onclick="toggleFilterPanel()" aria-label="تصفية" class="absolute left-1 top-0 h-full w-9 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all z-10"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i></button>
-                        <input type="text" id="search-input" placeholder="ابحث داخل القسم (كود، عنوان)..." class="w-full bg-transparent border-none rounded-lg pl-10 pr-9 py-1 text-xs outline-none dark:text-white font-bold h-9">
-                        <button onclick="performSearch(false)" aria-label="بحث" class="absolute right-1 top-0 h-full w-9 flex items-center justify-center text-slate-500 hover:text-emerald-600 transition-all"><i data-lucide="search" class="w-4 h-4"></i></button>
-                    </div>
-                    <div id="filter-panel" class="mt-2 border-t border-slate-200 dark:border-slate-700 pt-2">
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center pb-1">
-                                <h3 class="text-[10px] font-bold text-slate-700 dark:text-white flex items-center gap-1"><i data-lucide="filter" class="w-3 h-3"></i> تصفية متقدمة</h3>
-                                <button onclick="resetFilters()" class="text-[9px] text-red-500 font-bold underline cursor-pointer">إعادة تعيين</button>
-                            </div>
-                            <div id="cat-filter-wrapper" class="custom-select-wrapper hidden"><select id="filter-cat" class="custom-select py-1 text-[10px]"><option value="">كل الأقسام</option><option value="apartment">شقق</option><option value="villa">فلل</option><option value="chalet">شاليهات</option><option value="office">مكاتب</option><option value="shop">محلات</option><option value="land">أراضي</option><option value="building">عماير</option><option value="warehouse">مخازن</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div>
-                            <div class="custom-select-wrapper"><select id="filter-type" class="custom-select py-1 text-[10px]"><option value="">كل الأنواع (بيع/إيجار)</option><option value="sale">بيع</option><option value="rent">إيجار</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div>
-                            <div class="grid grid-cols-2 gap-1.5"><div class="custom-select-wrapper"><select id="filter-gov" onchange="populateCities('filter-gov', 'filter-city')" class="custom-select py-1 text-[10px]"><option value="">كل المحافظات</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div><div class="custom-select-wrapper"><select id="filter-city" class="custom-select py-1 text-[10px]"><option value="">كل المراكز</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div></div>
-                            <div class="grid grid-cols-2 gap-1.5"><input type="number" id="filter-min-price" placeholder="أقل سعر" class="input-box text-[10px] py-1"><input type="number" id="filter-max-price" placeholder="أعلى سعر" class="input-box text-[10px] py-1"></div>
-                            <div class="flex gap-2"><button onclick="performSearch(false); toggleFilterPanel()" class="flex-1 bg-emerald-600 text-white py-1.5 rounded font-bold text-[10px] shadow hover:bg-emerald-700 transition-all">تطبيق النتائج</button><button onclick="toggleFilterPanel()" aria-label="إغلاق التصفية" class="w-16 bg-red-500 text-white py-1.5 rounded font-bold text-[10px] shadow hover:bg-red-600 transition-all flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2"></div>
-                <div id="load-more-container" class="hidden mt-6 text-center"><button onclick="loadMore()" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 px-8 py-2.5 rounded-full text-xs font-bold shadow-sm hover:bg-slate-50 transition-all">عرض المزيد</button></div>
-                <div id="empty-state" class="hidden text-center py-16 opacity-60 flex flex-col items-center"><div class="bg-slate-300 dark:bg-slate-800 p-4 rounded-full inline-block mb-3 border dark:border-slate-700"><i data-lucide="search-x" class="w-8 h-8 text-slate-500"></i></div><p class="text-slate-600 dark:text-slate-400 font-bold text-xs">لا توجد نتائج في هذا القسم</p><button onclick="resetFilters()" class="mt-2 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold underline">إعادة تعيين البحث</button></div>
-            </div>
-        </main>
-
-        <nav id="bottom-nav" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-2.5 rounded-full flex items-center gap-8 shadow-xl transition-transform hover:scale-105">
-            <button onclick="openHome(false)" aria-label="الرئيسية" class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all group"><i data-lucide="home" class="w-5 h-5 group-hover:-translate-y-1 transition-transform"></i><span class="text-[8px] font-bold mt-0.5">الرئيسية</span></button>
-            <button onclick="openAddModal()" aria-label="إضافة إعلان" class="w-12 h-12 bg-[#064e3b] text-white border-[3px] border-white dark:border-slate-700 rounded-full flex items-center justify-center shadow-lg transform -translate-y-5 hover:scale-110 transition-all duration-300 active:scale-90"><i data-lucide="plus" class="w-6 h-6"></i></button>
-            <button onclick="toggleChat()" aria-label="الدعم" class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all group relative"><div id="chat-badge" class="hidden absolute top-0 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></div><i data-lucide="message-circle" class="w-5 h-5 group-hover:-translate-y-1 transition-transform"></i><span class="text-[8px] font-bold mt-0.5">الدعم</span></button>
-        </nav>
-
-        <!-- Modals -->
-        <div id="logout-modal" class="hidden modal-overlay"><div class="relative w-full max-w-xs bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 text-center animate-pop border border-slate-200 dark:border-slate-700"><div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100 dark:border-red-800/50"><i data-lucide="log-out" class="w-8 h-8"></i></div><h3 class="text-lg font-black text-slate-800 dark:text-white mb-2">تسجيل الخروج</h3><p class="text-xs text-slate-500 dark:text-slate-400 mb-6">هل أنت متأكد أنك تريد تسجيل الخروج من حسابك الحالي؟</p><div class="flex gap-2"><button onclick="confirmLogout()" class="flex-1 bg-red-500 text-white py-2.5 rounded-xl font-bold text-sm shadow hover:bg-red-600 transition-all active:scale-95">نعم، خروج</button><button onclick="toggleModal('logout-modal')" class="flex-1 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white py-2.5 rounded-xl font-bold text-sm shadow-sm transition-all active:scale-95 border dark:border-slate-700">إلغاء</button></div></div></div>
-
-        <div id="delete-modal" class="hidden modal-overlay">
-            <div class="relative w-full max-w-xs bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 text-center animate-pop border border-slate-200 dark:border-slate-700">
-                <div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-100 dark:border-red-800/50">
-                    <i data-lucide="trash-2" class="w-8 h-8"></i>
-                </div>
-                <h3 class="text-lg font-black text-slate-800 dark:text-white mb-2">حذف الإعلان</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">هل أنت متأكد أنك تريد حذف هذا الإعلان نهائياً؟</p>
-                <div class="flex gap-2">
-                    <button onclick="confirmDelete()" id="btn-confirm-delete" class="flex-1 bg-red-500 text-white py-2.5 rounded-xl font-bold text-sm shadow hover:bg-red-600 transition-all active:scale-95">نعم، حذف</button>
-                    <button onclick="toggleModal('delete-modal')" class="flex-1 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white py-2.5 rounded-xl font-bold text-sm shadow-sm transition-all active:scale-95 border dark:border-slate-700">إلغاء</button>
-                </div>
-            </div>
+    <div class="marquee-wrapper">
+        <div class="marquee-content" id="marqueeContent">
+            <div class="marquee-item">بحبك يا آية ❤️ أنتي أجمل صدفة في حياتي ❤️محستش بأيامي غير وانتي معايا❤️ كل لحظة معاكي هي عيد ❤️ يا أغلى ما ليا ❤️ هفضل احبك دايما ❤️ بحبك يا آية ❤️ أنتي أجمل صدفة في حياتي ❤️ مبقتش بقدر استحمل غيابك❤️ كل ثانية من غيرك بتاثر عليا❤️ حياتي بيكي اجمل❤️ وحشتيني❤️</div>
         </div>
-
-        <div id="auth-modal" class="hidden modal-overlay"><div class="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 overflow-hidden animate-pop"><button onclick="toggleModal('auth-modal')" aria-label="إغلاق" class="absolute top-3 left-3 text-slate-400 hover:text-red-500 transition-all z-10"><i data-lucide="x" class="w-5 h-5"></i></button><div class="flex justify-center mb-5"><div class="w-14 h-14 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center border-2 border-emerald-500 shadow-lg"><i data-lucide="building-2" class="w-7 h-7 text-emerald-600 dark:text-emerald-400"></i></div></div><div class="flex justify-center mb-5"><div class="bg-slate-100 dark:bg-slate-900 p-1 rounded-xl flex w-full border dark:border-slate-700"><button onclick="switchAuthMode('login')" id="tab-login" class="flex-1 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-800 shadow text-emerald-600 dark:text-white border dark:border-slate-600">دخول</button><button onclick="switchAuthMode('register')" id="tab-register" class="flex-1 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 dark:text-slate-400">إنشاء حساب</button></div></div><div id="form-login" class="space-y-3"><div class="space-y-1"><label class="text-[9px] font-bold text-slate-500">رقم الهاتف</label><div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs bg-slate-200 dark:bg-slate-900 px-1.5 rounded">+20</span><input id="login-phone" type="tel" class="input-box pl-12 text-left" placeholder="1xxxxxxxxx" oninput="formatPhone(this)"></div></div><div class="space-y-1"><label class="text-[9px] font-bold text-slate-500">كلمة المرور</label><input id="login-pass" type="password" class="input-box" placeholder="••••••••"></div><button id="btn-login" onclick="loginUser()" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs shadow-md hover:bg-emerald-700 transition-all transform active:scale-95 mt-2">تسجيل الدخول</button></div><div id="form-register" class="hidden space-y-3"><div class="flex justify-center"><label class="relative w-16 h-16 rounded-full border-2 border-dashed border-emerald-500 flex items-center justify-center cursor-pointer overflow-hidden bg-slate-50 dark:bg-slate-900 group transition-all"><input type="file" accept="image/*" class="hidden" onchange="previewProfileImage(this)"><img id="reg-img-preview" class="absolute inset-0 w-full h-full object-cover hidden"><div id="reg-img-placeholder" class="flex flex-col items-center text-emerald-500"><i data-lucide="camera" class="w-5 h-5 mb-0.5"></i><span class="text-[7px] font-bold">صورة</span></div></label></div><div class="space-y-1"><input id="reg-name" type="text" class="input-box text-center" placeholder="الاسم بالكامل"></div><div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs bg-slate-200 dark:bg-slate-900 px-1.5 rounded">+20</span><input id="reg-phone" type="tel" class="input-box pl-12 text-left" placeholder="رقم الهاتف" oninput="formatPhone(this)"></div><input id="reg-pass" type="password" class="input-box" placeholder="كلمة المرور (6 أحرف أو أكثر)"><button onclick="registerUser()" id="btn-register" class="w-full bg-slate-800 dark:bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs shadow-md hover:opacity-90 transition-all transform active:scale-95 mt-2">إنشاء حساب جديد</button></div></div></div>
-
-        <div id="publisher-modal" class="hidden modal-overlay"><div class="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 overflow-hidden animate-pop text-center"><button onclick="toggleModal('publisher-modal')" aria-label="إغلاق" class="absolute top-3 left-3 text-slate-400 hover:text-red-500 transition-all z-10"><i data-lucide="x" class="w-5 h-5"></i></button><div class="w-24 h-24 rounded-full border-4 border-emerald-500 p-1 mx-auto mb-4"><img id="pub-img" src="" class="w-full h-full rounded-full object-cover bg-slate-200 dark:bg-slate-900"></div><h2 id="pub-name" class="text-xl font-black text-slate-800 dark:text-white mb-1"></h2><p id="pub-phone" class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-2" dir="ltr"></p><div id="pub-badge-status" class="hidden"></div></div></div>
-
-        <div id="review-modal" class="hidden modal-overlay"><div class="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-5 overflow-hidden animate-pop"><h3 class="font-bold text-slate-800 dark:text-white text-sm mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">إضافة تقييم جديد</h3><textarea id="review-text" rows="4" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs outline-none text-slate-800 dark:text-white resize-none mb-4" placeholder="اكتب تقييمك هنا بصدق..."></textarea><div class="flex gap-2"><button id="btn-submit-review" onclick="submitReview()" class="flex-1 bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs shadow-md hover:bg-emerald-700 transition-all transform active:scale-95">نشر التقييم</button><button onclick="toggleModal('review-modal')" class="flex-1 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white py-2.5 rounded-xl font-bold text-xs shadow-sm transition-all border dark:border-slate-700 hover:bg-slate-200">إلغاء</button></div></div></div>
-
-        <div id="details-modal" class="hidden modal-overlay"><div class="mobile-full-modal animate-pop"><div class="relative h-52 bg-slate-200 dark:bg-slate-900 shrink-0 border-b border-slate-200 dark:border-slate-700"><button onclick="closeDetails(false)" aria-label="إغلاق" class="absolute top-2 left-2 bg-red-500 text-white p-2 rounded-full z-20 shadow-lg hover:bg-red-600 transition-all"><i data-lucide="x" class="w-5 h-5"></i></button><div class="absolute top-2 right-2 flex gap-2 z-20"><button onclick="downloadImages()" aria-label="تحميل الصور" class="bg-black/60 text-white p-2 rounded-full shadow-lg hover:bg-black/80 transition-all"><i data-lucide="download" class="w-4 h-4"></i></button><button onclick="shareListing()" aria-label="مشاركة" class="bg-black/60 text-white p-2 rounded-full shadow-lg hover:bg-black/80 transition-all"><i data-lucide="share-2" class="w-4 h-4"></i></button></div><div id="details-slider" class="flex w-full h-full overflow-x-auto no-scrollbar snap-x scroll-smooth"></div><div id="details-arrows"><button onclick="scrollDetails(-1)" aria-label="التالي" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10 hover:bg-black/70 transition-all"><i data-lucide="chevron-right" class="w-5 h-5"></i></button><button onclick="scrollDetails(1)" aria-label="السابق" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full z-10 hover:bg-black/70 transition-all"><i data-lucide="chevron-left" class="w-5 h-5"></i></button></div><span id="d-type-badge" class="absolute bottom-2 right-2 text-white px-3 py-1 rounded-lg text-[10px] font-black shadow-lg"></span></div><div class="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900"><div id="publisher-bar" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 cursor-pointer transition-all shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="openPublisherProfile()"><div id="d-pub-img-container" class="w-10 h-10 rounded-full border border-slate-300 overflow-hidden bg-slate-200 shrink-0"><img id="d-pub-img" src="" class="w-full h-full object-cover hidden"></div><div class="flex-1 truncate"><h4 id="d-pub-name" class="text-xs font-bold text-slate-800 dark:text-white leading-tight flex items-center gap-1"></h4><span class="text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">عرض البروفايل</span></div><i data-lucide="chevron-left" class="w-4 h-4 text-slate-400"></i></div><div id="d-controls" class="hidden p-2 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 w-full"></div><div class="p-3 space-y-3"><div class="space-y-1.5"><div><span class="text-[10px] font-bold text-slate-500 block mb-0.5">العنوان العقاري</span><h2 id="d-title" class="text-[15px] font-black text-slate-900 dark:text-white leading-tight"></h2></div><div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2 pt-1"><div><span class="text-[9px] font-bold text-slate-500 block mb-0">السعر المطلوب</span><span id="d-price" class="text-emerald-600 dark:text-emerald-400 font-black text-xl"></span></div><span id="d-time-badge" class="text-[9px] text-slate-700 dark:text-slate-300 font-bold bg-white dark:bg-slate-800 px-2.5 py-1.5 rounded border border-slate-200 dark:border-slate-700 shadow-sm"></span></div></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800 shadow-sm"><table class="w-full text-[11px] modern-table"><tbody id="d-table-body"></tbody></table></div><div><h3 class="text-[12px] font-black text-slate-800 dark:text-white mb-2 flex items-center gap-1"><i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i> المميزات الإضافية</h3><div id="d-amenities" class="grid grid-cols-3 gap-0 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800 shadow-sm"></div></div><div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"><h3 class="text-[11px] font-black text-emerald-600 dark:text-emerald-400 uppercase mb-1.5 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> التفاصيل الكاملة</h3><p id="d-desc" class="text-[12px] text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-medium"></p></div></div></div><div class="p-3 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-col gap-2 shrink-0 pb-6 md:pb-3"><a id="d-map" href="#" target="_blank" class="hidden w-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 py-2.5 rounded-xl flex justify-center items-center gap-2 font-bold text-[11px] border border-blue-200 dark:border-blue-800 transition-all shadow-sm"><i data-lucide="map" class="w-4 h-4"></i> عرض الموقع على الخريطة</a><div class="flex gap-2"><a id="d-wa" href="#" target="_blank" class="flex-1 bg-[#25D366] text-white py-3 rounded-xl flex justify-center items-center gap-1.5 font-bold shadow-md hover:bg-green-600 transition-all text-[12px]"><i data-lucide="message-circle" class="w-4 h-4"></i> تواصل واتساب</a><a id="d-call" href="#" class="flex-1 bg-slate-800 dark:bg-slate-700 text-white py-3 rounded-xl flex justify-center items-center gap-1.5 font-bold shadow-md transition-all text-[12px] border dark:border-slate-600"><i data-lucide="phone" class="w-4 h-4"></i> اتصال مباشر</a></div></div></div></div>
-
-        <div id="add-modal" class="hidden modal-overlay"><div class="mobile-full-modal animate-pop"><div class="p-2.5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-white dark:bg-slate-800 shrink-0"><h3 id="add-modal-title" class="font-bold text-slate-800 dark:text-white text-sm">إضافة عقار</h3><button onclick="toggleModal('add-modal')" aria-label="إغلاق" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all shadow-sm"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="flex-1 overflow-y-auto p-2.5 bg-slate-50 dark:bg-slate-900"><div class="space-y-2.5"><div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"><label class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">صور وفيديوهات العقار (بحد أقصى 10)</label><div class="grid grid-cols-4 gap-1.5"><label class="aspect-square border-2 border-dashed border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-slate-900 rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all text-emerald-600 dark:text-emerald-400 relative overflow-hidden"><input type="file" id="file-upload-input" multiple accept="image/*,video/*" onchange="handleUpload(this)" class="absolute inset-0 opacity-0 z-10"><i data-lucide="camera" class="w-4 h-4 mb-0.5"></i><span class="text-[8px] font-bold">إضافة</span></label><div id="preview-area" class="col-span-3 flex gap-1.5 overflow-x-auto no-scrollbar py-0.5"></div></div></div><div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-1.5"><h4 class="text-[9px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-700 pb-0.5 mb-0.5">بيانات أساسية</h4><div class="flex gap-1.5"><div class="custom-select-wrapper flex-1"><select id="in-category" onchange="updateFormFields()" class="custom-select"><option value="apartment">شقة</option><option value="villa">فيلا</option><option value="chalet">شاليهات</option><option value="office">مكتب</option><option value="shop">محلات</option><option value="land">أراضي</option><option value="building">عماير</option><option value="warehouse">مخازن</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div><div class="custom-select-wrapper w-20 shrink-0"><select id="in-type" class="custom-select"><option value="sale">بيع</option><option value="rent">إيجار</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div></div><input id="in-title" class="input-box" placeholder="عنوان الإعلان"><input id="in-price" type="number" class="input-box" placeholder="السعر (جنيه)"><div class="grid grid-cols-2 gap-1.5"><input id="in-area" type="number" class="input-box" placeholder="المساحة (م²)"><input id="in-level" type="text" class="input-box" placeholder="الدور"><input id="in-floors-alt" type="number" class="input-box hidden" placeholder="عدد الأدوار"><div id="land-type-wrapper" class="hidden custom-select-wrapper"><select id="in-land-type" class="custom-select"><option value="building">مباني</option><option value="agriculture">زراعية</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div></div><div id="land-fields" class="hidden grid grid-cols-2 gap-1.5"><input id="in-feddan" type="number" class="input-box" placeholder="فدان (اختياري)"><input id="in-qirat" type="number" class="input-box" placeholder="قيراط (اختياري)"></div><div id="building-fields" class="hidden grid grid-cols-2 gap-1.5"><input id="in-apartments" type="number" class="input-box" placeholder="عدد الشقق"></div><div id="room-fields" class="grid grid-cols-2 gap-1.5"><input id="in-rooms" type="number" class="input-box" placeholder="عدد الغرف"><input id="in-baths" type="number" class="input-box" placeholder="عدد الحمامات"></div><div id="extra-fields" class="grid grid-cols-2 gap-1.5"><input id="in-balconies" type="number" class="input-box" placeholder="عدد البلكونات"><div class="custom-select-wrapper"><select id="in-finishing" class="custom-select"><option value="" disabled selected>نوع التشطيب</option><option value="red">طوب أحمر</option><option value="semi">نصف تشطيب</option><option value="full">تشطيب كامل</option><option value="super">سوبر لوكس</option><option value="ultra">الترا سوبر لوكس</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div></div><div id="furnished-field" class="flex items-center justify-between bg-slate-50 dark:bg-slate-900 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700"><span class="text-[10px] font-bold text-slate-600 dark:text-slate-300">مفروش؟</span><div class="flex gap-1.5"><label class="cursor-pointer"><input type="radio" name="furnished" id="furn-yes" value="yes" class="peer hidden"><span class="px-3 py-1 rounded text-[9px] font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 transition-all shadow-sm">نعم</span></label><label class="cursor-pointer"><input type="radio" name="furnished" id="furn-no" value="no" checked class="peer hidden"><span class="px-3 py-1 rounded text-[9px] font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:bg-slate-800 peer-checked:text-white peer-checked:border-slate-800 transition-all shadow-sm">لا</span></label></div></div></div><div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-1.5"><h4 class="text-[9px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-700 pb-0.5 mb-0.5">المميزات</h4><div class="grid grid-cols-4 gap-1.5" id="amenities-grid"></div><textarea id="in-desc" rows="2" class="input-box resize-none" placeholder="وصف تفصيلي..."></textarea></div><div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-1.5"><h4 class="text-[9px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-700 pb-0.5 mb-0.5">الموقع والتواصل</h4><input id="in-address" class="input-box mb-1.5" placeholder="العنوان بالتفصيل (اسم الشارع، علامة مميزة)..."><div class="grid grid-cols-2 gap-1.5"><div class="custom-select-wrapper"><select id="in-gov" onchange="populateCities('in-gov', 'in-city')" class="custom-select"><option value="" disabled selected>المحافظة</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div><div class="custom-select-wrapper"><select id="in-city" class="custom-select"><option value="" disabled selected>المركز/المدينة</option></select><i data-lucide="chevron-down" class="custom-select-icon w-3 h-3"></i></div></div><input id="in-map" class="input-box" placeholder="رابط جوجل ماب (اختياري)"><input id="in-phone" type="tel" class="input-box" placeholder="رقم الهاتف"></div></div></div><div class="p-2.5 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0 pb-6 md:pb-3"><button onclick="submitListing()" id="btn-publish" class="w-full bg-slate-800 dark:bg-emerald-600 text-white py-3 rounded-xl font-bold text-xs shadow-lg transition-all transform active:scale-95 border dark:border-emerald-500">نشر الإعلان</button></div></div></div>
-        
-        <div id="chat-modal" class="hidden modal-overlay"><div class="mobile-full-modal animate-pop border dark:border-slate-700"><div class="bg-slate-800 dark:bg-emerald-600 p-3 text-white flex justify-between items-center shrink-0"><div class="flex items-center gap-2"><div class="bg-white/10 p-1.5 rounded-full"><i data-lucide="bot" class="w-5 h-5 text-yellow-400"></i></div><div><h4 class="font-bold text-xs">الدعم الفني</h4><span class="text-[9px] opacity-80">متصل الآن</span></div></div><button onclick="toggleChat()" aria-label="إغلاق" class="bg-red-500 text-white p-1.5 rounded-full shadow-sm"><i data-lucide="x" class="w-4 h-4"></i></button></div><div id="chat-box" class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 overflow-y-auto space-y-2 text-xs"></div><div class="p-3 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex items-center gap-2 shrink-0 pb-safe"><input id="chat-msg" type="text" class="flex-1 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-2.5 text-sm outline-none dark:text-white font-bold" placeholder="اكتب رسالتك..."><button onclick="sendMsg()" aria-label="إرسال" class="w-10 h-10 bg-slate-800 dark:bg-emerald-600 rounded-full text-white flex items-center justify-center shadow-lg transition-all"><i data-lucide="send" class="w-4 h-4 ml-1"></i></button></div></div></div>
-        
-        <div id="lightbox" class="hidden fixed inset-0 z-[120] bg-black/95 flex flex-col items-center justify-center select-none"><button onclick="closeLightbox()" aria-label="إغلاق" class="absolute top-4 left-4 bg-white/20 text-white p-2.5 rounded-full z-20"><i data-lucide="x" class="w-6 h-6"></i></button><button onclick="changeLightboxImage(-1)" aria-label="التالي" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 text-white p-3 rounded-full z-20"><i data-lucide="chevron-right" class="w-6 h-6"></i></button><button onclick="changeLightboxImage(1)" aria-label="السابق" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 text-white p-3 rounded-full z-20"><i data-lucide="chevron-left" class="w-6 h-6"></i></button><div class="relative w-full h-full flex items-center justify-center"><img id="lightbox-img" src="" class="max-w-full max-h-[85vh] object-contain transition-opacity duration-100"></div></div>
-
-        <!-- Admin Panel -->
-        <div id="admin-panel" class="hidden fixed inset-0 bg-slate-900 z-[400] flex flex-col text-white"><div class="p-3 border-b border-white/10 flex justify-between items-center bg-[#020617]"><h2 class="font-bold flex items-center gap-2 text-sm"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> لوحة التحكم</h2><div class="flex gap-3"><button onclick="refreshAdmin()" aria-label="تحديث"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button><button onclick="toggleAdminPanel()" aria-label="إغلاق"><i data-lucide="x" class="w-5 h-5"></i></button></div></div><div class="flex-1 flex overflow-hidden"><div class="w-1/3 border-l border-white/10 bg-[#0f172a] overflow-y-auto p-2" id="admin-users-list"></div><div class="w-2/3 flex flex-col bg-slate-900 relative"><div class="bg-[#020617] border-b border-white/10 p-2 text-[10px]"><div class="flex gap-2 mb-1.5"><input id="admin-target-phone" placeholder="رقم هاتف المستخدم (مثال: 1206244875)" class="flex-1 bg-white/5 border border-white/20 rounded px-2 py-1.5 text-white outline-none"><button onclick="searchAdminUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded px-3 transition-all flex items-center justify-center"><i data-lucide="search" class="w-4 h-4"></i></button></div><div id="admin-search-result" class="text-[10px] text-slate-300 hidden mb-2 bg-white/5 p-2 rounded"></div><div class="flex gap-3 mb-2 text-white/90"><label class="cursor-pointer flex items-center gap-1 font-bold"><input type="radio" name="admin_role" value="verified" checked> توثيق</label><label class="cursor-pointer flex items-center gap-1 font-bold"><input type="radio" name="admin_role" value="isAdmin"> أدمن</label><label class="cursor-pointer flex items-center gap-1 font-bold text-red-400"><input type="radio" name="admin_role" value="isBlocked"> حظر</label></div><div class="flex gap-2"><button onclick="applyAdminAction(true)" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded py-1.5 font-bold transition-all">حفظ</button><button onclick="applyAdminAction(false)" class="flex-1 bg-red-600 hover:bg-red-500 text-white rounded py-1.5 font-bold transition-all">إلغاء</button></div></div><div id="admin-chat-header" class="h-10 border-b border-white/10 flex items-center justify-between px-3 bg-[#020617]"><span class="text-xs font-bold">اختر محادثة الدعم</span><button onclick="kickUser()" id="btn-end-chat" class="hidden bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1"><i data-lucide="slash" class="w-3 h-3"></i> إنهاء</button></div><div id="admin-msg-area" class="flex-1 p-3 overflow-y-auto space-y-2 text-xs"></div><div class="p-2 border-t border-white/10 flex gap-2 bg-[#020617]"><input id="admin-input" class="flex-1 bg-white/5 border border-white/20 rounded px-3 py-1.5 text-xs text-white outline-none" placeholder="الرد..."><button onclick="sendAdminMsg()" class="bg-blue-600 px-4 py-1.5 rounded text-xs font-bold">إرسال</button></div></div></div></div>
-
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <header>
+        <h1>Aya</h1>
+        <p>اميرتي  وبنوتي الجميلة ❤</p>
+    </header>
 
-        const firebaseConfig = { apiKey: "AIzaSyC7zHuH8LK-yQAKG-Nm7dh31fXtVLxuCLM", authDomain: "sharqia-81030.firebaseapp.com", projectId: "sharqia-81030", storageBucket: "sharqia-81030.firebasestorage.app", messagingSenderId: "581888625195", appId: "1:581888625195:web:1667ba1e439e8e6c1fb86e" };
-        const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app);
+    <div class="countdown-wrapper">
+        <h2 style="color: var(--primary); margin-bottom: 10px; font-size: 1.1rem;">21/3/2007👀</h2>
+        <div class="timer-container">
+            <div class="heart-timer-item">
+                <svg viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg>
+                <div class="timer-content"><span class="timer-label">أيام</span><span class="timer-val" id="days">00</span></div>
+            </div>
+            <div class="heart-timer-item">
+                <svg viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg>
+                <div class="timer-content"><span class="timer-label">ساعات</span><span class="timer-val" id="hours">00</span></div>
+            </div>
+            <div class="heart-timer-item">
+                <svg viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg>
+                <div class="timer-content"><span class="timer-label">دقائق</span><span class="timer-val" id="minutes">00</span></div>
+            </div>
+            <div class="heart-timer-item">
+                <svg viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg>
+                <div class="timer-content"><span class="timer-label">ثواني</span><span class="timer-val" id="seconds">00</span></div>
+            </div>
+        </div>
+    </div>
 
-        const COLLECTION_NAME = "listings_v2"; 
-        const DUMMY_PUBLISHER = { displayName: "وسيط السوق", phoneNumber: "01206244875", photoURL: "https://cdn-icons-png.flaticon.com/512/609/609803.png" };
+    <section class="slider-section">
+        <div class="toast-container"><div id="slide-toast" class="slide-toast">لو طلبتي عنيا متغلاش عليكي❤️</div></div>
+        <div class="slider-container">
+            <div class="slide active" data-title="مراتي الي جمبي👀 ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006521/cvkuvh1r6iuuiqxlstso.jpg" alt="1"></div>
+            <div class="slide" data-title="وحشتيني يا اية ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771008043/h6k5sarva5owjjjewl0l.jpg" alt="2"></div>
+            <div class="slide" data-title="بدانا سنه جديدة ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771007379/ivtwcxpxpqjzcjewtckd.jpg" alt="3"></div>
+            <div class="slide" data-title="بتحبيني؟ ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006393/oinbwqksy3ngrgpbm5ie.jpg" alt="4"></div>
+            <div class="slide" data-title="انا بدمنك ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006521/cvkuvh1r6iuuiqxlstso.jpg" alt="5"></div>
+            <div class="slide" data-title="لو طلبتي عنيا متغلاش عليكي ❤️"><img decoding="async" src="https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771008727/jpfmjcfcbjfy60yu68qf.jpg" alt="6"></div>
+            <button class="nav-btn prev-btn" onclick="move(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn next-btn" onclick="move(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
 
-        let state = { user: null, userProfile: null, listings:[], filesToUpload:[], editingId: null, existingImages:[], regImage: null, chatId: null, chatStep: 0, tempName: '', activeAdminChat: null, isAdmin: false, welcomeSent: false, currentFilter: 'all', visibleLimit: 8, lightboxIndex: 0, activeDetailsId: null, currentDetailIndex: 0, publisherCache: {} };
+    <section class="video-section">
+        <h2 style="color: var(--primary); margin-bottom: 20px;">انتي دنيتي ❤</h2>
+        <div class="video-grid">
+            <div class="video-wrapper" onclick="openLB('video', 'https://res.cloudinary.com/db9h7zm1h/video/upload/v1771007427/zaj0mdz6ycuowzedhrxe.mp4')">
+                <video 
+                    src="https://res.cloudinary.com/db9h7zm1h/video/upload/v1771007427/zaj0mdz6ycuowzedhrxe.mp4" 
+                    class="video-preview" 
+                    muted loop playsinline 
+                    preload="auto" 
+                    poster="https://res.cloudinary.com/db9h7zm1h/video/upload/f_auto,q_auto/v1771007427/zaj0mdz6ycuowzedhrxe.jpg"
+                    onmouseover="this.play()" 
+                    onmouseout="this.pause()">
+                </video>
+                <div class="play-overlay"><i class="fas fa-play"></i></div>
+            </div>
+            <div class="video-wrapper" onclick="openLB('video', 'https://res.cloudinary.com/db9h7zm1h/video/upload/v1771007549/jqyhhzxoloteavthpisr.mp4')">
+                <video 
+                    src="https://res.cloudinary.com/db9h7zm1h/video/upload/v1771007549/jqyhhzxoloteavthpisr.mp4" 
+                    class="video-preview" 
+                    muted loop playsinline 
+                    preload="auto" 
+                    poster="https://res.cloudinary.com/db9h7zm1h/video/upload/f_auto,q_auto/v1771007549/jqyhhzxoloteavthpisr.jpg"
+                    onmouseover="this.play()" 
+                    onmouseout="this.pause()">
+                </video>
+                <div class="play-overlay"><i class="fas fa-play"></i></div>
+            </div>
+        </div>
+    </section>
 
-        let reviewsData =[];
-        let currentReviewPage = 0;
-        const REVIEWS_PER_PAGE = 5;
+    <section class="cards-section">
+        <div class="cards-grid">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><svg class="card-heart-icon" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg><p>اضغط للفتح</p></div><div class="flip-card-back"><p>إية. أنتي مش مجرد صدفة جميلة، أنتي أجمل قدر .  كل ثانية بتمر حبي ليكي بيزيد وياها ❤️</p></div></div></div>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><svg class="card-heart-icon" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg><p>اضغط للفتح</p></div><div class="flip-card-back"><p>عينيكي  حضني الدافي، وضحكتكِ هي  راحتي . وعد مني أفضل أحبك لنهاية العمر. ❤️</p></div></div></div>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><svg class="card-heart-icon" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg><p>اضغط للفتح</p></div><div class="flip-card-back"><p>ربنا يديمك ليا ويجعلك من نصيبي يا اجمل بنوتة.ويهدينا لبعض ❤️</p></div></div></div>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><svg class="card-heart-icon" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.8C7.33 20.66 3 16.74 3 12.05C3 8.16 6.04 5.12 9.93 5.12C12.13 5.12 14.24 6.14 15.61 7.74L16 8.21L16.39 7.74C17.76 6.14 19.87 5.12 22.07 5.12C25.96 5.12 29 8.16 29 12.05C29 16.74 24.67 20.66 17.9 26.81L16 28.5Z"/></svg><p>اضغط للفتح</p></div><div class="flip-card-back"><p>وجودكِ في حياتي نعمة. ربنا رزقني بيكي عوض عن هموم سنين وفرحة  لسنين جايه❤️</p></div></div></div>
+        </div>
+    </section>
 
-        const ALL_AMENITIES =["غاز طبيعي", "كهرباء", "مياه", "أسانسير", "واي فاي", "حمام سباحة", "حديقة", "جراج", "أمن وحراسة", "كاميرات مراقبة", "مطبخ أمريكاني", "غرفة خادمة", "مسموح بالحيوانات", "على ناصية"];
-        const LAND_AMENITIES =["كهرباء", "مياه", "غاز طبيعي", "على ناصية"];
-        const CAT_MAP = { 'apartment': 'شقق', 'villa': 'فلل', 'chalet': 'شاليهات', 'office': 'مكاتب', 'shop': 'محلات', 'land': 'أراضي', 'building': 'عماير', 'warehouse': 'مخازن' };
-        const CAT_KEYWORDS = { 'شقة': 'apartment', 'شقق': 'apartment', 'فيلا': 'villa', 'فلل': 'villa', 'شالية': 'chalet', 'شاليهات': 'chalet', 'مكتب': 'office', 'مكاتب': 'office', 'محل': 'shop', 'محلات': 'shop', 'ارض': 'land', 'اراضي': 'land', 'عمارة': 'building', 'عماير': 'building', 'مخزن': 'warehouse', 'مخازن': 'warehouse' };
+    <div class="music-player" id="musicPlayer">
+        <button class="music-btn" onclick="toggleMusic()"><i class="fas fa-play" id="musicIcon"></i></button>
+        <div class="music-waves paused" id="musicWaves"><div class="wave"></div><div class="wave"></div><div class="wave"></div></div>
+    </div>
 
-        const CATEGORIES_DATA =[
-            { id: 'apartment', name: 'شقق', img: 'https://images.pexels.com/photos/439227/pexels-photo-439227.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'villa', name: 'فلل', img: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'chalet', name: 'شاليهات', img: 'https://images.pexels.com/photos/1268871/pexels-photo-1268871.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'office', name: 'مكاتب', img: 'https://images.pexels.com/photos/1957478/pexels-photo-1957478.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'shop', name: 'محلات', img: 'https://images.pexels.com/photos/3914755/pexels-photo-3914755.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'land', name: 'أراضي', img: 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'building', name: 'عماير', img: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' },
-            { id: 'warehouse', name: 'مخازن', img: 'https://images.pexels.com/photos/221047/pexels-photo-221047.jpeg?auto=compress&cs=tinysrgb&w=300&q=50' }
-        ];
+    <div class="lightbox" id="lb"><span class="close-lb" onclick="closeLB()">&times;</span><div id="lb-content"></div></div>
 
-        const EGYPT_LOCATIONS = { "الشرقية":["الزقازيق", "العاشر من رمضان", "منيا القمح", "بلبيس", "مشتول السوق", "القنايات", "أبو حماد", "القرين", "ههيا", "أبو كبير", "فاقوس", "الصالحية الجديدة", "الإبراهيمية", "ديرب نجم", "كفر صقر", "أولاد صقر", "الحسينية", "صان الحجر", "منشأة أبو عمر"], "القاهرة":["مدينة نصر", "مصر الجديدة", "المعادي", "التجمع الخامس", "الرحاب", "مدينتي", "الشروق", "العبور", "المقطم", "الزيتون", "حدائق القبة", "شبرا", "وسط البلد", "المنيل", "الزمالك", "المهندسين", "الدقي", "العجوزة"], "الجيزة":["6 أكتوبر", "الشيخ زايد", "الهرم", "فيصل", "المهندسين", "الدقي", "العجوزة", "إمبابة", "الوراق", "بولاق الدكرور", "العمرانية", "المنيب"] };
+    <footer><p> لعيون آية وجمالهم❤️ 2026</p></footer>
 
-        /* --- تحسين الأداء: دالة لإخفاء شاشة التحميل فور جاهزية البيانات --- */
-        function hideSplashScreen() {
-            const splash = document.getElementById('splash-screen');
-            if (!splash.classList.contains('hidden-splash')) {
-                splash.classList.add('hidden-splash');
-                document.body.classList.add('app-loaded');
-            }
-        }
+    <script>
+        let isReady = false;
+        const loaderWrapper = document.getElementById('loader-wrapper');
+        const loaderMsg = document.getElementById('loader-msg');
+        const bgMusic = document.getElementById('bg-music');
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicWaves = document.getElementById('musicWaves');
 
-        /* --- تحسين تنظيم الكود: ربط الأحداث الثابتة (Event Listeners) --- */
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnTheme = document.getElementById('btn-toggle-theme');
-            if(btnTheme) btnTheme.addEventListener('click', toggleDarkMode);
-        });
+        const marqueeContent = document.getElementById('marqueeContent');
+        marqueeContent.innerHTML += marqueeContent.innerHTML;
 
-        function renderCategories() {
-            const grid = document.getElementById('categories-grid');
-            grid.innerHTML = CATEGORIES_DATA.map(c => `
-                <div onclick="openCategory('${c.id}', '${c.name}')" class="relative h-24 md:h-32 rounded-xl overflow-hidden cursor-pointer active:scale-95 bg-slate-300 dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                    <img src="${c.img}" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/40"></div>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-white font-black text-[13px] md:text-sm tracking-wider px-3 py-1 bg-black/50 rounded-lg">${c.name}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        window.addEventListener('popstate', (e) => {
-            if (!document.getElementById('lightbox').classList.contains('hidden')) {
-                closeLightbox(); return;
-            }
-            const openModals = Array.from(document.querySelectorAll('.modal-overlay:not(.hidden)'));
-            if (openModals.length > 0) {
-                if(!document.getElementById('details-modal').classList.contains('hidden')) {
-                    closeDetails(true); 
-                } else {
-                    openModals.forEach(m => m.classList.add('hidden'));
-                    document.body.style.overflow = '';
-                }
-                return;
-            }
-            if (document.getElementById('home-view').classList.contains('hidden')) {
-                openHome(true); 
-            }
-        });
-
-        window.openHome = (isHistoryBack = false) => {
-            document.getElementById('home-view').classList.remove('hidden');
-            document.getElementById('listings-view').classList.add('hidden');
-            document.getElementById('cat-filter-wrapper').classList.remove('hidden'); 
-            document.getElementById('filter-panel').classList.remove('open');
-            window.scrollTo({top:0, behavior:'smooth'});
-            if(!isHistoryBack) history.pushState({view: 'home'}, '', window.location.pathname);
-        };
-
-        window.openCategory = (catId, catName) => {
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('listings-view').classList.remove('hidden');
-            document.getElementById('listings-view-title').innerText = catName;
-
-            const catSelect = document.getElementById('filter-cat');
-            document.getElementById('cat-filter-wrapper').classList.add('hidden');
-            document.getElementById('filter-panel').classList.remove('open');
-
-            resetFiltersBase(); 
-            catSelect.value = catId;
-            performSearch(false);
-            window.scrollTo({top:0, behavior:'smooth'});
-            history.pushState({view: 'category', id: catId}, '', window.location.pathname);
-        };
-
-        function resetFiltersBase() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('filter-type').selectedIndex = 0;
-            document.getElementById('filter-gov').selectedIndex = 0;
-            document.getElementById('filter-city').innerHTML = '<option value="">كل المراكز</option>';
-            document.getElementById('filter-min-price').value = '';
-            document.getElementById('filter-max-price').value = '';
-            state.currentFilter = 'all';
-            state.visibleLimit = 8;
-        }
-
-        window.resetFilters = () => {
-            const currentCat = document.getElementById('filter-cat').value;
-            resetFiltersBase();
-            if(document.getElementById('cat-filter-wrapper').classList.contains('hidden')) {
-                document.getElementById('filter-cat').value = currentCat;
-            } else {
-                document.getElementById('filter-cat').selectedIndex = 0;
-            }
-            performSearch(false);
-        };
-
-        function checkAndOpenUrlProperty() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const openId = urlParams.get('id');
-            if (openId && state.activeDetailsId !== openId) {
-                const exists = state.listings.find(i => i.id === openId);
-                if(exists) { setTimeout(() => { openDetails(openId); }, 200); }
-            }
-        }
-
-        function loadCachedData() { 
-            const cached = localStorage.getItem('souq_listings'); 
-            if(cached) { 
-                try { 
-                    state.listings = JSON.parse(cached); 
-                    state.listings.sort((a,b) => (a.isPinned ? -1 : 1)); 
-                    updateFeaturedSlider(); 
-                    performSearch(true); 
-                    hideSplashScreen(); // إخفاء الشاشة فوراً
-                    checkAndOpenUrlProperty(); 
-                } catch(e) { 
-                    console.log('Cache error', e); 
-                } 
-            } 
-        }
-
-        // تم إزالة الـ setTimeout(5000) واستدعاء الدالة مباشرة
-        renderCategories();
-
-        let featuredDirection = -1;
-        let featuredAutoScroll; 
-
-        function startAutoScroll() {
-            clearInterval(featuredAutoScroll);
-            const slider = document.getElementById('featured-slider');
-            if (!slider || slider.children.length <= 1) return;
-
-            featuredAutoScroll = setInterval(() => {
-                window.scrollFeatured(featuredDirection, false);
-            }, 3000); 
-        }
-
-        function updateFeaturedSlider() {
-            const featuredList = state.listings.filter(i => i.isPinned);
-            const container = document.getElementById('featured-slider');
-            const section = document.getElementById('featured-section');
-            if(featuredList.length === 0) {
-                section.classList.add('hidden');
-                clearInterval(featuredAutoScroll);
-            } else {
-                section.classList.remove('hidden');
-                container.innerHTML = featuredList.map(item => {
-                    return `<div class="w-full flex-[0_0_100%] snap-center shrink-0">${createCard(item, 'feat')}</div>`;
-                }).join('');
-                lucide.createIcons({ root: container });
-
-                featuredDirection = -1; 
-                startAutoScroll();
-                container.onmouseenter = () => clearInterval(featuredAutoScroll);
-                container.onmouseleave = startAutoScroll;
-                container.ontouchstart = () => clearInterval(featuredAutoScroll);
-                container.ontouchend = startAutoScroll;
-            }
-        }
-
-        window.scrollFeatured = (dir, resetTimer = true) => { 
-            const slider = document.getElementById('featured-slider'); 
-            if (!slider || slider.children.length <= 1) return;
-
-            const cardWidth = slider.firstElementChild.offsetWidth;
-            const maxScroll = slider.scrollWidth - slider.clientWidth;
-
-            if (dir !== undefined && resetTimer) {
-                featuredDirection = dir;
-            }
-
-            slider.scrollBy({ left: featuredDirection * cardWidth, behavior: 'smooth' });
-
-            setTimeout(() => {
-                const currentScroll = Math.abs(slider.scrollLeft);
-                if (currentScroll >= maxScroll - 10) {
-                    featuredDirection = 1; 
-                } else if (currentScroll <= 10) {
-                    featuredDirection = -1; 
-                }
-            }, 400);
-
-            if(resetTimer) startAutoScroll();
-        }
-
-        function loadReviews() {
-            onSnapshot(query(collection(db, "reviews")), (snap) => {
-                reviewsData =[];
-                snap.forEach(doc => reviewsData.push({ id: doc.id, ...doc.data() }));
-                reviewsData.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-                renderReviews();
-            });
-        }
-
-        function renderReviews() {
-            const container = document.getElementById('reviews-container');
-            if (reviewsData.length === 0) {
-                container.innerHTML = '<div class="flex justify-center items-center h-20 text-slate-400 text-xs font-bold">لا توجد تقييمات بعد. كن أول من يضيف تقييماً!</div>';
-                return;
-            }
-
-            const startIndex = currentReviewPage * REVIEWS_PER_PAGE;
-            const pageReviews = reviewsData.slice(startIndex, startIndex + REVIEWS_PER_PAGE);
-
-            container.innerHTML = pageReviews.map(r => `
-                <div class="bg-white dark:bg-slate-900 p-2 rounded-xl border border-emerald-800 dark:border-emerald-600 animate-pop">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="flex items-center gap-1.5">
-                            <img src="${r.userPhoto || 'https://cdn-icons-png.flaticon.com/512/609/609803.png'}" class="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-600">
-                            <span class="font-black text-[11px] text-slate-800 dark:text-white">${r.userName}</span>
-                        </div>
-                        <span class="text-[8px] font-bold text-slate-500 dark:text-slate-400">${timeAgo(r.createdAt)}</span>
-                    </div>
-                    <div class="text-[10px] text-slate-800 dark:text-slate-300 font-bold leading-relaxed bg-slate-200 dark:bg-slate-800 p-2 rounded-lg border border-slate-300 dark:border-slate-700 whitespace-pre-wrap">${r.text}</div>
-                </div>
-            `).join('');
-        }
-
-        window.changeReviewPage = (dir) => {
-            const maxPage = Math.ceil(reviewsData.length / REVIEWS_PER_PAGE) - 1;
-            if (maxPage < 0) return;
-            currentReviewPage += dir;
-            if (currentReviewPage < 0) currentReviewPage = maxPage; 
-            if (currentReviewPage > maxPage) currentReviewPage = 0; 
-            renderReviews();
-        };
-
-        window.openReviewModal = () => {
-            if(!state.user || state.user.isAnonymous) {
-                showToast('يجب تسجيل الدخول لنشر تقييم', 'e');
-                toggleModal('auth-modal');
-                return;
-            }
-            document.getElementById('review-text').value = '';
-            toggleModal('review-modal');
-        };
-
-        window.submitReview = async () => {
-            const text = document.getElementById('review-text').value.trim();
-            if(!text) return showToast('يرجى كتابة التقييم', 'e');
-
-            const btn = document.getElementById('btn-submit-review');
-            btn.disabled = true; btn.innerText = 'جاري النشر...';
-
-            try {
-                const photoUrl = state.userProfile?.photoURL || 'https://cdn-icons-png.flaticon.com/512/609/609803.png';
-                const name = state.userProfile?.displayName || 'مستخدم';
-                await addDoc(collection(db, "reviews"), {
-                    userId: state.user.uid,
-                    userName: name,
-                    userPhoto: photoUrl,
-                    text: text,
-                    createdAt: serverTimestamp()
+        async function initLoader() {
+            // تحميل الصور
+            const images = Array.from(document.querySelectorAll('img'));
+            const imagePromises = images.map(img => {
+                return new Promise((resolve) => {
+                    if (img.complete) resolve();
+                    else { img.onload = resolve; img.onerror = resolve; }
                 });
-                showToast('تم نشر التقييم بنجاح');
-                toggleModal('review-modal');
-                currentReviewPage = 0; 
-            } catch(e) {
-                console.error(e);
-                showToast('حدث خطأ أثناء النشر', 'e');
-            } finally {
-                btn.disabled = false; btn.innerText = 'نشر التقييم';
-            }
-        };
-
-        loadCachedData();
-
-        onAuthStateChanged(auth, async (u) => { 
-            if(u) { 
-                state.user = u;
-                if(!u.isAnonymous) {
-                    const userDoc = await getDoc(doc(db, "users", u.uid));
-                    if(userDoc.exists()) {
-                        state.userProfile = userDoc.data();
-                        if(state.userProfile.isBlocked) { document.body.innerHTML = `<div style="display:flex; flex-direction:column; height:100vh; align-items:center; justify-content:center; background-color:#0f172a; color:#ef4444; text-align:center; padding:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><h1 style="font-size:24px; font-weight:bold; margin-bottom:10px;">عذراً، تم حظر هذا الحساب!</h1></div>`; return; }
-                        if(state.userProfile.phoneNumber === '+201206244875' || state.userProfile.isAdmin) { state.isAdmin = true; document.getElementById('btn-admin-top').classList.remove('hidden'); } else { state.isAdmin = false; document.getElementById('btn-admin-top').classList.add('hidden'); }
-                        updateHeader();
-                    }
-                } else { state.userProfile = null; state.isAdmin = false; document.getElementById('btn-admin-top').classList.add('hidden'); updateHeader(); }
-                loadListings(); loadReviews(); checkUserChat(); renderAmenities(ALL_AMENITIES); initLocations();
-            } else { signInAnonymously(auth).catch(console.error); }
-        });
-
-        window.handleProfileClick = () => { if(!state.user || state.user.isAnonymous) toggleModal('auth-modal'); };
-        window.switchAuthMode = (mode) => {['login','register'].forEach(m => { document.getElementById(`form-${m}`).classList.add('hidden'); document.getElementById(`tab-${m}`).className = 'flex-1 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 dark:text-slate-400 border dark:border-slate-700 border-transparent'; }); document.getElementById(`form-${mode}`).classList.remove('hidden'); document.getElementById(`tab-${mode}`).className = 'flex-1 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-800 shadow text-emerald-600 dark:text-white border dark:border-slate-600'; };
-        window.formatPhone = (input) => { let val = input.value.replace(/\D/g, ''); if(val.startsWith('0')) val = val.substring(1); input.value = val; };
-        window.previewProfileImage = async (input) => { if(input.files && input.files[0]) { const originalFile = input.files[0]; const instantUrl = URL.createObjectURL(originalFile); const img = document.getElementById('reg-img-preview'); img.src = instantUrl; img.classList.remove('hidden'); document.getElementById('reg-img-placeholder').classList.add('hidden'); state.regImage = await compressImage(originalFile, 300); } };
-        window.registerUser = async () => { const n=document.getElementById('reg-name').value, p=document.getElementById('reg-phone').value, w=document.getElementById('reg-pass').value; if(!n||!p||!w||!state.regImage)return showToast('البيانات ناقصة','e'); const btn=document.getElementById('btn-register'); btn.innerText='جاري الإنشاء...'; btn.disabled=true; try{ const photoURL=await uploadToCloudinary(state.regImage); const cred=await createUserWithEmailAndPassword(auth, `0${p}@souq.com`, w); const ud={uid:cred.user.uid,displayName:n,phoneNumber:`+20${p}`,photoURL:photoURL,createdAt:serverTimestamp()}; await setDoc(doc(db,"users",cred.user.uid),ud); state.userProfile=ud; updateHeader(); toggleModal('auth-modal'); showToast(`مرحباً ${n}`); }catch(e){ showToast('الرقم مسجل أو كلمة المرور ضعيفة','e'); } finally{ btn.innerText='إنشاء حساب جديد'; btn.disabled=false; } };
-        window.loginUser = async () => { const p=document.getElementById('login-phone').value, w=document.getElementById('login-pass').value; if(!p)return showToast('بيانات ناقصة','e'); const btn=document.getElementById('btn-login'); btn.innerText='جاري التحميل...'; btn.disabled=true; try{ await signInWithEmailAndPassword(auth, `0${p}@souq.com`, w); toggleModal('auth-modal'); showToast('تم تسجيل الدخول'); }catch(e){ showToast('البيانات غير صحيحة','e'); } finally{ btn.innerText='تسجيل الدخول'; btn.disabled=false; } };
-        window.logoutUser = () => { toggleModal('logout-modal'); };
-        window.confirmLogout = async () => { await signOut(auth); window.location.reload(); };
-
-        function updateHeader() {
-            const welcomeSection = document.getElementById('header-welcome-section'); const logoutBtn = document.getElementById('btn-logout'); const loginBtn = document.getElementById('btn-header-login');
-            if(state.userProfile) { 
-                const optimizedProfile = getOptimizedUrl(state.userProfile.photoURL, false, 100).replace('c_fill', 'c_fill,r_max'); 
-                welcomeSection.innerHTML = `<div class="profile-btn-header" onclick="handleProfileClick()"><img src="${optimizedProfile}" class="profile-img-header"><div class="profile-name-header"><span>${state.userProfile.displayName}</span><span class="profile-welcome-sub">أهلاً بك</span></div></div>`; 
-                logoutBtn.classList.remove('hidden'); loginBtn.classList.add('hidden'); 
-            } else { 
-                welcomeSection.innerHTML = `<span class="text-[9px] font-bold text-emerald-200 dark:text-slate-400 leading-none">مرحبا بكم في</span><span class="text-[13px] font-black text-white leading-tight">السوق <span class="text-yellow-400">وياك</span></span>`; 
-                logoutBtn.classList.add('hidden'); loginBtn.classList.remove('hidden'); 
-            }
-            if(document.querySelector('.sticky-header')) lucide.createIcons({root: document.querySelector('.sticky-header')});
-        }
-
-        window.openPublisherProfile = async () => {
-            if(!state.currentPublisher) return; document.getElementById('pub-img').src = getOptimizedUrl(state.currentPublisher.photoURL, false, 200).replace('c_fill', 'c_fill,r_max'); document.getElementById('pub-name').innerText = state.currentPublisher.displayName; document.getElementById('pub-phone').innerText = state.currentPublisher.phoneNumber;
-            const pubBdg = document.getElementById('pub-badge-status'); if(state.currentPublisher.verified) { pubBdg.innerHTML = '<p class="text-blue-800 dark:text-blue-200 font-bold text-xs flex items-center justify-center gap-1"><i data-lucide="check-circle" class="w-4 h-4"></i> حساب موثق</p>'; pubBdg.className = 'bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl border border-blue-100 dark:border-blue-800 mt-2'; pubBdg.classList.remove('hidden'); } else { pubBdg.classList.add('hidden'); }
-            toggleModal('publisher-modal'); lucide.createIcons({root: document.getElementById('publisher-modal')});
-        };
-
-        function renderAmenities(list) { document.getElementById('amenities-grid').innerHTML = list.map(a => `<label class="amenity-tile cursor-pointer"><input type="checkbox" class="amenity-check hidden" value="${a}"><div class="text-center py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-[9px] font-bold text-slate-600 dark:text-slate-300 transition-all hover:bg-slate-100 dark:hover:bg-slate-800 truncate">${a}</div></label>`).join(''); }
-        function initLocations() { const govSelects =['in-gov', 'filter-gov']; govSelects.forEach(id => { const sel = document.getElementById(id); if(sel) { sel.innerHTML = `<option value="" ${id==='in-gov'?'disabled selected':'selected'}>${id==='in-gov'?'المحافظة':'كل المحافظات'}</option>`; Object.keys(EGYPT_LOCATIONS).forEach(gov => { sel.innerHTML += `<option value="${gov}">${gov}</option>`; }); } }); }
-        window.populateCities = (govId, cityId) => { const gov = document.getElementById(govId).value; const citySel = document.getElementById(cityId); citySel.innerHTML = `<option value="" ${govId==='in-gov'?'disabled selected':'selected'}>${govId==='in-gov'?'المركز/المدينة':'كل المراكز'}</option>`; if(gov && EGYPT_LOCATIONS[gov]) { EGYPT_LOCATIONS[gov].forEach(city => { citySel.innerHTML += `<option value="${city}">${city}</option>`; }); } };
-        window.toggleFilterPanel = () => { document.getElementById('filter-panel').classList.toggle('open'); };
-        window.updateFormFields = () => { const cat = document.getElementById('in-category').value; const rF=document.getElementById('room-fields'), fF=document.getElementById('furnished-field'), lI=document.getElementById('in-level'), fA=document.getElementById('in-floors-alt'), lTW=document.getElementById('land-type-wrapper'), lF=document.getElementById('land-fields'), bF=document.getElementById('building-fields'), eF=document.getElementById('extra-fields'); rF.classList.remove('hidden'); fF.classList.remove('hidden'); lI.classList.remove('hidden'); fA.classList.add('hidden'); lTW.classList.add('hidden'); lF.classList.add('hidden'); bF.classList.add('hidden'); eF.classList.remove('hidden'); if(cat==='land') { renderAmenities(LAND_AMENITIES); rF.classList.add('hidden'); fF.classList.add('hidden'); lI.classList.add('hidden'); eF.classList.add('hidden'); lTW.classList.remove('hidden'); lF.classList.remove('hidden'); } else { renderAmenities(ALL_AMENITIES); if (cat === 'building') { rF.classList.add('hidden'); fF.classList.add('hidden'); lI.classList.add('hidden'); fA.classList.remove('hidden'); bF.classList.remove('hidden'); eF.classList.add('hidden'); } else if (['shop','office','warehouse'].includes(cat)) { rF.classList.add('hidden'); eF.classList.add('hidden'); } } };
-
-        window.toggleDarkMode = () => { 
-            document.documentElement.classList.toggle('dark'); 
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('souq_theme', isDark ? 'dark' : 'light'); 
-            document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#1e293b' : '#064e3b');
-        }; 
-
-        window.showToast=(m,t='s')=>{const d=document.createElement('div');d.className=`toast fixed top-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 shadow-xl px-4 py-2 rounded-lg border border-${t==='e'?'red':'emerald'}-500 flex items-center gap-2 text-xs font-bold z-[200] text-slate-800 dark:text-white`;d.innerHTML=`<i data-lucide="${t==='e'?'alert-circle':'check-circle'}" class="w-4 h-4 text-${t==='e'?'red':'emerald'}-500"></i> ${m}`;document.getElementById('toast-container').appendChild(d);lucide.createIcons({root:d});setTimeout(()=>{d.classList.add('hiding');setTimeout(()=>d.remove(),200)},3000)};
-
-        function normalizeText(t) { return t ? t.toString().toLowerCase().replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي') : ""; }
-
-        function timeAgo(d) { 
-            if(!d) return 'الآن'; 
-            try {
-                let dateObj;
-                if (typeof d.toDate === 'function') {
-                    dateObj = d.toDate();
-                } else if (d.seconds) {
-                    dateObj = new Date(d.seconds * 1000);
-                } else {
-                    dateObj = new Date(d);
-                }
-
-                if (isNaN(dateObj.getTime())) return 'الآن';
-
-                const s = Math.floor((new Date() - dateObj) / 1000); 
-                if(s < 60) return 'الآن'; 
-                if(s < 3600) return `منذ ${Math.floor(s/60)} د`; 
-                if(s < 86400) return `منذ ${Math.floor(s/3600)} س`; 
-                return `منذ ${Math.floor(s/86400)} ي`; 
-            } catch(e) { 
-                return 'الآن'; 
-            }
-        }
-
-        function showSkeletons() { const c=document.getElementById('grid-container'); if(state.listings.length === 0) { c.innerHTML=''; for(let i=0;i<8;i++) c.innerHTML+=`<div class="bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 h-full"><div class="h-36 skeleton rounded-t-xl"></div><div class="p-2 space-y-2"><div class="h-3 rounded skeleton w-3/4"></div><div class="h-2 rounded skeleton w-1/2"></div></div></div>`; } }
-
-        function loadListings() { 
-            if (state.listings.length === 0) { showSkeletons(); } 
-            onSnapshot(query(collection(db, COLLECTION_NAME)), (snap) => { 
-                state.listings =[]; 
-                snap.forEach(d => state.listings.push({id:d.id, ...d.data()})); 
-                localStorage.setItem('souq_listings', JSON.stringify(state.listings)); 
-                state.listings.sort((a,b) => (a.isPinned === b.isPinned) ? (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0) : (a.isPinned ? -1 : 1)); 
-                updateFeaturedSlider(); 
-                performSearch(true); 
-                hideSplashScreen(); // إخفاء الشاشة فوراً
-                checkAndOpenUrlProperty(); 
-            }); 
-        }
-
-        window.performSearch = (forceRender = false) => { 
-            const q = normalizeText(document.getElementById('search-input').value); 
-            const filterGov = document.getElementById('filter-gov').value;
-            const filterCity = document.getElementById('filter-city').value;
-            const filterType = document.getElementById('filter-type').value;
-            const filterCat = document.getElementById('filter-cat').value; 
-            const minPrice = Number(document.getElementById('filter-min-price').value) || 0;
-            const maxPrice = Number(document.getElementById('filter-max-price').value) || Infinity;
-
-            const isHomeView = !document.getElementById('home-view').classList.contains('hidden');
-
-            let detectedCat = ''; for (const[key, val] of Object.entries(CAT_KEYWORDS)) { if (q.includes(key)) { detectedCat = val; break; } }
-            const cont = document.getElementById('grid-container'); 
-
-            if (forceRender || cont.children.length !== state.listings.length) { 
-                cont.innerHTML = state.listings.map(item => createCard(item, 'grid')).join(''); 
-                lucide.createIcons({ root: cont }); 
-            }
-
-            let matchedCount = 0;
-            state.listings.forEach(item => { 
-                let matchType = true; 
-                if (filterType && item.type !== filterType) matchType = false; 
-                if (filterCat && item.category !== filterCat) matchType = false; 
-
-                const catNameAr = CAT_MAP[item.category] || ''; const codeSearch = (item.shortCode || (item.id ? item.id.substring(0,3) : '')).toLowerCase();
-                const itemText = normalizeText(item.title + item.desc + item.phone + item.gov + item.city + item.location + (item.address || '') + catNameAr + codeSearch);
-
-                const matchText = itemText.includes(q); 
-                const matchCat = !detectedCat || item.category === detectedCat; 
-                const matchGov = !filterGov || item.gov === filterGov; 
-                const matchCity = !filterCity || item.city === filterCity; 
-                const matchPrice = item.price >= minPrice && item.price <= maxPrice;
-
-                let isMatch = matchType && matchText && matchCat && matchGov && matchCity && matchPrice; 
-
-                if (isHomeView && item.isPinned) {
-                    isMatch = false;
-                }
-
-                const cardEl = document.getElementById(`card-grid-${item.id}`);
-                if (cardEl) { 
-                    if (isMatch) { 
-                        if (matchedCount < state.visibleLimit) { cardEl.style.display = ''; } else { cardEl.style.display = 'none'; } 
-                        matchedCount++; 
-                    } else { cardEl.style.display = 'none'; } 
-                }
-            }); 
-
-            const loadMoreBtn = document.getElementById('load-more-container'); const emptyState = document.getElementById('empty-state');
-            if(matchedCount === 0) { emptyState.classList.remove('hidden'); loadMoreBtn.classList.add('hidden'); } 
-            else { emptyState.classList.add('hidden'); if(matchedCount > state.visibleLimit) { loadMoreBtn.classList.remove('hidden'); } else { loadMoreBtn.classList.add('hidden'); } } 
-        };
-
-        window.loadMore = () => { state.visibleLimit += 8; performSearch(false); };
-
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Enter') {
-                const active = document.activeElement;
-                if(!active) return;
-                if(active.id === 'search-input') { performSearch(false); active.blur(); }
-                else if(active.id === 'login-phone') { e.preventDefault(); document.getElementById('login-pass').focus(); }
-                else if(active.id === 'login-pass') { e.preventDefault(); loginUser(); }
-                else if(active.id === 'reg-name') { e.preventDefault(); document.getElementById('reg-phone').focus(); }
-                else if(active.id === 'reg-phone') { e.preventDefault(); document.getElementById('reg-pass').focus(); }
-                else if(active.id === 'reg-pass') { e.preventDefault(); registerUser(); }
-                else if(active.id === 'chat-msg') { e.preventDefault(); sendMsg(); }
-            }
-        });
-
-        let searchTimeout; document.getElementById('search-input').addEventListener('input', () => { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => performSearch(false), 200); });
-
-        const getOptimizedUrl = (url, isVideo = false, width = 500) => {
-            if (!url || !url.includes('cloudinary.com')) return url || `https://via.placeholder.com/${width}?text=No+Image`;
-            const parts = url.split('/upload/'); if (parts.length < 2) return url; 
-            let params = `w_${width},h_${width},c_fill,q_auto:eco,f_auto`;
-            if (isVideo) { let cleanUrl = parts[1]; const lastDot = cleanUrl.lastIndexOf('.'); if (lastDot !== -1) cleanUrl = cleanUrl.substring(0, lastDot) + '.jpg'; return `${parts[0]}/upload/${params},so_0/${cleanUrl}`; } 
-            return `${parts[0]}/upload/${params}/${parts[1]}`;
-        };
-
-        function createCard(item, prefix = 'grid') {
-            const imgs = Array.isArray(item.images) ? item.images : (item.image ?[item.image] :[]); 
-            const firstMedia = imgs[0]; const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.mov')); 
-            const thumbUrl = getOptimizedUrl(firstMedia, isVideo, 500); 
-
-            let statusOverlay = ''; if(item.status && item.status !== 'available') { const txt = item.status==='sold'?'تم البيع':'تم التأجير'; const clr = item.status==='sold'?'bg-red-600':'bg-blue-600'; statusOverlay=`<div class="absolute inset-0 sold-overlay flex items-center justify-center z-30 pointer-events-none bg-black/50"><span class="${clr} text-white font-black px-6 py-2 rounded-xl shadow-2xl transform -rotate-12 text-sm border border-white/20">${txt}</span></div>`; }
-
-            const pillClass = "flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-1 flex justify-center items-center gap-1 shadow-sm";
-            let iconsHtml = ''; 
-            if(item.category === 'land') { if(item.feddan || item.qirat) iconsHtml += `<span class="${pillClass}"><i data-lucide="maximize" class="w-3 h-3 text-emerald-500"></i> ${item.feddan?item.feddan+' ف':''} ${item.qirat?item.qirat+' ق':''}</span>`; } else if (item.category === 'building') { if(item.floors) iconsHtml += `<span class="${pillClass}"><i data-lucide="layers" class="w-3 h-3 text-blue-500"></i> ${item.floors} أدوار</span>`; } else { if(item.rooms) iconsHtml += `<span class="${pillClass}"><i data-lucide="bed-double" class="w-3 h-3 text-indigo-500"></i> ${item.rooms} غرف</span>`; if(item.baths) iconsHtml += `<span class="${pillClass}"><i data-lucide="bath" class="w-3 h-3 text-cyan-500"></i> ${item.baths} حمام</span>`; }
-            if(item.area) iconsHtml += `<span class="${pillClass}"><i data-lucide="ruler" class="w-3 h-3 text-orange-500"></i> ${item.area}م</span>`;
-
-            const locDisplay = item.gov ? `${item.city}، ${item.gov}` : (item.location || ''); const code = item.shortCode || (item.id ? item.id.substring(0,3).toUpperCase() : ''); 
-            const shareUrl = window.location.origin + '/property/' + item.id; 
-            const waMsg = `مرحبا اريد الاستفسار عن هذا العقار:\n${item.title || ''}\nكود العقار: ${code}\nالرابط: ${shareUrl}`; 
-            const waLink = `https://wa.me/20${item.phone}?text=${encodeURIComponent(waMsg)}`;
-
-            return `<div id="card-${prefix}-${item.id}" class="listing-card bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm border border-emerald-800 dark:border-emerald-600 flex flex-col h-full cursor-pointer active:scale-95 transition-transform relative" onclick="openDetails('${item.id}')">
-                <div class="relative w-full h-40 shrink-0 bg-slate-200 dark:bg-slate-900">
-                    ${statusOverlay}
-                    <span class="absolute top-2 right-2 ${item.type === 'sale' ? 'bg-emerald-600' : 'bg-blue-600'} text-white px-2 py-0.5 rounded text-[10px] font-bold shadow-md z-20">${item.type === 'sale' ? 'بيع' : 'إيجار'}</span>
-                    ${item.isPinned ? `<span class="absolute top-2 left-2 bg-yellow-500 text-slate-900 px-2.5 py-0.5 rounded text-[10px] font-black shadow-md z-20">⭐ مميز</span>` : ''}
-                    <img src="${thumbUrl}" loading="lazy" decoding="async" class="w-full h-full object-cover ${statusOverlay?'grayscale':''}">
-                    ${imgs.length > 1 ? `<div class="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1"><i data-lucide="images" class="w-3 h-3"></i> +${imgs.length-1}</div>` : ''}
-                    ${isVideo ? `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 rounded-full p-2"><i data-lucide="play-circle" class="w-8 h-8 text-white/90"></i></div>` : ''}
-                </div>
-                <div class="p-1.5 flex-1 flex flex-col">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-1">
-                            <h3 class="font-bold text-slate-900 dark:text-white text-[12px] line-clamp-1 leading-tight">${item.title || 'بدون عنوان'}</h3>
-                            <span class="font-black text-emerald-600 dark:text-emerald-400 text-[12px] whitespace-nowrap mr-2 bg-emerald-50 dark:bg-slate-900 px-1.5 rounded border dark:border-slate-700">${Number(item.price || 0).toLocaleString()} ج</span>
-                        </div>
-                        <div class="flex justify-between items-center text-[9px] text-slate-700 dark:text-slate-300 mb-1.5 px-0.5"><span>كود: <span class="font-bold text-slate-900 dark:text-white">${code}</span></span><span>${timeAgo(item.createdAt)}</span></div>
-                        ${item.address ? `<div class="flex items-center gap-1 text-[9px] mb-1"><i data-lucide="map" class="w-3.5 h-3.5 text-slate-500 dark:text-slate-300 shrink-0"></i><span class="truncate leading-tight font-bold text-slate-800 dark:text-slate-200">${item.address}</span></div>` : ''}
-                        <div class="flex items-center gap-1 text-[9px] text-slate-700 dark:text-slate-300 mb-1"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500 dark:text-slate-300 shrink-0"></i><span class="truncate leading-tight">${locDisplay}</span></div>
-                    </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center gap-1.5 text-[10px] text-slate-700 dark:text-slate-200 font-bold mb-1.5 mt-1">${iconsHtml}</div>
-                        <div class="flex gap-1.5 pt-1.5 border-t border-slate-200 dark:border-slate-700">
-                            <a href="${waLink}" target="_blank" onclick="event.stopPropagation()" class="flex-1 bg-[#25D366] text-white py-1.5 rounded flex justify-center items-center gap-1.5 text-[10px] font-bold hover:bg-green-600 transition-all shadow-sm"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i> واتساب</a>
-                            <a href="tel:${item.phone}" onclick="event.stopPropagation()" class="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 px-4 py-1.5 rounded flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-sm border dark:border-slate-700"><i data-lucide="phone" class="w-3.5 h-3.5"></i></a>
-                        </div>
-                        <div class="mt-1.5 pt-0.5 border-t border-slate-200 dark:border-slate-700/50">
-                            <p class="text-center text-[7px] text-slate-400 dark:text-slate-500 font-bold">اضغط على البطاقة لعرض التفاصيل</p>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        }
-
-        window.openDetails = async (id) => {
-            if (state.activeDetailsId === id) { toggleModal('details-modal'); return; }
-            document.getElementById('d-title').innerText = ''; document.getElementById('d-pub-name').innerText = ''; document.getElementById('d-pub-img').classList.add('hidden');
-            const newUrl = new URL(window.location); newUrl.searchParams.set('id', id); window.history.pushState({}, '', newUrl);
-
-            if(toggleModal('details-modal')){
-                 try {
-                    const item = state.listings.find(i => i.id === id); if(!item) return;
-                    state.activeDetailsId = id; state.currentItem = item; state.currentDetailIndex = 0; 
-
-                    const renderPublisher = (pubData) => { let nameHtml = pubData.displayName || 'غير معروف'; if(pubData.verified) { nameHtml += ' <i data-lucide="check-circle" class="inline w-3 h-3 text-blue-500 mb-0.5"></i>'; } document.getElementById('d-pub-name').innerHTML = nameHtml; const img = document.getElementById('d-pub-img'); img.src = getOptimizedUrl(pubData.photoURL, false, 100).replace('c_fill', 'c_fill,r_max'); img.classList.remove('hidden'); lucide.createIcons({root: document.getElementById('publisher-bar')}); };
-
-                    state.currentPublisher = null;
-                    if(item.authorId) { if(state.publisherCache[item.authorId]) { state.currentPublisher = state.publisherCache[item.authorId]; renderPublisher(state.currentPublisher); } else { document.getElementById('d-pub-name').innerText = '...'; getDoc(doc(db, "users", item.authorId)).then(pubDoc => { if(pubDoc.exists()) { state.currentPublisher = pubDoc.data(); state.publisherCache[item.authorId] = state.currentPublisher; renderPublisher(state.currentPublisher); } else { state.currentPublisher = DUMMY_PUBLISHER; renderPublisher(DUMMY_PUBLISHER); } }).catch(() => renderPublisher(DUMMY_PUBLISHER)); } } else { state.currentPublisher = DUMMY_PUBLISHER; renderPublisher(DUMMY_PUBLISHER); }
-
-                    const code = item.shortCode || (item.id ? item.id.substring(0,3).toUpperCase() : '');
-                    document.getElementById('d-title').innerText = item.title || ''; document.getElementById('d-price').innerText = Number(item.price || 0).toLocaleString() + ' جنيه'; document.getElementById('d-desc').innerText = item.desc || 'لا يوجد وصف'; document.getElementById('d-time-badge').innerHTML = `${timeAgo(item.createdAt)} &nbsp;|&nbsp; كود: <span class="text-slate-700 dark:text-white font-bold">${code}</span>`;
-
-                    const amCont = document.getElementById('d-amenities'); amCont.innerHTML=''; 
-                    if(item.amenities && Array.isArray(item.amenities) && item.amenities.length > 0) { item.amenities.forEach(a => { amCont.innerHTML += `<div class="p-1.5 text-center text-[10px] font-bold text-slate-700 dark:text-slate-300 border-r border-b border-slate-200 dark:border-slate-700 last:border-r-0">${a}</div>`; }); } else { amCont.innerHTML = `<div class="col-span-3 p-2 text-center text-[9px] text-slate-400">لا توجد مميزات إضافية</div>`; }
-                    const mapBtn = document.getElementById('d-map'); if(item.mapLink) { mapBtn.classList.remove('hidden'); mapBtn.classList.add('flex'); mapBtn.href = item.mapLink; } else { mapBtn.classList.add('hidden'); mapBtn.classList.remove('flex'); }
-
-                    const typeEl = document.getElementById('d-type-badge');
-                    if(item.status && item.status !== 'available') { typeEl.innerText = item.status === 'sold' ? 'مباع' : 'مؤجر'; typeEl.className = `absolute bottom-2 right-2 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow bg-red-600/90`; } else { typeEl.innerText = item.type === 'sale' ? 'للبيع' : 'للإيجار'; typeEl.className = `absolute bottom-2 right-2 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow bg-emerald-600/90`; }
-
-                    const imgs = (Array.isArray(item.images) && item.images.length > 0) ? item.images : (item.image ?[item.image] :['https://via.placeholder.com/600?text=No+Image']); 
-
-                    if (imgs[0] && imgs[0].includes('cloudinary.com')) {
-                        const p = imgs[0].split('/upload/');
-                        if (p.length === 2) {
-                            let cln = p[1];
-                            const isVid = cln.includes('.mp4') || cln.includes('.mov') || p[0].includes('/video');
-                            if (isVid) {
-                                const lastDot = cln.lastIndexOf('.');
-                                if (lastDot !== -1) cln = cln.substring(0, lastDot) + '.jpg';
-                                new Image().src = `${p[0]}/upload/w_600,h_315,c_fill,q_auto:eco,f_jpg,so_0/${cln}`;
-                            } else {
-                                new Image().src = `${p[0]}/upload/w_600,h_315,c_fill,q_auto:eco,f_jpg/${cln}`;
-                            }
-                        }
-                    }
-
-                    const updateWaLink = () => { const shareUrl = window.location.origin + '/property/' + item.id; const waMsg = `مرحبا اريد الاستفسار عن هذا العقار:\n${item.title || ''}\nكود العقار: ${code}\nالرابط: ${shareUrl}`; document.getElementById('d-wa').href = `https://wa.me/20${item.phone}?text=${encodeURIComponent(waMsg)}`; }; updateWaLink(); document.getElementById('d-call').href = `tel:${item.phone}`;
-
-                    const slider = document.getElementById('details-slider'); 
-                    slider.innerHTML = imgs.map((src, idx) => { 
-                        if(!src) return ''; 
-                        const isVid = src.includes('.mp4') || src.includes('.mov'); 
-                        let thumb = (idx === 0) ? getOptimizedUrl(src, isVid, 500) : getOptimizedUrl(src, isVid, 800); 
-                        return isVid ? `<video src="${src}" controls class="w-full h-full object-contain snap-center shrink-0 bg-black"></video>` : `<img src="${thumb}" ${idx > 0 ? 'loading="lazy"' : ''} decoding="async" class="w-full h-full object-cover snap-center shrink-0 cursor-pointer" onclick="openLightbox('${src}', ${idx})">` 
-                    }).join('');
-
-                    setTimeout(() => { 
-                        if(slider && slider.firstElementChild) { 
-                            slider.scrollLeft = 0; 
-                            slider.firstElementChild.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' }); 
-                        } 
-                    }, 10); 
-
-                    document.getElementById('details-arrows').style.display = imgs.length > 1 ? 'block' : 'none';
-
-                    const locDisplay = item.gov ? `${item.city}، ${item.gov}` : (item.location || '');
-                    let tableHtml = `<tr><th class="w-1/3 text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="home" class="w-3.5 h-3.5"></i> نوع العقار</th><td class="font-bold text-slate-800 dark:text-slate-200">${CAT_MAP[item.category] || 'عقار'}</td></tr>`;
-                    if(item.address) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="map" class="w-3.5 h-3.5"></i> العنوان التفصيلي</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.address}</td></tr>`;
-                    tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> المحافظة/المركز</th><td class="font-bold text-slate-800 dark:text-slate-200">${locDisplay}</td></tr>`;
-                    if(item.area) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> المساحة</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.area} م²</td></tr>`;
-                    if(item.category === 'land') { if(item.landType) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="sprout" class="w-3.5 h-3.5"></i> نوع الأرض</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.landType==='building'?'مباني':'زراعية'}</td></tr>`; if(item.feddan) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="maximize" class="w-3.5 h-3.5"></i> فدان</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.feddan}</td></tr>`; if(item.qirat) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="minimize" class="w-3.5 h-3.5"></i> قيراط</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.qirat}</td></tr>`; } else if (item.category === 'building') { if(item.floors) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="layers" class="w-3.5 h-3.5"></i> عدد الأدوار</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.floors}</td></tr>`; if(item.apartments) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="grid" class="w-3.5 h-3.5"></i> عدد الشقق</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.apartments}</td></tr>`; } else { if(item.rooms) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="bed-double" class="w-3.5 h-3.5"></i> الغرف</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.rooms}</td></tr>`; if(item.baths) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="bath" class="w-3.5 h-3.5"></i> الحمامات</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.baths}</td></tr>`; if(item.balconies) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="wind" class="w-3.5 h-3.5"></i> البلكونات</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.balconies}</td></tr>`; if(item.finishing) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="paint-bucket" class="w-3.5 h-3.5"></i> التشطيب</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.finishing}</td></tr>`; if(item.level) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="arrow-up-circle" class="w-3.5 h-3.5"></i> الدور</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.level}</td></tr>`; if(item.furnished) tableHtml += `<tr><th class="text-slate-500 dark:text-slate-400 font-normal text-[10px] flex items-center gap-1.5"><i data-lucide="sofa" class="w-3.5 h-3.5"></i> الفرش</th><td class="font-bold text-slate-800 dark:text-slate-200">${item.furnished==='yes'?'مفروش':'غير مفروش'}</td></tr>`; }
-                    document.getElementById('d-table-body').innerHTML = tableHtml;
-
-                    const isOwner = state.user && state.user.uid === item.authorId;
-                    const showControls = state.isAdmin || isOwner;
-                    const controlsDiv = document.getElementById('d-controls');
-
-                    if(showControls) {
-                        controlsDiv.classList.remove('hidden');
-                        let controlsHtml = `<div class="grid ${state.isAdmin ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'} gap-2 w-full bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">`;
-                        controlsHtml += `<button onclick="del(event,'${item.id}')" class="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 py-2 rounded-lg text-[10px] font-bold shadow-sm hover:bg-red-100 transition-all flex items-center justify-center gap-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> حذف</button>`;
-
-                        if(isOwner || state.isAdmin) { 
-                            controlsHtml += `<button onclick="editListing('${item.id}')" class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 py-2 rounded-lg text-[10px] font-bold shadow-sm hover:bg-blue-100 transition-all flex items-center justify-center gap-1"><i data-lucide="edit" class="w-3.5 h-3.5"></i> تعديل</button>`; 
-                        }
-
-                        controlsHtml += `<div class="relative w-full"><select onchange="updateStatus(event, '${item.id}', this.value)" class="appearance-none w-full bg-emerald-50 dark:bg-slate-900 border border-emerald-200 dark:border-slate-700 rounded-lg py-2 pl-6 pr-2 text-[10px] font-bold shadow-sm text-emerald-700 dark:text-emerald-400 outline-none h-full text-center cursor-pointer"><option value="available" ${item.status==='available'?'selected':''}>🟢 متاح</option><option value="sold" ${item.status==='sold'?'selected':''}>🔴 مباع</option><option value="rented" ${item.status==='rented'?'selected':''}>🔵 مؤجر</option></select><i data-lucide="chevron-down" class="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 pointer-events-none"></i></div>`;
-
-                        if(state.isAdmin) { 
-                            controlsHtml += `<button onclick="pin(event,'${item.id}',${item.isPinned})" class="${item.isPinned ? 'bg-yellow-100 dark:bg-slate-900 text-yellow-600 dark:text-yellow-400 border-yellow-300 dark:border-yellow-600/50' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'} border py-2 rounded-lg text-[10px] font-bold shadow-sm transition-all flex items-center justify-center gap-1"><i data-lucide="star" class="w-3.5 h-3.5 ${item.isPinned?'fill-current':''}"></i> ${item.isPinned ? 'إلغاء التثبيت' : 'تثبيت'}</button>`; 
-                        }
-                        controlsHtml += `</div>`;
-                        controlsDiv.innerHTML = controlsHtml;
-                    } else { controlsDiv.classList.add('hidden'); }
-                    lucide.createIcons({root: document.getElementById('details-modal')});
-                } catch(e) { 
-                    console.error("Error Rendering Details:", e);
-                }
-            }
-        }
-
-        window.closeDetails = (isHistoryBack = false) => { const slider = document.getElementById('details-slider'); if(slider && slider.firstElementChild) { slider.firstElementChild.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' }); } toggleModal('details-modal', isHistoryBack); const newUrl = new URL(window.location); newUrl.searchParams.delete('id'); window.history.pushState({}, '', newUrl); state.activeDetailsId = null; }
-        
-        window.shareListing = async () => { 
-            if(!state.currentItem) return; 
-            const shareUrl = window.location.origin + '/property/' + state.currentItem.id;
-            const d = { 
-                title: 'السوق وياك', 
-                text: `شاهد عقار: ${state.currentItem.title}`, 
-                url: shareUrl 
-            }; 
-            
-            try { 
-                await navigator.share(d); 
-                showToast('تمت المشاركة'); 
-            } catch(e) { 
-                navigator.clipboard.writeText(d.url); 
-                showToast('تم النسخ'); 
-            } 
-        };
-
-        window.downloadImages = async () => { 
-            if(!state.currentItem || !state.currentItem.images) return; 
-            const slider = document.getElementById('details-slider'); 
-            let currentIndex = 0; 
-            if (slider && slider.children.length > 0) { 
-                const scrollLeft = Math.abs(slider.scrollLeft); 
-                const itemWidth = slider.clientWidth; 
-                currentIndex = Math.round(scrollLeft / itemWidth); 
-            } 
-            const url = state.currentItem.images[currentIndex]; 
-            if (!url) return; 
-            
-            showToast('جاري التنزيل في الخلفية...'); 
-            
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = blobUrl;
-                const ext = (url.includes('.mp4') || url.includes('.mov')) ? 'mp4' : 'jpg';
-                a.download = `souq_wayak_${state.currentItem.id}_${currentIndex+1}.${ext}`;
-                
-                document.body.appendChild(a);
-                a.click();
-                
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(blobUrl);
-                }, 1000);
-            } catch (error) {
-                let fallbackUrl = url; 
-                if(url.includes('cloudinary.com')) { 
-                    const parts = url.split('/upload/'); 
-                    if(parts.length === 2) { 
-                        fallbackUrl = `${parts[0]}/upload/fl_attachment/${parts[1]}`; 
-                    } 
-                } 
-                const a = document.createElement('a'); 
-                a.style.display = 'none';
-                a.href = fallbackUrl; 
-                a.download = `souq_wayak_${state.currentItem.id}_${currentIndex+1}`; 
-                document.body.appendChild(a); 
-                a.click(); 
-                document.body.removeChild(a);
-            }
-        };
-        window.scrollDetails = (dir) => { const slider = document.getElementById('details-slider'); const count = slider.children.length; if(count === 0) return; let newIndex = state.currentDetailIndex + dir; if (newIndex >= count) newIndex = 0; if (newIndex < 0) newIndex = count - 1; state.currentDetailIndex = newIndex; const target = slider.children[newIndex]; target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); }
-        window.openLightbox = (src, idx = 0) => { state.lightboxIndex = idx; updateLightboxImage(); document.getElementById('lightbox').classList.remove('hidden'); history.pushState({modal: 'lightbox'}, '', window.location.href); }
-        window.closeLightbox = () => { document.getElementById('lightbox').classList.add('hidden'); document.getElementById('lightbox-img').src=''; }
-        window.changeLightboxImage = (dir) => { if (!state.currentItem || !state.currentItem.images) return; const len = state.currentItem.images.length; state.lightboxIndex = (state.lightboxIndex + dir + len) % len; updateLightboxImage(); };
-        function updateLightboxImage() { const imgEl = document.getElementById('lightbox-img'); const src = state.currentItem.images[state.lightboxIndex]; if (!src || src.includes('.mp4') || src.includes('.mov')) { showToast("فيديو: يرجى المشاهدة في التفاصيل"); return; } const optimizedSrc = getOptimizedUrl(src, false, 800); if(!imgEl.src) { imgEl.src = optimizedSrc; } else { imgEl.style.opacity = '0.5'; const tempImg = new Image(); tempImg.onload = () => { imgEl.src = optimizedSrc; imgEl.style.opacity = '1'; }; tempImg.src = optimizedSrc; } }
-
-        window.toggleModal = function(id, isHistoryBack = false) { 
-            const m = document.getElementById(id); 
-            const isOpening = m.classList.contains('hidden');
-            m.classList.toggle('hidden'); 
-
-            if(document.querySelectorAll('.modal-overlay:not(.hidden)').length > 0) { 
-                document.body.style.overflow = 'hidden'; 
-                if(isOpening && !isHistoryBack && id !== 'details-modal') history.pushState({modal: id}, '', window.location.href);
-            } else { 
-                document.body.style.overflow = ''; 
-            } 
-            return isOpening; 
-        }
-
-        function enableSwipeToClose(modalId) {
-            const modal = document.getElementById(modalId);
-            const content = modal.firstElementChild;
-            let startY = 0, currentY = 0;
-
-            content.addEventListener('touchstart', e => {
-                startY = e.touches[0].clientY;
-                content.style.transition = 'none';
-            }, {passive: true});
-
-            content.addEventListener('touchmove', e => {
-                currentY = e.touches[0].clientY;
-                let deltaY = currentY - startY;
-                if(deltaY > 0) {
-                    content.style.transform = `translateY(${deltaY}px)`;
-                }
-            }, {passive: true});
-
-            content.addEventListener('touchend', e => {
-                let deltaY = currentY - startY;
-                content.style.transition = 'transform 0.3s ease-out';
-                if(deltaY > 120) {
-                    toggleModal(modalId);
-                    setTimeout(()=> content.style.transform = '', 300);
-                } else {
-                    content.style.transform = 'translateY(0)';
-                }
             });
-        }
-        setTimeout(() => { enableSwipeToClose('auth-modal'); enableSwipeToClose('publisher-modal'); }, 1000);
 
-        function resetAddForm() { 
-            state.filesToUpload =[]; state.editingId = null; state.existingImages =[]; 
-            document.getElementById('preview-area').innerHTML = ''; 
-            document.getElementById('file-upload-input').value = ''; 
-            document.getElementById('in-title').value = ''; 
-            document.getElementById('in-price').value = ''; 
-            document.getElementById('in-area').value = ''; 
-            document.getElementById('in-desc').value = ''; 
-            document.getElementById('in-map').value = ''; 
-            document.getElementById('in-address').value = ''; 
-            document.getElementById('in-phone').value = state.userProfile ? state.userProfile.phoneNumber.replace('+20', '') : ''; 
-            document.querySelectorAll('.amenity-check').forEach(c => c.checked = false); 
-            document.getElementById('furn-no').checked = true;['in-level', 'in-rooms', 'in-baths', 'in-balconies', 'in-finishing', 'in-floors-alt', 'in-apartments', 'in-feddan', 'in-qirat'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.value = '';
+            // تحميل الفيديوهات
+            const videos = Array.from(document.querySelectorAll('video'));
+            const videoPromises = videos.map(vid => {
+                return new Promise((resolve) => {
+                    if (vid.readyState >= 1) resolve();
+                    else { vid.onloadeddata = resolve; vid.onerror = resolve; }
+                });
             });
-            document.getElementById('in-land-type').selectedIndex = 0;
-            document.getElementById('in-category').selectedIndex = 0;
-            document.getElementById('in-type').selectedIndex = 0;
-            document.getElementById('in-gov').selectedIndex = 0;
-            document.getElementById('in-city').innerHTML = '<option value="" disabled selected>المركز/المدينة</option>';
 
-            document.getElementById('add-modal-title').innerText = 'إضافة عقار'; 
-            const btn = document.getElementById('btn-publish');
-            btn.innerText = 'نشر الإعلان';
-            btn.disabled = false;
+            // تحميل خلفية الهيدر
+            const bgSrc = 'https://res.cloudinary.com/db9h7zm1h/image/upload/f_auto,q_auto/v1771006566/nmblpuvgtpreweumrunp.jpg';
+            const bgPromise = new Promise((resolve) => {
+                const img = new Image();
+                img.src = bgSrc;
+                img.onload = resolve; img.onerror = resolve;
+            });
+
+            await Promise.all([...imagePromises, ...videoPromises, bgPromise]);
+
+            isReady = true;
+            loaderWrapper.classList.add('ready');
+            loaderMsg.innerText = "اضغطى على القلب ❤️";
         }
 
-        window.openAddModal = () => { if(state.user && !state.user.isAnonymous) { resetAddForm(); updateFormFields(); if(toggleModal('add-modal')){ const newUrl = new URL(window.location); newUrl.searchParams.set('mode', 'add'); window.history.pushState({}, '', newUrl); } } else { showToast('يجب تسجيل الدخول أولاً', 'e'); toggleModal('auth-modal'); } };
-        window.editListing = (id) => { const item = state.listings.find(i => i.id === id); if(!item) return; state.editingId = id; state.existingImages = item.images; closeDetails(); document.getElementById('add-modal-title').innerText = 'تعديل العقار'; document.getElementById('btn-publish').innerText = 'حفظ التعديلات'; document.getElementById('in-category').value = item.category; updateFormFields(); document.getElementById('in-type').value = item.type; document.getElementById('in-title').value = item.title; document.getElementById('in-price').value = item.price; document.getElementById('in-area').value = item.area || ''; document.getElementById('in-gov').value = item.gov; populateCities('in-gov', 'in-city'); setTimeout(() => { document.getElementById('in-city').value = item.city; }, 100); document.getElementById('in-address').value = item.address || ''; document.getElementById('in-phone').value = item.phone || ''; document.getElementById('in-desc').value = item.desc || ''; document.getElementById('in-map').value = item.mapLink || ''; if(item.level) document.getElementById('in-level').value = item.level; if(item.rooms) document.getElementById('in-rooms').value = item.rooms; if(item.baths) document.getElementById('in-baths').value = item.baths; if(item.balconies) document.getElementById('in-balconies').value = item.balconies; if(item.finishing) document.getElementById('in-finishing').value = item.finishing; if(item.floors) document.getElementById('in-floors-alt').value = item.floors; if(item.apartments) document.getElementById('in-apartments').value = item.apartments; if(item.feddan) document.getElementById('in-feddan').value = item.feddan; if(item.qirat) document.getElementById('in-qirat').value = item.qirat; if(item.landType) document.getElementById('in-land-type').value = item.landType; if(item.furnished === 'yes') document.getElementById('furn-yes').checked = true; else document.getElementById('furn-no').checked = true; setTimeout(() => { if(item.amenities && Array.isArray(item.amenities)) { document.querySelectorAll('.amenity-check').forEach(c => { if(item.amenities.includes(c.value)) c.checked = true; }); } }, 100); document.getElementById('preview-area').innerHTML = `<div class="text-[9px] text-slate-500 font-bold p-2 text-center w-full">الصور محفوظة مسبقاً.</div>`; toggleModal('add-modal'); };
+        function startExperience() {
+            if (!isReady) return;
 
-        async function compressImage(file, targetWidth = 1024) { if (file.type.startsWith('video')) return file; return new Promise((resolve) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = (e) => { const img = new Image(); img.src = e.target.result; img.onload = () => { const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); let width = img.width; let height = img.height; if (width > targetWidth) { height *= targetWidth / width; width = targetWidth; } canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height); canvas.toBlob((blob) => { resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() })); }, 'image/jpeg', 0.7); }; }; }); }
-        window.handleUpload = async (input) => { if(input.files.length + state.filesToUpload.length > 10) return showToast('10 ملفات كحد أقصى','e'); showToast('جاري معالجة الصور...'); for(let f of input.files){ const compressedFile = await compressImage(f); state.filesToUpload.push(compressedFile); await new Promise(resolve => setTimeout(resolve, 10)); } renderPreview(); }; function renderPreview() { const area = document.getElementById('preview-area'); area.innerHTML = state.filesToUpload.map((f, idx) => { const isVid = f.type.startsWith('video'); const url = URL.createObjectURL(f); return `<div class="relative w-12 h-12 shrink-0 group">${isVid ? `<video src="${url}" class="w-full h-full rounded-lg object-cover border border-slate-200"></video>` : `<img src="${url}" class="w-full h-full rounded-lg object-cover border border-slate-200">`}<button onclick="removeFile(${idx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 shadow-sm"><i data-lucide="x" class="w-3 h-3"></i></button></div>`}).join(''); lucide.createIcons({root: area}); }
-        window.removeFile = (idx) => { state.filesToUpload.splice(idx, 1); renderPreview(); }
-        async function uploadToCloudinary(file) { const formData = new FormData(); formData.append('file', file); formData.append('upload_preset', 'souq_upload'); const res = await fetch('https://api.cloudinary.com/v1_1/db9h7zm1h/auto/upload', { method: 'POST', body: formData }); const data = await res.json(); return data.secure_url; }
+            bgMusic.play().then(() => {
+                musicIcon.className = 'fas fa-pause';
+                musicWaves.classList.remove('paused');
+            }).catch(e => console.log("Audio play blocked"));
 
-        window.submitListing = async () => { 
-            try { 
-                const gov = document.getElementById('in-gov').value; 
-                const city = document.getElementById('in-city').value; 
-                if(!gov || !city) return showToast('يرجى اختيار المحافظة والمركز', 'e'); 
-                
-                let uploadedUrls =[]; 
-                if(state.filesToUpload.length > 0) { 
-                    const btn = document.getElementById('btn-publish'); 
-                    btn.innerText='جاري الرفع...'; 
-                    btn.disabled = true; 
-                    for(let f of state.filesToUpload) { 
-                        const url = await uploadToCloudinary(f); 
-                        uploadedUrls.push(url); 
-                    } 
-                } else if (state.editingId) { 
-                    uploadedUrls = state.existingImages; 
-                } else { 
-                    return showToast('مطلوب صورة أو فيديو','e'); 
-                } 
-                
-                document.getElementById('btn-publish').innerText = 'جاري المعالجة...'; 
-                document.getElementById('btn-publish').disabled = true; 
-                
-                const am =[]; document.querySelectorAll('.amenity-check:checked').forEach(c => am.push(c.value)); 
-                const cat = document.getElementById('in-category').value; 
-                const furnished = document.querySelector('input[name="furnished"]:checked')?.value; 
-                const landType = document.getElementById('in-land-type').value; 
-                
-                const listingData = { title: document.getElementById('in-title').value, price: Number(document.getElementById('in-price').value), type: document.getElementById('in-type').value, category: cat, area: Number(document.getElementById('in-area').value) || 0, feddan: Number(document.getElementById('in-feddan').value) || 0, qirat: Number(document.getElementById('in-qirat').value) || 0, landType: landType, floors: Number(cat === 'building' ? document.getElementById('in-floors-alt').value : document.getElementById('in-floors-alt').value) || 0, apartments: Number(document.getElementById('in-apartments').value) || 0, rooms: Number(document.getElementById('in-rooms').value) || 0, baths: Number(document.getElementById('in-baths').value) || 0, balconies: Number(document.getElementById('in-balconies').value) || 0, finishing: document.getElementById('in-finishing').value, level: document.getElementById('in-level').value, furnished: furnished, gov: gov, city: city, address: document.getElementById('in-address').value, phone: document.getElementById('in-phone').value, desc: document.getElementById('in-desc').value, mapLink: document.getElementById('in-map').value, amenities: am, images: uploadedUrls, image: uploadedUrls[0] }; 
-                
-                if(state.editingId) { 
-                    await updateDoc(doc(db, COLLECTION_NAME, state.editingId), listingData); 
-                    showToast('تم حفظ التعديلات بنجاح'); 
-                } else { 
-                    const generatedCode = Math.floor(100 + Math.random() * 900).toString(); 
-                    listingData.shortCode = generatedCode; 
-                    listingData.status = 'available'; 
-                    listingData.isPinned = false; 
-                    listingData.createdAt = serverTimestamp(); 
-                    listingData.authorId = state.user.uid; 
-                    await addDoc(collection(db, COLLECTION_NAME), listingData); 
-                    showToast('تم النشر بنجاح'); 
-                } 
-                toggleModal('add-modal'); 
-                resetAddForm(); 
-            } catch(e) { 
-                console.error(e); 
-                showToast('حدث خطأ أثناء العملية', 'e'); 
-                document.getElementById('btn-publish').innerText = state.editingId ? 'حفظ التعديلات' : 'نشر الإعلان'; 
-                document.getElementById('btn-publish').disabled = false; 
-            } 
-        };
+            document.body.classList.add('active-experience');
+            loaderWrapper.classList.add('fade-out');
+            document.body.style.overflowY = 'auto'; 
 
-        let itemToDelete = null;
-        window.del = (e, id) => {
-            if(e) e.stopPropagation();
-            itemToDelete = id;
-            toggleModal('delete-modal');
-        };
-        window.confirmDelete = async () => {
-            if(!itemToDelete) return;
-            const btn = document.getElementById('btn-confirm-delete');
-            btn.disabled = true; btn.innerText = 'جاري الحذف...';
-            try {
-                await deleteDoc(doc(db, COLLECTION_NAME, itemToDelete));
-                showToast('تم الحذف بنجاح');
-                closeDetails();
-                toggleModal('delete-modal');
-            } catch(e) {
-                showToast('خطأ في الحذف', 'e');
-            } finally {
-                btn.disabled = false; btn.innerText = 'نعم، حذف';
-                itemToDelete = null;
+            setTimeout(() => { musicPlayer.classList.add('show'); }, 1000);
+            setTimeout(() => { document.getElementById('slide-toast').classList.add('show'); }, 800);
+
+            resetSlideTimer();
+        }
+
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicIcon.className = 'fas fa-pause';
+                musicWaves.classList.remove('paused');
+            } else {
+                bgMusic.pause();
+                musicIcon.className = 'fas fa-play';
+                musicWaves.classList.add('paused');
             }
-        };
+        }
 
-        window.pin=async(e,id,s)=>{if(e)e.stopPropagation();await updateDoc(doc(db, COLLECTION_NAME, id),{isPinned:!s});showToast(s?'تم إلغاء التثبيت':'تم التثبيت'); closeDetails();};
-        window.updateStatus = async (e, id, newStatus) => { if(e) e.stopPropagation(); const item = state.listings.find(i => i.id === id); if(item) { item.status = newStatus; const typeEl = document.getElementById('d-type-badge'); if(typeEl) { if(newStatus !== 'available') { typeEl.innerText = newStatus === 'sold' ? 'مباع' : 'مؤجر'; typeEl.className = `absolute bottom-2 right-2 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow bg-red-600/90`; } else { typeEl.innerText = item.type === 'sale' ? 'للبيع' : 'للإيجار'; typeEl.className = `absolute bottom-2 right-2 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow bg-emerald-600/90`; } } } try { await updateDoc(doc(db, COLLECTION_NAME, id), { status: newStatus }); showToast('تم تحديث الحالة'); } catch(err) { console.error(err); showToast('خطأ في التحديث', 'e'); } };
+        initLoader();
 
-        window.toggleChat=()=>{if(toggleModal('chat-modal')){if(!state.chatId&&state.chatStep===0&&!state.welcomeSent){state.welcomeSent=true;setTimeout(()=>botMsg('مرحباً! 👋<br>ما هو الاسم؟'),100)}}};
-        window.sendMsg=async()=>{const t=document.getElementById('chat-msg').value.trim();if(!t)return;document.getElementById('chat-msg').value='';userMsg(t);if(!state.chatId){if(state.chatStep===0){state.tempName=t;state.chatStep=1;setTimeout(()=>botMsg(`أهلاً ${t}، كيف نساعدك؟`),200)}else if(state.chatStep===1){state.chatStep=2;setTimeout(()=>botMsg('جاري تحويلك للدعم الفني...'),200);const r=await addDoc(collection(db,"chats"),{userId:state.user.uid,userName:state.tempName,lastMsg:t,status:'waiting',messages:[{s:'bot',t:`الاسم: ${state.tempName}`,d:new Date()},{s:'user',t,d:new Date()},{s:'bot',t:'جاري تحويلك للدعم الفني...',d:new Date()}],createdAt:serverTimestamp()});state.chatId=r.id;listenChat(r.id)}}else{const s=await getDocs(query(collection(db,"chats"),where('__name__','==',state.chatId)));if(!s.empty){const m=s.docs[0].data().messages;m.push({s:'user',t,d:new Date()});await updateDoc(doc(db,"chats",state.chatId),{messages:m,lastMsg:t,status:'waiting'})}}};
-        function listenChat(id){onSnapshot(doc(db,"chats",id),s=>{if(s.exists()){const d=s.data();if(d.status==='closed'){state.chatId=null;state.chatStep=0;state.welcomeSent=false;document.getElementById('chat-box').innerHTML='';showToast("تم إنهاء المحادثة");toggleModal('chat-modal');return}document.getElementById('chat-box').innerHTML='';d.messages.forEach(m=>{if(!m.t.startsWith('الاسم'))(m.s==='user'?userMsg:botMsg)(m.t)})}})};
-        function checkUserChat(){onSnapshot(query(collection(db,"chats"),where('userId','==',state.user.uid),where('status','!=','closed')),s=>{if(!s.empty){state.chatId=s.docs[0].id;state.chatStep=2;listenChat(state.chatId)}})};
-        function userMsg(t){const d=document.createElement('div');d.className="flex justify-start";d.innerHTML=`<div class="bg-emerald-100 text-emerald-900 px-3 py-2 rounded-xl rounded-tr-none shadow-sm text-xs max-w-[85%]">${t}</div>`;document.getElementById('chat-box').appendChild(d);document.getElementById('chat-box').scrollTop=9999}
-        function botMsg(t){const d=document.createElement('div');d.className="flex justify-end";d.innerHTML=`<div class="bg-white dark:bg-slate-800 dark:text-white text-slate-800 px-3 py-2 rounded-xl rounded-tl-none shadow-sm text-xs max-w-[85%] border dark:border-slate-700">${t}</div>`;document.getElementById('chat-box').appendChild(d);document.getElementById('chat-box').scrollTop=9999}
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const target = new Date("March 21, 2026 00:00:00").getTime();
 
-        window.toggleAdminPanel=()=>{document.getElementById('admin-panel').classList.toggle('hidden');if(!document.getElementById('admin-panel').classList.contains('hidden'))refreshAdmin()};
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff <= 0) return;
+            daysEl.innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            hoursEl.innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            minutesEl.innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            secondsEl.innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-        window.searchAdminUser = async () => {
-            let phoneInput = document.getElementById('admin-target-phone').value.trim();
-            if(!phoneInput) return showToast('أدخل رقم الهاتف للبحث', 'e');
-            let phone = phoneInput.replace(/\D/g, '');
-            if(phone.startsWith('0')) phone = phone.substring(1);
-            let fullPhone = `+20${phone}`;
+        let cur = 0;
+        const slides = document.querySelectorAll('.slide');
+        const toast = document.getElementById('slide-toast');
+        let toastTimeout;
+        let autoSlideInterval;
 
-            const resDiv = document.getElementById('admin-search-result');
-            resDiv.innerHTML = 'جاري البحث... <i data-lucide="loader-2" class="w-3 h-3 inline animate-spin"></i>';
-            resDiv.classList.remove('hidden');
-            lucide.createIcons({root: resDiv});
+        function showToast(text) {
+            clearTimeout(toastTimeout);
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.innerText = text;
+                toast.classList.add('show');
+            }, 200);
+        }
 
-            try {
-                const q = query(collection(db, "users"), where("phoneNumber", "==", fullPhone));
-                const snap = await getDocs(q);
-                if(snap.empty) {
-                    resDiv.innerHTML = '<span class="text-red-400 font-bold flex items-center gap-1"><i data-lucide="x-circle" class="w-3 h-3"></i> لا يوجد مستخدم بهذا الرقم</span>';
+        function move(n) {
+            resetSlideTimer();
+            slides[cur].classList.remove('active');
+            cur = (cur + n + slides.length) % slides.length;
+            slides[cur].classList.add('active');
+            showToast(slides[cur].getAttribute('data-title'));
+        }
+
+        function resetSlideTimer() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => {
+                slides[cur].classList.remove('active');
+                cur = (cur + 1) % slides.length;
+                slides[cur].classList.add('active');
+                showToast(slides[cur].getAttribute('data-title'));
+            }, 5000);
+        }
+
+        let wasPlaying = false;
+
+        function openLB(type, src) {
+            const lbc = document.getElementById('lb-content');
+            if (type === 'video') {
+                if (!bgMusic.paused) {
+                    wasPlaying = true;
+                    bgMusic.pause();
+                    musicIcon.className = 'fas fa-play';
+                    musicWaves.classList.add('paused');
                 } else {
-                    const u = snap.docs[0].data();
-                    let roles =[];
-                    if(u.isAdmin) roles.push('أدمن 🛡️');
-                    if(u.verified) roles.push('موثق ✅');
-                    if(u.isBlocked) roles.push('محظور 🚫');
-                    if(roles.length === 0) roles.push('مستخدم عادي 👤');
-
-                    resDiv.innerHTML = `
-                        <div class="flex items-center gap-2 mb-1">
-                            <img src="${u.photoURL || 'https://cdn-icons-png.flaticon.com/512/609/609803.png'}" class="w-6 h-6 rounded-full border border-white/20 object-cover">
-                            <span class="font-bold text-emerald-400 text-xs">${u.displayName}</span>
-                        </div>
-                        <div class="font-bold text-white/90">الحالة: <span class="text-white font-normal">${roles.join(' | ')}</span></div>
-                    `;
+                    wasPlaying = false;
                 }
-                lucide.createIcons({root: resDiv});
-            } catch(e) {
-                resDiv.innerHTML = '<span class="text-red-400">حدث خطأ أثناء البحث</span>';
+                lbc.innerHTML = `<video src="${src}" controls autoplay style="max-height: 85vh; max-width: 90vw; aspect-ratio: 9/16; border-radius:15px; background: black;"></video>`;
+            } else {
+                lbc.innerHTML = `<img src="${src}" style="max-height: 85vh; max-width: 90vw; border-radius:15px;">`;
             }
-        };
-
-        window.applyAdminAction = async (isGranting) => { 
-            let phoneInput = document.getElementById('admin-target-phone').value.trim(); 
-            if(!phoneInput) return showToast('أدخل رقم الهاتف أولاً', 'e'); 
-            let phone = phoneInput.replace(/\D/g, ''); 
-            if(phone.startsWith('0')) phone = phone.substring(1); 
-            let fullPhone = `+20${phone}`; 
-            const action = document.querySelector('input[name="admin_role"]:checked').value; 
-            try { 
-                const q = query(collection(db, "users"), where("phoneNumber", "==", fullPhone)); 
-                const snap = await getDocs(q); 
-                if(snap.empty) { return showToast('لم يتم العثور على حساب', 'e'); } 
-                const userDocId = snap.docs[0].id; 
-                await updateDoc(doc(db, "users", userDocId), {[action]: isGranting }); 
-                showToast(`تم ${isGranting ? 'التفعيل' : 'الإلغاء'} بنجاح`); 
-                document.getElementById('admin-target-phone').value = ''; 
-                document.getElementById('admin-search-result').classList.add('hidden');
-            } catch(e) { console.error(e); showToast('حدث خطأ في النظام', 'e'); } 
-        };
-
-        window.refreshAdmin=()=>{onSnapshot(query(collection(db,"chats"),where('status','!=','closed')),s=>{const l=document.getElementById('admin-users-list');l.innerHTML='';s.forEach(d=>{const dt=d.data();l.innerHTML+=`<div onclick="loadAdmin('${d.id}','${dt.userName}')" class="p-3 mb-2 bg-white/5 rounded-xl cursor-pointer border border-white/10"><div class="font-bold text-xs text-white flex justify-between"><span>${dt.userName}</span>${dt.status==='waiting'?'<span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>':''}</div><div class="text-[10px] text-gray-400 truncate mt-1">${dt.lastMsg}</div></div>`})})};
-        window.loadAdmin=(id,n)=>{state.activeAdminChat=id;document.getElementById('admin-chat-header').innerHTML=`<span class="text-xs font-bold">${n}</span><button onclick="kickUser()" id="btn-end-chat" class="hidden bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1"><i data-lucide="slash" class="w-3 h-3"></i> إنهاء</button>`;document.getElementById('btn-end-chat').classList.remove('hidden');onSnapshot(doc(db,"chats",id),s=>{const b=document.getElementById('admin-msg-area');b.innerHTML='';if(!s.exists())return;s.data().messages.forEach(m=>{b.innerHTML+=`<div class="${m.s==='support'?'text-left':'text-right'} mb-2"><span class="inline-block px-3 py-2 rounded-lg text-xs ${m.s==='support'?'bg-slate-900 dark:bg-emerald-600 text-white':'bg-white/10'}">${m.t}</span></div>`});b.scrollTop=9999})};
-        window.sendAdminMsg=async()=>{const t=document.getElementById('admin-input').value;if(!t||!state.activeAdminChat)return;document.getElementById('admin-input').value='';const s=await getDocs(query(collection(db,"chats"),where('__name__','==',state.activeAdminChat)));const m=s.docs[0].data().messages;m.push({s:'support',t,d:new Date()});await updateDoc(doc(db,"chats",state.activeAdminChat),{messages:m,status:'active'})};
-        window.kickUser=async()=>{if(confirm("إنهاء المحادثة؟")){await updateDoc(doc(db,"chats",state.activeAdminChat),{status:'closed'});document.getElementById('admin-msg-area').innerHTML='';document.getElementById('btn-end-chat').classList.add('hidden');state.activeAdminChat=null}};
-
-        if ('serviceWorker' in navigator) {
-            const swCode = `const CACHE_NAME = 'souq-cache-v1'; const ASSETS =['./', 'https://cdn.tailwindcss.com', 'https://unpkg.com/lucide@latest', 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap']; self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)))); self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))); });`;
-            const blob = new Blob([swCode], {type: 'application/javascript'}); const swUrl = URL.createObjectURL(blob); navigator.serviceWorker.register(swUrl).catch(e => console.log(e));
+            document.getElementById('lb').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-        lucide.createIcons();
+
+        function closeLB() {
+            document.getElementById('lb').classList.remove('active');
+            document.getElementById('lb-content').innerHTML = '';
+            document.body.style.overflow = 'auto';
+
+            if (wasPlaying) {
+                bgMusic.play();
+                musicIcon.className = 'fas fa-pause';
+                musicWaves.classList.remove('paused');
+            }
+        }
+
+        document.getElementById('lb').onclick = (e) => {
+            if(e.target.id === 'lb') closeLB();
+        };
     </script>
 </body>
 </html>
