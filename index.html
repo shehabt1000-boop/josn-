@@ -87,22 +87,14 @@
 
         /* --- الهيدر --- */
         header {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-    url('https://res.cloudinary.com/db9h7zm1h/image/upload/v1774023484/bf1jvm5f0kmuh3m49hcg.jpg') center no-repeat;
-
-    background-size: auto 100%; /* أهم سطر */
-
-    color: white;
-    margin-top: 35px;
-    padding-top: 80px;
-}
+            height: 60vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://res.cloudinary.com/db9h7zm1h/image/upload/v1774023388/f7plhgsfiddjrbmhwzuz.jpg') center/cover no-repeat;
+            color: white; margin-top: 35px; padding-top: 80px;
+            background-attachment: scroll; 
+        }
+        header h1 { font-size: clamp(4rem, 12vw, 7rem); font-family: 'Sacramento', cursive; text-shadow: 0 4px 15px rgba(0,0,0,0.4); margin-bottom: 10px; }
+        header p { font-size: 1.2rem; font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
         /* --- العداد --- */
         .countdown-wrapper {
